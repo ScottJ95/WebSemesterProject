@@ -1,0 +1,185 @@
+/* chat-css.css 
+ *
+ * Nick Faccenda, Scott Jeffery, Ryan Hidson, Jake Kershaw
+ *
+ * template.css v1.0  04/02/2017
+ */
+
+
+.container{
+	border-style:solid;
+	border-width:2px;	
+	width:80vw;
+	min-width: 1000px;
+	margin:auto;
+}
+
+.left{
+	width:10vw;
+	min-width: 250px;
+	height:700px;
+	float:left;	
+	background-color: #F8D8D8;
+}
+
+.userImage{
+	background-color:white;
+	background-image:url('defaultIcon.svg');
+	border: 2px solid black;
+	border-radius:50%;
+	height:200px;
+	width:200px;
+	margin:auto;
+	margin-top:20px;
+	margin-bottom:20px;	
+}
+
+.navButton{
+	width:100%;
+	height:35px;
+	background-color: #330000;
+	color: #FFCC00;
+	font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+	font-weight:bold;	
+}
+
+.navButton:hover{
+	width:100%;
+	height:35px;
+	background-color: #330000;
+	color: #FFCC00;
+	font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+	font-weight:bold;	
+}
+
+.center{
+	width:50vw;
+	min-width:500px;
+	height:700px;
+	float:left;
+	background-color: #BCCCF7;
+}
+
+.right{
+	width: 10vw;
+	min-width:250px;
+	height:700px;
+	float:left;
+	background-color: #B9E5B5;
+}
+
+#style-5::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#style-5::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-5::-webkit-scrollbar-thumb
+{
+	background-color: #0ae0ae;
+	
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+	                   color-stop(.5, rgba(255, 255, 255, .2)),
+					   color-stop(.5, transparent), to(transparent));
+}
+
+.groupContainer
+{
+	height: 400px;
+	width:90%;
+	margin:auto;
+	overflow-y: scroll;
+	margin-bottom: 20px;
+	
+}
+
+a:link, a:visited, a:hover, a:active{
+	color:black;
+	text-decoration:none;	
+}
+
+.post{
+	background-color:lightblue;
+	border-radius: 25px;
+	border: 2px solid #FF0E12;
+	padding: 20px; 
+	width: 90%;
+	height: 100px; 
+	margin:auto;
+	margin-bottom:10px;
+}
+
+.userImageChat{
+	background-color:white;
+	background-image:url('defaultIcon.svg');
+	border-radius:20%;
+	border: 2px solid black;
+	width:64px;
+	height:64px;
+	float:left;	
+}
+
+.userNameChat{
+	font-weight:bolder;
+	font-size:16px;
+	height:64px;
+	width:90%;
+	display:block;
+	vertical-align:middle;
+	line-height:64px;
+	padding-left:15px;
+	float:left;
+}
+
+.messageChat{
+	word-wrap: break-word;
+	width:90%;
+	display: block;
+	margin-left:80px;
+	font-size:24px;
+}
+
+.inputMessage{
+	background-color:white;
+	word-wrap:break-word;
+	height:200px;
+	width:90%;
+	float:left;
+	margin-left:50px;
+}
+
+#btnSend{
+	float:right;
+	height:25px;
+	margin-right:80px;
+}
+
+.buttonContainer{
+	width:90%;
+	margin-left:50px;
+	margin-top:15px;
+	float:right;	
+}
+#btnAttach{
+	margin-left:10px;	
+	height:25px;
+	margin-right:50px;
+	float:right;
+}
+
+.user{
+	width:70%;
+	background-color:#B5BFDB;	
+	font-weight:bold;
+	margin-top:10px;
+	margin-left: 30px;
+}
+
+
