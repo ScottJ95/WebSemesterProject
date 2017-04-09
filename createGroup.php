@@ -12,6 +12,48 @@
 
 <body>
 
+<?php
+
+require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+
+//require_once('DBFuncs.php');
+
+$dbh = ConnectDB();
+
+
+
+if( isset($_POST['groupName']) && !empty($_POST['groupName'])) {
+        echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
+        try {
+                $query = 'INSERT INTO groups (groupName,groupSubject,description) ' .
+                        'VALUES (:groupName, :groupSubject, :description)';
+                $stmt = $dbh->prepare($query);
+
+                $groupName = $_POST['groupname'];
+                $groupSubject = $_POST['groupSubject'];
+                $description = $_POST['description'];
+
+                $stmt->bindParam(':groupName', $groupName);
+                $stmt->bindParam (':groupSubject', $groupSubject);
+                $stmt->bindParam(':description', $description);
+                $stmt->execute();
+                $inserted = $stmt->rowCount();
+
+                $stmt = null;
+
+                echo "<p> Inserted $inserted record(s).<p>\n";
+                }
+        catch(PDOException $e) {
+                die('PDO Error Inserting(): ' . $e->getMEssage());
+        }
+}
+else{
+        echo "<p> No Insert </p>\n";
+}
+
+?>
+
+
 <h1> Create a New Group </h1>
 
 <p> This is a form that lets you make a new group. 
@@ -44,18 +86,14 @@
 	<tr>
 		<th>Description:
 		</th>
-		<td><textarea name="description" id="description" cols="50" rows="4">
-			(Type Description.)
-			</textarea>
+		<td><textarea name="description" id="description" cols="50" rows="4">(Type Description.)</textarea>
 		</td>
 	</tr>
 
 	<tr>
 		<th>Photo:
 		</th>
-		<td><textarea name="derp" cols="50" rows="4">
-			This is where you would upload a photo.
-			</textarea>
+		<td><textarea name="derp" cols="50" rows="4">This is where you would upload a photo.</textarea>
 		</td>
 	</tr>
 
