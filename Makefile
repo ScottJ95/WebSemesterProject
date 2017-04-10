@@ -7,9 +7,9 @@
 #
 # Remember to change dest dir to YOUR dest dir. Ok?
 
-DESTDIR = /home/jefferys0/public_html/web/SemesterProject
-TARGETS = 
-SOURCES =
+DESTDIR = /home/jefferys0/public_html/web/WebSemesterProject
+TARGETS = createGroup.php submitGroup.php tagline.css AjaxFunctions.js checkGroup.php
+SOURCES = createGroup.php submitGroup.php tagline.css AjaxFunction.js checkGroup.php
 
 
 # This target is just here to be the top target in the Makefile.
