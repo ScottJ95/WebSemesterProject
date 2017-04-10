@@ -8,50 +8,73 @@
   <meta name="Author" content="Scott Jeffery" />
 
   <link rel="stylesheet" href="tagline.css" />
+  <script type="text/javascript" src="./AjaxFunctions.js"></script>
+   <script type="text/javascript"
+          src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
 </head>
 
 <body>
+
 
 <?php
 
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
+if(isset($_SESSION['userID'])){
+	echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
+}
+else{
+	echo "<p> How did you get here? -LevelLord </p>\n";
+}
+
 //require_once('DBFuncs.php');
 
 $dbh = ConnectDB();
-
-
-
-if( isset($_POST['groupName']) && !empty($_POST['groupName'])) {
-        echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
-        try {
-                $query = 'INSERT INTO groups (groupName,groupSubject,description) ' .
-                        'VALUES (:groupName, :groupSubject, :description)';
-                $stmt = $dbh->prepare($query);
-
-                $groupName = $_POST['groupname'];
-                $groupSubject = $_POST['groupSubject'];
-                $description = $_POST['description'];
-
-                $stmt->bindParam(':groupName', $groupName);
-                $stmt->bindParam (':groupSubject', $groupSubject);
-                $stmt->bindParam(':description', $description);
-                $stmt->execute();
-                $inserted = $stmt->rowCount();
-
-                $stmt = null;
-
-                echo "<p> Inserted $inserted record(s).<p>\n";
-                }
-        catch(PDOException $e) {
-                die('PDO Error Inserting(): ' . $e->getMEssage());
-        }
-}
-else{
-        echo "<p> No Insert </p>\n";
-}
-
 ?>
+
+<script type="text/javascript">
+
+function checkName(){
+
+	var groupName = $("#groupName").val();
+
+	console.log(groupName);
+
+	if(groupName) { //If it's not null, let's check it.
+		$.ajax({
+		   type: 'post',
+	           url:  'checkGroup.php',
+		   data: {
+		   	group_name:groupName,
+		   },
+		success: function (response) {
+			$( '#name_status').html(response);
+
+			if(response == "OK"){
+				return true;
+			}
+
+			else {
+				return false;
+			}
+		}
+	});
+	}
+
+	else 
+	{
+		$( '#name_stats').html("");
+		return false;
+	}
+}
+
+//TODO: CHECK FORM DISPLAYS AN ERROR IF SOMETHING BAD HAPPENS
+function checkForm() {
+
+}
+
+</script>
+
 
 
 <h1> Create a New Group </h1>
@@ -59,13 +82,16 @@ else{
 <p> This is a form that lets you make a new group. 
 </p>
 
-<form action="createGroup.php" method="post">
+<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkName();">
+<fieldset>
+<legend> Create A New Group </legend>
 <table title="Create Group Input">
 	<tr>
 		<th> Group Name:
 		</th>
-		<td> <input type="text" name="groupName" id="groupName"/>
+		<td> <input type="text" name="groupName" id="groupName" onkeyup = "checkName();"/>
 		</td>
+		<span id= "name_status"></span>
 	</tr>
 	
 	<tr>
@@ -93,7 +119,7 @@ else{
 	<tr>
 		<th>Photo:
 		</th>
-		<td><textarea name="derp" cols="50" rows="4">This is where you would upload a photo.</textarea>
+		<td> <input type = "file" name="groupImage" accept = "image/jpg, image/jpeg, image/bmp, image/png"/>
 		</td>
 	</tr>
 
@@ -106,6 +132,7 @@ else{
 	</tr>
 
 	</table>
+	</fieldset>
 	</form>
 
 <p> Here we go bois </p>
