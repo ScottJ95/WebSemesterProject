@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <title>Login</title>
 <link href="login.css" rel="stylesheet" type="text/css">
+<script src="login.js"></script>
 </head>
+
 
 
 <body>
@@ -13,10 +15,12 @@
 <div class = "textBoxField"><input class = "inputBox" id="emailBox" type="email" placeholder="Username"></div><br>
 <div class = "textBoxField"><input class = "inputBox" id="passwordBox" type="password" placeholder="Password"></div><br>
 <div class = "buttonContainer">
-	<button class = "homebuttons"  id = "btnLogin">LOGIN</button>
+	<button onclick="login()" class = "homebuttons"  id = "btnLogin">LOGIN</button>
 	<button class = "homebuttons"  id = "newUser">NEW USER?</button>
 	<button class = "homebuttons"  id = "forgotPass">FORGOT PASSWORD</button>
 </div>
+
+<p id="demo"></p>
 
 
 </body>
