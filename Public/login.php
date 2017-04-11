@@ -8,13 +8,13 @@ $dbh = ConnectDB();
 
 <script type="text/javascript">
 
-function checkName(){
+function findUserName(){
 
-        var userName = $("#userName").val();
+        var username = $("#emailBox").val();
 
-        console.log(groupName); //Debugging. Comment out.
+        console.log(username); //Debugging. Comment out.
 
-        if(userName) { //If it's not null, let's check it.
+        if(username) { //If it's not null, let's check it.
                 //Jquery to setup AJAX we can give it a bunch of stuff
                 //type: post or get?
                 //url: What script do we run?
@@ -24,9 +24,9 @@ function checkName(){
                 //https://api.jquery.com/jquery.post/
                 $.ajax({ 
                    type: 'post',
-                   url:  'checkGroup.php',
+                   url:  'DBFuncs.php',
                    data: {
-                        group_name:groupName,
+                        functionname: 'getUserInfoThroughUserName', arguments: [$dbh,username ]},
                    },
                 
                    success: function (response) {
