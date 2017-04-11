@@ -1,3 +1,7 @@
+<?php 
+	session_start();
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -40,32 +44,44 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
     
     try {
-        $query = 'INSERT INTO groups (groupName,groupSubject,description) ' . 'VALUES (:groupName, :groupSubject, :description)';
-        $stmt  = $dbh->prepare($query);
+	    $query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' 
+		    . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
+	    $stmt  = $dbh->prepare($query);
 
-	//TODO: PREPROCESS COMMENTS AND GROUPNAMES AND STUFF
+	//TODO: PREPROCESS COMMENTS AND GROUPNAMES 
+	//TODO: ADD CREATOR INTO BELONG
+	//TODO: ADD IMAGE INTO IMAGES/GROUP IMAGE COLUMN
 		
-        $groupName    = $_POST['groupname'];
+        $groupName    = $_POST['groupName'];
         $groupSubject = $_POST['groupSubject'];
 	$description  = $_POST['description'];
-
+	//$date = time();
+	echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
+	$creatorID = $_SESSION['userID'];
+	echo "<p> " . $creatorID . "</p>\n";
 
         
         $stmt->bindParam(':groupName', $groupName);
         $stmt->bindParam(':groupSubject', $groupSubject);
-        $stmt->bindParam(':description', $description);
+	$stmt->bindParam(':description', $description);
+	$stmt->bindParam(':creatorID', $creatorID);
         $stmt->execute();
         $inserted = $stmt->rowCount();
         
-        $stmt         = null;
+        //$stmt         = null;
         $groupCreated = false;
         
-        if (inserted == 0) {
+        if ($inserted == 0) {
             //header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/createGroup.php");
             echo "Query Failed... but that's ok for now\n";
         } else {
             $groupCreated = true;
-            echo "Query succeded!?!?!?!?\n";
+	    echo "Query succeded!?!?!?!?\n";
+	    if(addBelongs($groupName, $creatorID)){
+		    echo "Belongs Added";
+		    uploadImage();
+	    }
+
         }
         
     }
@@ -76,15 +92,45 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     
     //TODO: HAVE THIS LINE MOVED TO UNDER GROUP CREATED SO THAT THE FILE UPLOADS ONLY IF THE GROUP WAS CREATED.
     
-    if (uploadImage()) {
+    /*if (uploadImage()) {
         echo "<p> FILE WAS UPLOADED!!!! </p>";
     } else {
         echo "<p> SHIT </p>";
-    }
+    }*/
     
-} else {
+} 
+
+else {
     echo "<p> No Insert </p>\n";
+   }
+
+function addBelongs($groupName, $studentID)
+{
+	try{
+	$groupData = getMatchingGroupName($groupName);
+	$groupID = $groupData->	group_ID;
+	$belongs_query = "INSERT INTO belongs (student_ID, group_ID) VALUES (:studentID, :groupID)";
+	$stmt = $dbh->prepare(belongs_query);
+
+	$stmt->bindParam(':studentID', $studentID);
+	$stmt->bindParam(':groupID', $groupID);
+	$stmt->execute();
+	
+	if($stmt->rowCount() != 0){
+		echo "<p> Belongs Added</p>\n";
+		return true;
+	}
+	else{
+		echo"<p> Shit At Add Belongs</p><\n";
+		return false;
+	}
+	}
+
+	catch(PDOException $e){
+		die("Add Belongs Error: " .$e->getMessage());
+	}
 }
+
 
 function uploadImage()
 {
