@@ -50,8 +50,9 @@ $dbh = ConnectDB();
 if(isset($_SESSION['userID'])){
 
 	$userData = getCurrentUser($dbh, $_SESSION['userID']);
+	echo $user->student_ID;
 	foreach($userData as $user){
-		echo "<p> Hi User Num " . $user->student_ID . ", " 
+		echo "<p> Hi User Num " . $user->student_id . ", " 
 			. $user->username . "</p>";
 	}
 	//echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";

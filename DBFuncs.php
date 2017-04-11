@@ -10,7 +10,7 @@
 function getCurrentUser($dbh, $userID)
 {
 	try{
-		$user_query = "SELECT * FROM students WHERE student_id = :user_ID";
+		$user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE student_id = :user_ID";
 		$stmt = $dbh-> prepare($user_query);
 
 		$stmt->bindParam(':user_ID', $userID);
