@@ -58,5 +58,26 @@ function getGroupMessageList($dbh, $group_ID)
 
 }
 
+//Check to see if someone has a account
+function getUserInfoThroughEmail($dbh, $userEmail)
+{
+	try{
+                $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE email = :userEmail";
+                $stmt = $dbh-> prepare($user_query);
+
+                $stmt->bindParam(':userEmail', $userEmail);
+                $stmt->execute();
+                $userData = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $stmt = null;
+
+                return $userData;
+
+        }
+
+        catch(PDOException $e)
+        {
+                die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+        }
+}
 
 ?>
