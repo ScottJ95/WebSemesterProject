@@ -1,3 +1,11 @@
+<?php
+
+session_start();
+
+$_SESSION['projectTime'] = time();
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -28,22 +36,31 @@
 //TODO: Get current UserID
 //TODO: Page formatting
 
+//SESSION CHECKING
+
+$_SESSION['userID'] = 2;
+
+require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
+$dbh = ConnectDB();
 
 //This is test code to get the current session userID.
+//TODO: PUT THIS CODE IN DBFUNCS.PHP
 if(isset($_SESSION['userID'])){
-	echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
+
+	$userData = getCurrentUser($dbh, $_SESSION['userID']);
+	foreach($userData as $user){
+		echo "<p> Hi User Num " . $user->student_ID . ", " 
+			. $user->username . "</p>";
+	}
+	//echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
 }
 else{
 	echo "<p> How did you get here? -LevelLord </p>\n";
 }
 
-//Get the DB functions. We may use this later
-//require_once('DBFuncs.php'); 
 
-//Connect to the DB
-$dbh = ConnectDB();
 ?>
 
 <script type="text/javascript">
