@@ -13,13 +13,25 @@
           src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
 </head>
 
+<!-- createGroup.php is the form page for creating a new group.
+ Status: Not yet finished -->
+
+
+
 <body>
 
 
 <?php
 
+//TODO: Preprocess description
+//TODO: Form checks
+//TODO: Get current UserID
+//TODO: Page formatting
+
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
+
+//This is test code to get the current session userID.
 if(isset($_SESSION['userID'])){
 	echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
 }
@@ -27,30 +39,46 @@ else{
 	echo "<p> How did you get here? -LevelLord </p>\n";
 }
 
-//require_once('DBFuncs.php');
+//Get the DB functions. We may use this later
+//require_once('DBFuncs.php'); 
 
+//Connect to the DB
 $dbh = ConnectDB();
 ?>
 
 <script type="text/javascript">
 
+//Check the current group name. This is an AJAX call. 
+//I found this source code online at: 
+//http://talkerscode.com/webtricks/check%20username%20and%20email%20availability%20from%20database%20using%20ajax.php
+//TODO: Have this be in a seperate file?
 function checkName(){
 
 	var groupName = $("#groupName").val();
 
-	console.log(groupName);
+	console.log(groupName); //Debugging. Comment out.
 
 	if(groupName) { //If it's not null, let's check it.
-		$.ajax({
+		//Jquery to setup AJAX we can give it a bunch of stuff
+		//type: post or get?
+		//url: What script do we run?
+		//data: What data are we sending?
+		//success or failure callbacks
+		//This is equivalent to jquery.post(), but this made more sense to me.
+		//https://api.jquery.com/jquery.post/
+		$.ajax({ 
 		   type: 'post',
 	           url:  'checkGroup.php',
 		   data: {
 		   	group_name:groupName,
 		   },
-		success: function (response) {
+		
+		   success: function (response) {
+			   //Call was successful, so do this function
+			   //First, set the name_status html to the response.
 			$( '#name_status').html(response);
-
-			if(response == "OK"){
+			//Check the response so we can return the check
+			if(response == "OK") {
 				return true;
 			}
 
@@ -58,10 +86,10 @@ function checkName(){
 				return false;
 			}
 		}
-	});
-	}
+		});//End Ajax
+	} //End If
 
-	else 
+	else //Nothing typed into the group name
 	{
 		$( '#name_stats').html("");
 		return false;
@@ -74,8 +102,6 @@ function checkForm() {
 }
 
 </script>
-
-
 
 <h1> Create a New Group </h1>
 

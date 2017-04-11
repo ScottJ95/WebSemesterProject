@@ -10,6 +10,10 @@
 </head>
 <body>
 
+<!-- Scott: THIS SCRIPT CURRENTLY SERVES AS A TESTING GROUNDS
+     WHEN I AM READY, I WILL MAKE THIS SCRIPT ACT ACCORDINGLY. -->
+
+
 <h1> Checking The Query and the File Upload </h1>
 
 <?php
@@ -27,7 +31,7 @@ if (isset($_SESSION['userID'])) {
 $dbh = ConnectDB();
 
 
-
+//Check to see that the groupName was posted from the previous page.
 if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     
     echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
@@ -105,7 +109,8 @@ function uploadImage()
         
         
         if (file_exists("./UPLOADED/archive/dummyDir")) {
-            echo "I see it already exists; you've uploaded before.</p>";
+		echo "I see it already exists; you've uploaded before.</p>";
+		//TODO: This should do something based on the page.
         }
         
         else {
@@ -120,8 +125,8 @@ function uploadImage()
         // Make sure it was uploaded
         if (!is_uploaded_file($_FILES["groupImage"]["tmp_name"])) {
             echo "<pre>\n";
-            print_r($_FILES["userfile"]);
-            echo "</pre>";
+           // print_r($_FILES["userfile"]);
+            //echo "</pre>";
             die("Error: " . $_FILES["groupImage"]["name"] . " did not upload.");
         }
         
@@ -153,8 +158,5 @@ function uploadImage()
 		return false;
 	}
 }
-
-
-
 
 ?>
