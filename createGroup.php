@@ -32,8 +32,6 @@ $_SESSION['projectTime'] = time();
 <?php
 
 //TODO: Preprocess description
-//TODO: Form checks
-//TODO: Get current UserID
 //TODO: Page formatting
 
 //SESSION CHECKING
@@ -49,7 +47,7 @@ $dbh = ConnectDB();
 //TODO: PUT THIS CODE IN DBFUNCS.PHP
 if(isset($_SESSION['userID'])){
 
-	$userData = getCurrentUser($dbh, $_SESSION['userID']);
+	$userData = getUserByID($dbh, $_SESSION['userID']);
 	echo $user->student_ID;
 	foreach($userData as $user){
 		echo "<p> Hi User Num " . $user->student_id . ", " 
@@ -110,7 +108,6 @@ function checkName(){
 	else //Nothing typed into the group name
 	{
 		$( '#name_stats').html("");
-		alert("Please enter a group name!");
 		return false;
 	}
 }
@@ -130,7 +127,7 @@ function checkDescription(){
 }
 
 function checkForm() {
-	if(checkName()) {
+	if(!checkName() && $("#groupName").val() != "") {
 		if(checkDescription()){
 			return true;
 		}
@@ -139,6 +136,7 @@ function checkForm() {
 		}
 	}
 	else {
+		alert("Please Enter a group name!");
 		return false;
 	}
 
