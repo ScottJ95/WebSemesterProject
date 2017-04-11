@@ -18,6 +18,9 @@
 
 <?php
 
+//TODO THIS FILE SHOULD NOT SPIT OUT ANY HTML 
+//TODO THIS FILE SHOULD REDIRECT THE USER WHEN PROCESSED 
+
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 if (isset($_SESSION['userID'])) {
@@ -44,7 +47,9 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 		
         $groupName    = $_POST['groupname'];
         $groupSubject = $_POST['groupSubject'];
-        $description  = $_POST['description'];
+	$description  = $_POST['description'];
+
+
         
         $stmt->bindParam(':groupName', $groupName);
         $stmt->bindParam(':groupSubject', $groupSubject);

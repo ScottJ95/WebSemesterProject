@@ -110,13 +110,43 @@ function checkName(){
 	else //Nothing typed into the group name
 	{
 		$( '#name_stats').html("");
+		alert("Please enter a group name!");
 		return false;
 	}
 }
 
-//TODO: CHECK FORM DISPLAYS AN ERROR IF SOMETHING BAD HAPPENS
-function checkForm() {
+function checkDescription(){
+	var descriptionText = $('#description').val();
 
+	if(descriptionText === ""){
+		console.log("I got here");
+		alert("Please enter a description");
+		return false;
+	}
+	else{
+		return true;
+	}
+
+}
+
+function checkForm() {
+	if(checkName()) {
+		if(checkDescription()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+}
+
+function descriptionCount() {
+	var descriptionText = $("#description").val();
+	$("#description_charCount").html(250 - descriptionText.length);
 }
 
 </script>
@@ -126,7 +156,7 @@ function checkForm() {
 <p> This is a form that lets you make a new group. 
 </p>
 
-<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkName();">
+<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkForm();">
 <fieldset>
 <legend> Create A New Group </legend>
 <table title="Create Group Input">
@@ -156,7 +186,9 @@ function checkForm() {
 	<tr>
 		<th>Description:
 		</th>
-		<td><textarea name="description" id="description" cols="50" rows="4">(Type Description.)</textarea>
+		<td><textarea name="description" id="description" cols="50" rows="4" maxlength = "250" onkeyup = "descriptionCount();"  placeholder = "Type Description."></textarea>
+		</td>
+		<td> <span id="description_charCount"> 250 </span>
 		</td>
 	</tr>
 
