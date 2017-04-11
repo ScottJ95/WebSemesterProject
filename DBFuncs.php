@@ -26,6 +26,37 @@ function getCurrentUser($dbh, $userID)
 	{
 		die('PDO Error in getCurrentUser(): ' . $e->getMessage());
 	}
-}	
+}
+
+//TODO
+function getGroupUserList($dbh, $group_ID)
+{
+
+}
+
+
+//TODO
+function getAllGroups($dbh)
+{
+
+
+}
+
+
+//TODO
+function getMatchingGroup($dbh, $groupName, $subject)
+{
+
+}
+
+
+//TODO
+function getGroupMessageList($dbh, $group_ID)
+{
+
+
+
+}
+
 
 ?>
