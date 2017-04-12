@@ -4,8 +4,32 @@
 
 //Add to this file as you see fit :)
 
+//Checks to see if there is a currently active session
+function checkSession(){
+
+	if(isset($_SESSION['userID'])){
+
+
+        	//$userData = getUserByID($dbh, $_SESSION['userID']);
+        	//echo $userData[0]->student_ID;
+        	//foreach($userData as $user){
+                //	echo "<p> Hi User Num " . $user->student_ID . ", "
+                  //      	. $user->username . "</p>";
+        	//	}
+		//echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
+		return true;
+		}
+	else{
+		echo "<p> How did you get here? -LevelLord </p>\n";
+		return false;
+	}	
+
+}
+
 
 //Select Functions
+
+
 
 //Get the current logged in user
 //Returns the array containing their information.

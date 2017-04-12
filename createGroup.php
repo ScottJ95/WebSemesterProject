@@ -31,8 +31,6 @@ $_SESSION['projectTime'] = time();
 
 <?php
 
-//TODO: Preprocess description
-//TODO: Page formatting
 
 //SESSION CHECKING
 
@@ -45,7 +43,7 @@ $dbh = ConnectDB();
 
 //This is test code to get the current session userID.
 //TODO: PUT THIS CODE IN DBFUNCS.PHP
-if(isset($_SESSION['userID'])){
+/*if(isset($_SESSION['userID'])){
 
 	$userData = getUserByID($dbh, $_SESSION['userID']);
 	echo $userData[0]->student_ID;
@@ -57,6 +55,13 @@ if(isset($_SESSION['userID'])){
 }
 else{
 	echo "<p> How did you get here? -LevelLord </p>\n";
+}*/
+
+if(checkSession()){
+	echo "<p> Success! </p>";
+}
+else{
+	echo "<p> 404'd </p>";
 }
 
 

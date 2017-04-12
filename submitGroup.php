@@ -1,7 +1,6 @@
-<?php 
+<?php
 	session_start();
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -40,6 +39,9 @@ $dbh = ConnectDB();
 
 
 //Check to see that the groupName was posted from the previous page.
+//TODO: 1. Remove checks
+//TODO: 2. CLEAN UP CODE
+//TODO: 3 Files stuff
 if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     
     echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
@@ -49,13 +51,16 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 		    . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
 	    $stmt  = $dbh->prepare($query);
 
-	//TODO: PREPROCESS COMMENTS AND GROUPNAMES 
-	//TODO: ADD CREATOR INTO BELONG
-	//TODO: ADD IMAGE INTO IMAGES/GROUP IMAGE COLUMN
 		
-        $groupName    = $_POST['groupName'];
+	$groupName    = $_POST['groupName'];
+	$groupName = strip_tags($groupName);
+	$groupName = htmlspecialchars($groupName, ENT_QUOTES);
+	echo $groupName;
         $groupSubject = $_POST['groupSubject'];
 	$description  = $_POST['description'];
+	$description = strip_tags($description);
+	$description = htmlspecialchars($description, ENT_QUOTES);
+	echo $description;
 	//$date = time();
 	echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
 	$creatorID = $_SESSION['userID'];
@@ -90,14 +95,6 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     catch (PDOException $e) {
         die('PDO Error Inserting(): ' . $e->getMessage());
     }
-    
-    //TODO: HAVE THIS LINE MOVED TO UNDER GROUP CREATED SO THAT THE FILE UPLOADS ONLY IF THE GROUP WAS CREATED.
-    
-    /*if (uploadImage()) {
-        echo "<p> FILE WAS UPLOADED!!!! </p>";
-    } else {
-        echo "<p> SHIT </p>";
-    }*/
     
 } 
 
@@ -138,7 +135,7 @@ function uploadGroupImage()
 {
 	$groupName = $_POST["groupName"];
 
-    if (isset($_FILES["groupImage"]) && !empty($_FILES["groupImage"])) {
+    if ($_FILES['groupImage']['error'] == 0) {
         
         echo "<p> Oh look, the file was set </p>\n";
         
@@ -146,7 +143,7 @@ function uploadGroupImage()
         // never assume the upload succeeded
         if ($_FILES['groupImage']['error'] !== UPLOAD_ERR_OK) {
             echo "<p> SHIT SOMETHING WENT WRONG </p> \n";
-            die("Upload failed with error code " . $_FILES['file']['error']);
+            die("Upload failed with error code " . $_FILES['groupImage']['error']);
         }
         
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
