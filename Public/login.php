@@ -10,7 +10,8 @@ $dbh = ConnectDB();
 
 function findUserName(){
 
-        var username = $("#emailBox").val();
+	var username = $("#emailBox").val();
+	var pasword = $("#passwordBox").val();
 
         console.log(username); //Debugging. Comment out.
 
@@ -29,10 +30,10 @@ function findUserName(){
                         functionname: 'getUserInfoThroughUserName', arguments: [$dbh,username ]},
                    },
                 
-                   success: function (response) {
+                   success: function () {
                            //Call was successful, so do this function
                            //First, set the name_status html to the response.
-                        $( '#name_status').html(response);
+                        $( '#popup').html(response);
                         //Check the response so we can return the check
                         if(response == "OK") {
                                 return true;
