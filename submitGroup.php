@@ -22,10 +22,11 @@
 
 <?php
 
-//TODO THIS FILE SHOULD NOT SPIT OUT ANY HTML 
+//TODO THIS FILE SHOULD SPIT OUT AN ALET BOX BASED ON WHAT HAPPENED
 //TODO THIS FILE SHOULD REDIRECT THE USER WHEN PROCESSED 
 
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+require_once('DBFuncs.php');
 
 if (isset($_SESSION['userID'])) {
     echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
@@ -79,7 +80,7 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	    echo "Query succeded!?!?!?!?\n";
 	    if(addBelongs($groupName, $creatorID)){
 		    echo "Belongs Added";
-		    uploadImage();
+		    uploadGroupImage();
 	    }
 
         }
@@ -107,10 +108,11 @@ else {
 function addBelongs($groupName, $studentID)
 {
 	try{
-	$groupData = getMatchingGroupName($groupName);
-	$groupID = $groupData->	group_ID;
+	$dbh = ConnectDB();
+	$groupData = getMatchingGroupName($dbh, $groupName);
+	$groupID = $groupData[0]->group_ID;
 	$belongs_query = "INSERT INTO belongs (student_ID, group_ID) VALUES (:studentID, :groupID)";
-	$stmt = $dbh->prepare(belongs_query);
+	$stmt = $dbh->prepare($belongs_query);
 
 	$stmt->bindParam(':studentID', $studentID);
 	$stmt->bindParam(':groupID', $groupID);
@@ -132,8 +134,10 @@ function addBelongs($groupName, $studentID)
 }
 
 
-function uploadImage()
+function uploadGroupImage()
 {
+	$groupName = $_POST["groupName"];
+
     if (isset($_FILES["groupImage"]) && !empty($_FILES["groupImage"])) {
         
         echo "<p> Oh look, the file was set </p>\n";
@@ -159,15 +163,15 @@ function uploadImage()
         echo "<p> Ok we passed the test. Let's make the dir... </p> \n";
         
         
-        if (file_exists("./UPLOADED/archive/dummyDir")) {
+        if (file_exists("./UPLOADED/archive/" . $groupName)) {
 		echo "I see it already exists; you've uploaded before.</p>";
 		//TODO: This should do something based on the page.
         }
         
         else {
             // bug in mkdir() requires you to chmod()
-            mkdir("./UPLOADED/archive/dummyDir", 0777);
-            chmod("./UPLOADED/archive/dummyDir", 0777);
+            mkdir("./UPLOADED/archive/" . $groupName, 0777);
+            chmod("./UPLOADED/archive/" . $groupName, 0777);
             echo "done.</p>";
         }
         
@@ -182,7 +186,7 @@ function uploadImage()
         }
         
         
-        $targetname = "./UPLOADED/archive/dummyDir/" . $_FILES["groupImage"]["name"];
+        $targetname = "./UPLOADED/archive/" . $groupName . "/" .  $_FILES["groupImage"]["name"];
         
         if (file_exists($targetname)) {
 		echo "<p>Already uploaded one with this name.  I'm confused.</p>";
@@ -199,7 +203,8 @@ function uploadImage()
             } else {
                 die("Error copying " . $_FILES["groupImage"]["name"]);
             }
-        }
+	}
+	setImageDir($targetname, $_FILES["groupImage"]["name"], $groupName);
         return true;
         
     }
@@ -208,6 +213,52 @@ function uploadImage()
 		echo "<p> File is not set </p>";
 		return false;
 	}
+}
+
+
+function setImageDir($targetName, $fileName, $groupName ) 
+{
+	try{
+		$image_query = "INSERT INTO images (image_name, image_location) VALUES (:fileName, :targetName)";
+		$dbh = ConnectDB();
+		$stmt = $dbh->prepare($image_query);
+
+		$stmt->bindParam(':fileName', $fileName);
+		$stmt->bindParam(':targetName', $targetName);
+
+		$stmt->execute();
+
+		if($stmt->rowCount() == 0){
+			echo"<p> ERROR AT IMAGE DIR <\p>";
+			return false;
+		}
+
+		$stmt = null;
+
+		$dbh = ConnectDB();
+		$imageData = getImageByDir($dbh, $targetName);
+		$image_ID = $imageData[0]->image_ID;
+		echo $image_ID;
+		echo $targetName;
+
+		$update_query = "UPDATE groups SET image_ID = :image_ID WHERE group_name = :groupName";
+
+		$stmt = $dbh->prepare($update_query);
+
+		$stmt->bindParam(":image_ID", $image_ID);
+		$stmt->bindParam(":groupName", $groupName);
+
+		$stmt->execute();
+
+		return true;	
+
+	}
+
+	catch(PDOException $e) {
+
+		die("PDOException at setImageDir: " . $e->getMessage());
+	}
+
 }
 
 ?>

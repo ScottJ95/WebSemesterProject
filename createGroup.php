@@ -36,7 +36,7 @@ $_SESSION['projectTime'] = time();
 
 //SESSION CHECKING
 
-$_SESSION['userID'] = 2;
+$_SESSION['userID'] = 1;
 
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
@@ -48,9 +48,9 @@ $dbh = ConnectDB();
 if(isset($_SESSION['userID'])){
 
 	$userData = getUserByID($dbh, $_SESSION['userID']);
-	echo $user->student_ID;
+	echo $userData[0]->student_ID;
 	foreach($userData as $user){
-		echo "<p> Hi User Num " . $user->student_id . ", " 
+		echo "<p> Hi User Num " . $user->student_ID . ", " 
 			. $user->username . "</p>";
 	}
 	//echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
