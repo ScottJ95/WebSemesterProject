@@ -1,7 +1,6 @@
-<?php 
+<?php
 	session_start();
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -22,10 +21,11 @@
 
 <?php
 
-//TODO THIS FILE SHOULD NOT SPIT OUT ANY HTML 
+//TODO THIS FILE SHOULD SPIT OUT AN ALET BOX BASED ON WHAT HAPPENED
 //TODO THIS FILE SHOULD REDIRECT THE USER WHEN PROCESSED 
 
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+require_once('DBFuncs.php');
 
 if (isset($_SESSION['userID'])) {
     echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
@@ -39,6 +39,9 @@ $dbh = ConnectDB();
 
 
 //Check to see that the groupName was posted from the previous page.
+//TODO: 1. Remove checks
+//TODO: 2. CLEAN UP CODE
+//TODO: 3 Files stuff
 if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     
     echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
@@ -48,13 +51,16 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 		    . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
 	    $stmt  = $dbh->prepare($query);
 
-	//TODO: PREPROCESS COMMENTS AND GROUPNAMES 
-	//TODO: ADD CREATOR INTO BELONG
-	//TODO: ADD IMAGE INTO IMAGES/GROUP IMAGE COLUMN
 		
-        $groupName    = $_POST['groupName'];
+	$groupName    = $_POST['groupName'];
+	$groupName = strip_tags($groupName);
+	$groupName = htmlspecialchars($groupName, ENT_QUOTES);
+	echo $groupName;
         $groupSubject = $_POST['groupSubject'];
 	$description  = $_POST['description'];
+	$description = strip_tags($description);
+	$description = htmlspecialchars($description, ENT_QUOTES);
+	echo $description;
 	//$date = time();
 	echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
 	$creatorID = $_SESSION['userID'];
@@ -79,7 +85,7 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	    echo "Query succeded!?!?!?!?\n";
 	    if(addBelongs($groupName, $creatorID)){
 		    echo "Belongs Added";
-		    uploadImage();
+		    uploadGroupImage();
 	    }
 
         }
@@ -90,14 +96,6 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         die('PDO Error Inserting(): ' . $e->getMessage());
     }
     
-    //TODO: HAVE THIS LINE MOVED TO UNDER GROUP CREATED SO THAT THE FILE UPLOADS ONLY IF THE GROUP WAS CREATED.
-    
-    /*if (uploadImage()) {
-        echo "<p> FILE WAS UPLOADED!!!! </p>";
-    } else {
-        echo "<p> SHIT </p>";
-    }*/
-    
 } 
 
 else {
@@ -107,10 +105,11 @@ else {
 function addBelongs($groupName, $studentID)
 {
 	try{
-	$groupData = getMatchingGroupName($groupName);
-	$groupID = $groupData->	group_ID;
+	$dbh = ConnectDB();
+	$groupData = getMatchingGroupName($dbh, $groupName);
+	$groupID = $groupData[0]->group_ID;
 	$belongs_query = "INSERT INTO belongs (student_ID, group_ID) VALUES (:studentID, :groupID)";
-	$stmt = $dbh->prepare(belongs_query);
+	$stmt = $dbh->prepare($belongs_query);
 
 	$stmt->bindParam(':studentID', $studentID);
 	$stmt->bindParam(':groupID', $groupID);
@@ -132,9 +131,11 @@ function addBelongs($groupName, $studentID)
 }
 
 
-function uploadImage()
+function uploadGroupImage()
 {
-    if (isset($_FILES["groupImage"]) && !empty($_FILES["groupImage"])) {
+	$groupName = $_POST["groupName"];
+
+    if ($_FILES['groupImage']['error'] == 0) {
         
         echo "<p> Oh look, the file was set </p>\n";
         
@@ -142,7 +143,7 @@ function uploadImage()
         // never assume the upload succeeded
         if ($_FILES['groupImage']['error'] !== UPLOAD_ERR_OK) {
             echo "<p> SHIT SOMETHING WENT WRONG </p> \n";
-            die("Upload failed with error code " . $_FILES['file']['error']);
+            die("Upload failed with error code " . $_FILES['groupImage']['error']);
         }
         
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
@@ -159,15 +160,15 @@ function uploadImage()
         echo "<p> Ok we passed the test. Let's make the dir... </p> \n";
         
         
-        if (file_exists("./UPLOADED/archive/dummyDir")) {
+        if (file_exists("./UPLOADED/archive/" . $groupName)) {
 		echo "I see it already exists; you've uploaded before.</p>";
 		//TODO: This should do something based on the page.
         }
         
         else {
             // bug in mkdir() requires you to chmod()
-            mkdir("./UPLOADED/archive/dummyDir", 0777);
-            chmod("./UPLOADED/archive/dummyDir", 0777);
+            mkdir("./UPLOADED/archive/" . $groupName, 0777);
+            chmod("./UPLOADED/archive/" . $groupName, 0777);
             echo "done.</p>";
         }
         
@@ -182,7 +183,7 @@ function uploadImage()
         }
         
         
-        $targetname = "./UPLOADED/archive/dummyDir/" . $_FILES["groupImage"]["name"];
+        $targetname = "./UPLOADED/archive/" . $groupName . "/" .  $_FILES["groupImage"]["name"];
         
         if (file_exists($targetname)) {
 		echo "<p>Already uploaded one with this name.  I'm confused.</p>";
@@ -199,7 +200,8 @@ function uploadImage()
             } else {
                 die("Error copying " . $_FILES["groupImage"]["name"]);
             }
-        }
+	}
+	setImageDir($targetname, $_FILES["groupImage"]["name"], $groupName);
         return true;
         
     }
@@ -208,6 +210,52 @@ function uploadImage()
 		echo "<p> File is not set </p>";
 		return false;
 	}
+}
+
+
+function setImageDir($targetName, $fileName, $groupName ) 
+{
+	try{
+		$image_query = "INSERT INTO images (image_name, image_location) VALUES (:fileName, :targetName)";
+		$dbh = ConnectDB();
+		$stmt = $dbh->prepare($image_query);
+
+		$stmt->bindParam(':fileName', $fileName);
+		$stmt->bindParam(':targetName', $targetName);
+
+		$stmt->execute();
+
+		if($stmt->rowCount() == 0){
+			echo"<p> ERROR AT IMAGE DIR <\p>";
+			return false;
+		}
+
+		$stmt = null;
+
+		$dbh = ConnectDB();
+		$imageData = getImageByDir($dbh, $targetName);
+		$image_ID = $imageData[0]->image_ID;
+		echo $image_ID;
+		echo $targetName;
+
+		$update_query = "UPDATE groups SET image_ID = :image_ID WHERE group_name = :groupName";
+
+		$stmt = $dbh->prepare($update_query);
+
+		$stmt->bindParam(":image_ID", $image_ID);
+		$stmt->bindParam(":groupName", $groupName);
+
+		$stmt->execute();
+
+		return true;	
+
+	}
+
+	catch(PDOException $e) {
+
+		die("PDOException at setImageDir: " . $e->getMessage());
+	}
+
 }
 
 ?>
