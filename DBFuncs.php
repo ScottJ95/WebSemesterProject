@@ -1,5 +1,15 @@
 <?php
 
+$action = (string)$_POST['action'];
+
+if("getUserInfoThroughUserName" == $action) {
+  
+$data = getUserInfoThroughUserName($_POST['arguments'][0],$_POST['arguments'][1]);
+echo $data;
+exit;
+}
+
+
 //This file is going to be for commonly used DB Functions and for testing. 
 
 //Add to this file as you see fit :)
@@ -91,24 +101,27 @@ function getCreatedGroups($dbh,$userID)
 }
 
 //Check to see if someone has a account
-function getUserInfoThroughEmail($dbh, $userEmail)
+function getUserInfoThroughUserName($dbh, $userName)
 {
 	try{
-                $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE email = :userEmail";
+                $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE username = :userName";
                 $stmt = $dbh-> prepare($user_query);
-
-                $stmt->bindParam(':userEmail', $userEmail);
+                $stmt->bindParam(':userName', $userName);
                 $stmt->execute();
-                $userData = $stmt->fetchAll(PDO::FETCH_OBJ);
-                $stmt = null;
-
-                return $userData;
+                if ($stmt -> rowCount() != 0) {
+                        echo "Group Name Already Exists";
+                }
+                else{
+                        echo "Group Name is Available!";
+                }
+                exit();
 
         }
 
         catch(PDOException $e)
-        {
-                die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+	{
+		echo "Something went wrong";
+                die('PDO Error in getUserInfoThroughUserName(): ' . $e->getMessage());
         }
 }
 
