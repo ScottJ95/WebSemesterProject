@@ -222,7 +222,7 @@ function checkUsername()
 	$password = $_POST['argument'][1];
         $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE username = :userName and password = :passWord";
         $stmt = $dbh-> prepare($user_query);
-	$stmt->bindParam(':userName', $userName);
+	$stmt->bindParam(':userName', $username);
 	$stmt->bindParam(':passWord', $password);
         $stmt->execute();
         if ($stmt -> rowCount() == 0) {
@@ -232,6 +232,24 @@ function checkUsername()
                 echo "1";
         }
         exit();
+}
+
+function checkEmail()
+{
+        $dbh = ConnectDB();
+        $email = $_POST['argument'];
+        $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE email = :Email";
+        $stmt = $dbh-> prepare($user_query);
+        $stmt->bindParam(':Email', $email);
+        $stmt->execute();
+        if ($stmt -> rowCount() == 0) {
+                echo "0";
+        }
+        else{
+                echo "1";
+        }
+	exit();
+	
 }
 
 function getImageByDir($dbh, $dir) 
@@ -257,9 +275,13 @@ function getImageByDir($dbh, $dir)
 
 }
 
-if($_POST['functionName'] == 'checkUsername')
-{
-        checkUsername();
+switch($_POST['functionName']) {
+	case 'checkEmail':
+		checkEmail();
+		break;
+	case 'checkUsername':
+		checkUsername();
+		break;			
 }
 
 ?>

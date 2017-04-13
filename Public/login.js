@@ -20,9 +20,10 @@ function login() {
                    success: function (response) {
 			   if(response == 0){
 				document.getElementById("popup").innerHTML="Username or password is incorrect.";
-		   		}
+			   }
 			   else
 			   {
+				   document.getElementById("popup").innerHTML="Log In";
 				  //Set Session var
 				//Send to main menu
 			   }
@@ -57,23 +58,24 @@ function comfirmSend(){
         }
 	else
 	{
-	
-	$.ajax({
+		$.ajax({
                    type: 'POST',
                    url:  'DBFuncs.php',
-                   data: { functionName:'checkEmail',argument:email },
+                   data: {functionName:'checkEmail',argument:email},
 
                    success: function (response) {
                            if(response == 0){
-                                document.getElementById("popup").innerHTML="Email address not found in system. Please enter a valid email.";
+                                document.getElementById("popup").innerHTML="Email cannot be found.";
                                 }
                            else
                            {
-                                  //Send Email
+				   document.getElementById("popup").innerHTML="Email has been sent.";
+
+				   //Send Email
                            }
                    }
 
-                });	
+                });
 	}
 }
 function passwordChange(){
