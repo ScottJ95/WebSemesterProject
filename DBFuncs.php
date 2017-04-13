@@ -1,14 +1,5 @@
 <?php
-
-$action = (string)$_POST['action'];
-
-if("getUserInfoThroughUserName" == $action) {
-  
-$data = getUserInfoThroughUserName($_POST['arguments'][0],$_POST['arguments'][1]);
-echo $data;
-exit;
-}
-
+require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 //This file is going to be for commonly used DB Functions and for testing. 
 
@@ -224,28 +215,23 @@ function getCreatedGroups($dbh, $userID)
 }
 
 //Check to see if someone has a account
-function getUserInfoThroughUserName($dbh, $userName)
+function checkUsername()
 {
-	try{
-                $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE username = :userName";
-                $stmt = $dbh-> prepare($user_query);
-                $stmt->bindParam(':userName', $userName);
-                $stmt->execute();
-                if ($stmt -> rowCount() != 0) {
-                        echo "Group Name Already Exists";
-                }
-                else{
-                        echo "Group Name is Available!";
-                }
-                exit();
-
+        $dbh = ConnectDB();
+        $username = $_POST['argument'][0];
+	$password = $_POST['argument'][1];
+        $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE username = :userName and password = :passWord";
+        $stmt = $dbh-> prepare($user_query);
+	$stmt->bindParam(':userName', $userName);
+	$stmt->bindParam(':passWord', $password);
+        $stmt->execute();
+        if ($stmt -> rowCount() == 0) {
+                echo "0";
         }
-
-        catch(PDOException $e)
-	{
-		echo "Something went wrong";
-                die('PDO Error in getUserInfoThroughUserName(): ' . $e->getMessage());
+        else{
+                echo "1";
         }
+        exit();
 }
 
 function getImageByDir($dbh, $dir) 
@@ -271,5 +257,9 @@ function getImageByDir($dbh, $dir)
 
 }
 
+if($_POST['functionName'] == 'checkUsername')
+{
+        checkUsername();
+}
 
 ?>

@@ -13,6 +13,8 @@ function findUserName(){
 	var username = $("#emailBox").val();
 	var pasword = $("#passwordBox").val();
 
+	$( '#popup').html("IT WORKED");
+
         console.log(username); //Debugging. Comment out.
 
         if(username) { //If it's not null, let's check it.
