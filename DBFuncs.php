@@ -1,6 +1,8 @@
 <?php
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
+
+
 //This file is going to be for commonly used DB Functions and for testing. 
 
 //Add to this file as you see fit :)
@@ -222,16 +224,84 @@ function checkUsername()
 	$password = $_POST['argument'][1];
         $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE username = :userName and password = :passWord";
         $stmt = $dbh-> prepare($user_query);
-	$stmt->bindParam(':userName', $userName);
+	$stmt->bindParam(':userName', $username);
 	$stmt->bindParam(':passWord', $password);
-        $stmt->execute();
-        if ($stmt -> rowCount() == 0) {
+	$stmt->execute();
+
+	if ($stmt -> rowCount() == 0) {
                 echo "0";
         }
-        else{
-                echo "1";
+	else{
+		$user_query = "SELECT change_password FROM students WHERE change_password = 1 and username = :userName";
+		$stmt = $dbh-> prepare($user_query);
+		$stmt->bindParam(':userName', $username);
+        	$stmt->execute();
+		if ($stmt -> rowCount() == 0) {
+			$_SESSION['username'] = $username;
+                	echo "1";
+		}
+		else
+		{
+			$_SESSION['username'] = $username;
+                	echo "2";
+		}
         }
         exit();
+}
+
+function changePassword()
+{
+	$dbh = ConnectDB();
+        $username = $_SESSION['username'];
+        $password = $_POST['argument'];
+        $user_query = "UPDATE students SET password = :Password,change_password = 0 WHERE username = :userName;";
+        $stmt = $dbh-> prepare($user_query);
+        $stmt->bindParam(':userName', $username);
+        $stmt->bindParam(':Password', $password);
+        $stmt->execute();
+	echo "1";
+	exit();
+}
+
+function checkEmail()
+{
+        $dbh = ConnectDB();
+        $email = $_POST['argument'][0];
+        $user_query = "SELECT change_password_time FROM students WHERE email = :Email";
+        $stmt = $dbh-> prepare($user_query);
+	$stmt->bindParam(':Email', $email);
+	$stmt->execute();
+	
+        if ($stmt -> rowCount() == 0) {
+                echo "0";
+	}
+	else{	
+		$user_query = "SELECT change_password_time FROM students WHERE email = :Email and TIMESTAMPDIFF(MINUTE, change_password_time, now()) > 5;";
+        	$stmt = $dbh-> prepare($user_query);
+        	$stmt->bindParam(':Email', $email);
+        	$stmt->execute();
+		if ($stmt -> rowCount() == 0){
+			echo "2";
+		}
+		else
+		{
+			$password = $_POST['argument'][1];
+			$to      = $email;
+	        	$subject = 'Reddit 2.0 - Password Reset';
+	        	$message = 'New password is : '. $password;
+			mail($to, $subject, $message);
+
+			$user_query = "UPDATE students SET password = :Password,change_password_time = now(),change_password = 1 WHERE email = :Email;";
+			$stmt = $dbh-> prepare($user_query);
+			$stmt->bindParam(':Email', $email);
+	        	$stmt->bindParam(':Password', $password);
+	        	$stmt->execute();
+
+			echo "1";
+		}
+        }
+	exit();
+	
 }
 
 function getImageByDir($dbh, $dir) 
@@ -276,10 +346,17 @@ function checkUserRegistration()
 	}
 }
 
-
-if($_POST['functionName'] == 'checkUsername')
-{
-        checkUsername();
+session_start();
+switch($_POST['functionName']) {
+	case 'checkEmail':
+		checkEmail();
+		break;
+	case 'checkUsername':
+		checkUsername();
+		break;			
+	case 'changePassword':
+		changePassword();
+		break;
 }
 
 ?>
