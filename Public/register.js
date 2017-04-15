@@ -1,12 +1,13 @@
 function register() {
 	var username = document.getElementById("userBox").value;
-	var email = document.getElementById("emailBox".value;
+	var email = document.getElementById("emailBox").value;
 	var password = document.getElementById("passwordBox").value;
 	var confirmPassword = document.getElementById("confirmPasswordBox").value;
 
 	if(username=="")
 	{
 		document.getElementById("popup").innerHTML = "Please enter a valid username";
+	}
         else if(email=="")
         {
                 document.getElementById("popup").innerHTML = "Please enter a valid email";
@@ -24,7 +25,7 @@ function register() {
                 $.ajax({ 
                    type: 'POST',
                    url:  'DBFuncs.php',
-                   data: { functionName:'checkUseRegistration',argument:[username] },
+                   data: { functionName:'checkUserRegistration',argument:[username] },
                 
                    success: function (response) {
 			   if(response == 0){
