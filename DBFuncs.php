@@ -257,6 +257,26 @@ function getImageByDir($dbh, $dir)
 
 }
 
+function checkUserRegistration()
+{
+	if(isset($_POST['username'])) {
+        	$dbh = ConnectDB();
+        	$username = $_POST['username'][0];
+        	$query = "SELECT username FROM students WHERE username = :userName;"
+        	$stmt = $dbh-> prepare($query);
+        	$stmt->bindParam(':userName', $username);
+        	$stmt->execute();
+        	if ($stmt -> rowCount() == 0) {
+                	echo "Username avaliable";
+        	}
+        	else{
+                	echo "Username is already in use";
+        	}
+		exit();
+	}
+}
+
+
 if($_POST['functionName'] == 'checkUsername')
 {
         checkUsername();
