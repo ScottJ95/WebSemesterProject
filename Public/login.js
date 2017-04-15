@@ -61,7 +61,7 @@ function comfirmSend(){
 		$.ajax({
                    type: 'POST',
                    url:  'DBFuncs.php',
-                   data: {functionName:'checkEmail',argument:email},
+                   data: {functionName:'checkEmail',argument:[email,'PASSWORD']},
 
                    success: function (response) {
                            if(response == 0){
@@ -70,8 +70,6 @@ function comfirmSend(){
                            else
                            {
 				   document.getElementById("popup").innerHTML="Email has been sent.";
-
-				   //Send Email
                            }
                    }
 

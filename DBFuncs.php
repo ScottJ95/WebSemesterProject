@@ -237,15 +237,28 @@ function checkUsername()
 function checkEmail()
 {
         $dbh = ConnectDB();
-        $email = $_POST['argument'];
+        $email = $_POST['argument'][0];
         $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE email = :Email";
         $stmt = $dbh-> prepare($user_query);
         $stmt->bindParam(':Email', $email);
-        $stmt->execute();
+	$stmt->execute();
+        
         if ($stmt -> rowCount() == 0) {
                 echo "0";
         }
-        else{
+	else{
+		$password = $_POST['argument'][1];
+		$to      = $email;
+	        $subject = 'Reddit 2.0 - Password Reset';
+	        $message = 'New password is : '. $password;
+		mail($to, $subject, $message);
+
+		$user_query = "UPDATE students SET password = :Password WHERE email = :Email;";
+		$stmt = $dbh-> prepare($user_query);
+		$stmt->bindParam(':Email', $email);
+	        $stmt->bindParam(':Password', $password);
+	        $stmt->execute();
+
                 echo "1";
         }
 	exit();
@@ -274,6 +287,7 @@ function getImageByDir($dbh, $dir)
         }
 
 }
+
 
 switch($_POST['functionName']) {
 	case 'checkEmail':
