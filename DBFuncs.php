@@ -267,28 +267,38 @@ function checkEmail()
 {
         $dbh = ConnectDB();
         $email = $_POST['argument'][0];
-        $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE email = :Email";
+        $user_query = "SELECT change_password_time FROM students WHERE email = :Email";
         $stmt = $dbh-> prepare($user_query);
-        $stmt->bindParam(':Email', $email);
+	$stmt->bindParam(':Email', $email);
 	$stmt->execute();
-        
+	
         if ($stmt -> rowCount() == 0) {
                 echo "0";
-        }
-	else{
-		$password = $_POST['argument'][1];
-		$to      = $email;
-	        $subject = 'Reddit 2.0 - Password Reset';
-	        $message = 'New password is : '. $password;
-		mail($to, $subject, $message);
+	}
+	else{	
+		$user_query = "SELECT change_password_time FROM students WHERE email = :Email and TIMESTAMPDIFF(MINUTE, change_password_time, now()) > 5;";
+        	$stmt = $dbh-> prepare($user_query);
+        	$stmt->bindParam(':Email', $email);
+        	$stmt->execute();
+		if ($stmt -> rowCount() == 0){
+			echo "2";
+		}
+		else
+		{
+			$password = $_POST['argument'][1];
+			$to      = $email;
+	        	$subject = 'Reddit 2.0 - Password Reset';
+	        	$message = 'New password is : '. $password;
+			mail($to, $subject, $message);
 
-		$user_query = "UPDATE students SET password = :Password,change_password_time = now(),change_password = 1 WHERE email = :Email;";
-		$stmt = $dbh-> prepare($user_query);
-		$stmt->bindParam(':Email', $email);
-	        $stmt->bindParam(':Password', $password);
-	        $stmt->execute();
+			$user_query = "UPDATE students SET password = :Password,change_password_time = now(),change_password = 1 WHERE email = :Email;";
+			$stmt = $dbh-> prepare($user_query);
+			$stmt->bindParam(':Email', $email);
+	        	$stmt->bindParam(':Password', $password);
+	        	$stmt->execute();
 
-                echo "1";
+			echo "1";
+		}
         }
 	exit();
 	

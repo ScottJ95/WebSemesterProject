@@ -72,10 +72,14 @@ function comfirmSend(){
                            if(response == 0){
                                 document.getElementById("popup").innerHTML="Email cannot be found.";
                                 }
-                           else
+                           else if(response == 1)
                            {
 				   document.getElementById("popup").innerHTML="Email has been sent.";
                            }
+			   else{
+				document.getElementById("popup").innerHTML="Please wait 5 minutes to reset your password.";
+			   }
+
                    }
 
                 });
