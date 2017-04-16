@@ -20,21 +20,27 @@ function register() {
 	{
 		document.getElementById("popup").innerHTML = "Please confirm your password";
 	}
+	else if(password != confirmPassword)
+	{
+		document.getElementById("popup").innerHTML = "Passwords do not match";
+	}
 	else
 	{
                 $.ajax({ 
                    type: 'POST',
                    url:  'DBFuncs.php',
-                   data: { functionName:'checkUserRegistration',argument:[username] },
+                   data: { functionName:'checkUserRegistration',argument:[username,email,password] },
                 
                    success: function (response) {
-			   if(response == 0){
-				document.getElementById("popup").innerHTML="Username is avaliable";
-		   		}
-			   else
-			   {
-				  //Set Session var
-				//Send to main menu
+			   
+			   if(response == 0) {
+				   document.getElementById("popup").innerHTML="Username already in use";
+		   	   }
+			   else if(response == 1) {
+				   document.getElementById("popup").innerHTML="Email is already in use";
+			   }
+			   else {
+				   document.getElementById("popup").innerHTML="Account registered";
 			   }
 		   }
          

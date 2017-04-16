@@ -329,16 +329,42 @@ function getImageByDir($dbh, $dir)
 function checkUserRegistration()
 {
         $dbh = ConnectDB();
-        $username = $_POST['argument'][0];
-        $query = "SELECT username FROM students WHERE username = :userName";
-        $stmt = $dbh-> prepare($query);
+	$username = $_POST['argument'][0];
+	$email = $_POST['argument'][1];
+	$password = $_POST['argument'][2];
+
+        $name_query = "SELECT username FROM students WHERE username = :userName";
+        $stmt = $dbh-> prepare($name_query);
         $stmt->bindParam(':userName', $username);
-        $stmt->execute();
-        if ($stmt -> rowCount() != 0) {
-                echo "Username is unavaliable";
+	$stmt->execute();
+
+        if ($stmt -> rowCount() == 0) {
+                $email_query = "SELECT email FROM students WHERE email = :email";
+                $stmt = $dbh-> prepare($email_query);
+                $stmt->bindParam(':email', $email);
+                $stmt->execute();
+		if ($stmt -> rowCount() == 0) {
+			$reg_query = "INSERT INTO students (username, password, email)
+			VALUES(:userName, :password, :email) WHERE username = :userName 
+			and password = :password and email = :email";
+			$stmt = $dbh-> prepare($reg_query);
+			$stmt->bindParam(':userName', $username);
+			$stmt->bindParam(':password', $password);
+                	$stmt->bindParam(':email', $email);
+			$stmt->execute();
+			//Registration was successful.
+                        echo "2";
+                }
+                else
+		{
+			//If the email already exists;.
+                        echo "1";
+                }
+ 
 	}
 	else{
-		echo"0";
+		//If the username already exists.
+		echo "0";
 	}
         exit();
 }
