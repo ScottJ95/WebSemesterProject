@@ -326,22 +326,21 @@ function getImageByDir($dbh, $dir)
         }
 
 }
-
 function checkUserRegistration()
 {
         $dbh = ConnectDB();
-       	$username = $_POST['argument'][0];
-       	$query = "SELECT username FROM students WHERE username = :userName;"
-       	$stmt = $dbh-> prepare($query);
-       	$stmt->bindParam(':userName', $username);
-       	$stmt->execute();
-       	if ($stmt -> rowCount() == 0) {
-               	echo "Username avaliable";
+        $username = $_POST['argument'][0];
+        $query = "SELECT username FROM students WHERE username = :userName";
+        $stmt = $dbh-> prepare($query);
+        $stmt->bindParam(':userName', $username);
+        $stmt->execute();
+        if ($stmt -> rowCount() != 0) {
+                echo "Username is unavaliable";
 	}
-	else {
-               	echo "Username is already in use";
-       	}
-	exit();
+	else{
+		echo"0";
+	}
+        exit();
 }
 
 session_start();
