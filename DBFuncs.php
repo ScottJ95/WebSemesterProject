@@ -1,5 +1,5 @@
 <?php
-require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+require_once('Connect.php');
 
 
 
