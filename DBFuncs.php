@@ -344,9 +344,7 @@ function checkUserRegistration()
                 $stmt->bindParam(':email', $email);
                 $stmt->execute();
 		if ($stmt -> rowCount() == 0) {
-			$reg_query = "INSERT INTO students (username, password, email)
-			VALUES(:userName, :password, :email) WHERE username = :userName 
-			and password = :password and email = :email";
+			$reg_query = "INSERT INTO students (username, password, email) VALUES(:userName, :password, :email)";
 			$stmt = $dbh-> prepare($reg_query);
 			$stmt->bindParam(':userName', $username);
 			$stmt->bindParam(':password', $password);
@@ -379,6 +377,9 @@ switch($_POST['functionName']) {
 		break;			
 	case 'changePassword':
 		changePassword();
+		break;
+	case 'checkUserRegistration':
+		checkUserRegistration();
 		break;
 }
 
