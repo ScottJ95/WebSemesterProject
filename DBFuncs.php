@@ -1,6 +1,5 @@
 <?php
-require_once('Connect.php');
-
+require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 
 //This file is going to be for commonly used DB Functions and for testing. 
@@ -216,6 +215,30 @@ function getCreatedGroups($dbh, $userID)
 	
 }
 
+function checkCreator($dbh, $userID, $groupID) {
+	
+	try {
+                $group_query = "SELECT * FROM groups WHERE creator_ID = :userID AND group_ID = :groupID";
+
+                $stmt = $dbh->prepare($group_query);
+		$stmt->bindParam(":userID", $userID);
+		$stmt->bindParam(":groupID", $groupID);
+                $stmt->execute();
+
+                $groupData = $stmt->fetchALL(PDO::FETCH_OBJ);
+
+                return $groupData;
+
+        }
+
+        catch(PDOException $e)
+        {
+                die('PDO Error in    : ' . $e->getMessage());
+        }
+
+
+}
+
 //Check to see if someone has a account
 function checkUsername()
 {
@@ -303,6 +326,32 @@ function checkEmail()
 	exit();
 	
 }
+
+function getGroupImage($dbh, $groupID)
+{
+
+	try{
+                $image_query = "SELECT image_name, image_location FROM images join groups using(image_ID) where group_ID = :groupID";
+                $stmt = $dbh-> prepare($image_query);
+
+                $stmt->bindParam(':groupID', $groupID);
+                $stmt->execute();
+                $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$stmt = null;
+	
+                return $imageData;
+
+        }
+
+        catch(PDOException $e)
+        {
+                die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+        }
+
+
+}
+
+
 
 function getImageByDir($dbh, $dir) 
 {
