@@ -46,23 +46,22 @@ $dbh = ConnectDB();
 //TODO: PUT THIS CODE IN DBFUNCS.PHP
 /*if(isset($_SESSION['userID'])){
 
-	$userData = getUserByID($dbh, $_SESSION['userID']);
-	echo $userData[0]->student_ID;
-	foreach($userData as $user){
-		echo "<p> Hi User Num " . $user->student_ID . ", " 
-			. $user->username . "</p>";
-	}
-	//echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
+$userData = getUserByID($dbh, $_SESSION['userID']);
+echo $userData[0]->student_ID;
+foreach($userData as $user){
+echo "<p> Hi User Num " . $user->student_ID . ", " 
+. $user->username . "</p>";
+}
+//echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
 }
 else{
-	echo "<p> How did you get here? -LevelLord </p>\n";
+echo "<p> How did you get here? -LevelLord </p>\n";
 }*/
 
-if(checkSession()){
-	echo "<p> Success! </p>";
-}
-else{
-	echo "<p> 404'd </p>";
+if (checkSession()) {
+    echo "<p> Success! </p>";
+} else {
+    echo "<p> 404'd </p>";
 }
 
 
@@ -76,81 +75,81 @@ else{
 //TODO: Have this be in a seperate file?
 function checkName(){
 
-	var groupName = $("#groupName").val();
+    var groupName = $("#groupName").val();
 
-	console.log(groupName); //Debugging. Comment out.
+    console.log(groupName); //Debugging. Comment out.
 
-	if(groupName) { //If it's not null, let's check it.
-		//Jquery to setup AJAX we can give it a bunch of stuff
-		//type: post or get?
-		//url: What script do we run?
-		//data: What data are we sending?
-		//success or failure callbacks
-		//This is equivalent to jquery.post(), but this made more sense to me.
-		//https://api.jquery.com/jquery.post/
-		$.ajax({ 
-		   type: 'post',
-	           url:  'checkGroup.php',
-		   data: {
-		   	group_name:groupName,
-		   },
-		
-		   success: function (response) {
-			   //Call was successful, so do this function
-			   //First, set the name_status html to the response.
-			$( '#name_status').html(response);
-			//Check the response so we can return the check
-			if(response == "OK") {
-				return true;
-			}
+    if(groupName) { //If it's not null, let's check it.
+        //Jquery to setup AJAX we can give it a bunch of stuff
+        //type: post or get?
+        //url: What script do we run?
+        //data: What data are we sending?
+        //success or failure callbacks
+        //This is equivalent to jquery.post(), but this made more sense to me.
+        //https://api.jquery.com/jquery.post/
+        $.ajax({ 
+           type: 'post',
+               url:  'checkGroup.php',
+           data: {
+               group_name:groupName,
+           },
+        
+           success: function (response) {
+               //Call was successful, so do this function
+               //First, set the name_status html to the response.
+            $( '#name_status').html(response);
+            //Check the response so we can return the check
+            if(response == "OK") {
+                return true;
+            }
 
-			else {
-				return false;
-			}
-		}
-		});//End Ajax
-	} //End If
+            else {
+                return false;
+            }
+        }
+        });//End Ajax
+    } //End If
 
-	else //Nothing typed into the group name
-	{
-		$( '#name_stats').html("");
-		return false;
-	}
+    else //Nothing typed into the group name
+    {
+        $( '#name_stats').html("");
+        return false;
+    }
 }
 
 function checkDescription(){
-	var descriptionText = $('#description').val();
+    var descriptionText = $('#description').val();
 
-	if(descriptionText === ""){
-		console.log("I got here");
-		alert("Please enter a description");
-		return false;
-	}
-	else{
-		return true;
-	}
+    if(descriptionText === ""){
+        console.log("I got here");
+        alert("Please enter a description");
+        return false;
+    }
+    else{
+        return true;
+    }
 
 }
 
 function checkForm() {
-	if(!checkName() && $("#groupName").val() != "") {
-		if(checkDescription()){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	else {
-		alert("Please Enter a group name!");
-		return false;
-	}
+    if(!checkName() && $("#groupName").val() != "") {
+        if(checkDescription()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else {
+        alert("Please Enter a group name!");
+        return false;
+    }
 
 }
 
 function descriptionCount() {
-	var descriptionText = $("#description").val();
-	$("#description_charCount").html(250 - descriptionText.length);
+    var descriptionText = $("#description").val();
+    $("#description_charCount").html(250 - descriptionText.length);
 }
 
 </script>
@@ -164,56 +163,56 @@ function descriptionCount() {
 <fieldset>
 <legend> Create A New Group </legend>
 <table title="Create Group Input">
-	<tr>
-		<th> Group Name:
-		</th>
-		<td> <input type="text" name="groupName" id="groupName" onkeyup = "checkName();"/>
-		</td>
-		<span id= "name_status"></span>
-	</tr>
-	
-	<tr>
-		<th> Subject: 
-		</th>
-		<td> <select name="groupSubject" id="groupSubject"size="1" title="Select Subject">
-			<option value = "Calculus">Calculus</option>
-			<option value = "Biology">Biology</option>
-			<option value = "Chemistry">Chemistry</option>
-			<option value = "Physics">Physics</option>
-			<option value = "ComputerScience">Computer Science</option>
-			<option value = "Psychology">Psychology</option>
-			<option value = "History">History</option>
-			</select>
-		</td>
-	</tr>
+    <tr>
+        <th> Group Name:
+        </th>
+        <td> <input type="text" name="groupName" id="groupName" onkeyup = "checkName();"/>
+        </td>
+        <span id= "name_status"></span>
+    </tr>
+    
+    <tr>
+        <th> Subject: 
+        </th>
+        <td> <select name="groupSubject" id="groupSubject"size="1" title="Select Subject">
+            <option value = "Calculus">Calculus</option>
+            <option value = "Biology">Biology</option>
+            <option value = "Chemistry">Chemistry</option>
+            <option value = "Physics">Physics</option>
+            <option value = "ComputerScience">Computer Science</option>
+            <option value = "Psychology">Psychology</option>
+            <option value = "History">History</option>
+            </select>
+        </td>
+    </tr>
 
-	<tr>
-		<th>Description:
-		</th>
-		<td><textarea name="description" id="description" cols="50" rows="4" maxlength = "250" onkeyup = "descriptionCount();"  placeholder = "Type Description."></textarea>
-		</td>
-		<td> <span id="description_charCount"> 250 </span>
-		</td>
-	</tr>
+    <tr>
+        <th>Description:
+        </th>
+        <td><textarea name="description" id="description" cols="50" rows="4" maxlength = "250" onkeyup = "descriptionCount();"  placeholder = "Type Description."></textarea>
+        </td>
+        <td> <span id="description_charCount"> 250 </span>
+        </td>
+    </tr>
 
-	<tr>
-		<th>Photo:
-		</th>
-		<td> <input type = "file" name="groupImage" accept = "image/jpg, image/jpeg, image/bmp, image/png"/>
-		</td>
-	</tr>
+    <tr>
+        <th>Photo:
+        </th>
+        <td> <input type = "file" name="groupImage" accept = "image/jpg, image/jpeg, image/bmp, image/png"/>
+        </td>
+    </tr>
 
-	<tr>
-		<td>
-		</td>
-		<td> <input type="submit"/>
-		</td>
+    <tr>
+        <td>
+        </td>
+        <td> <input type="submit"/>
+        </td>
 
-	</tr>
+    </tr>
 
-	</table>
-	</fieldset>
-	</form>
+    </table>
+    </fieldset>
+    </form>
 
 <p> Here we go bois </p>
 
