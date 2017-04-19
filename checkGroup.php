@@ -14,6 +14,7 @@ if(isset($_POST['group_name'])) {
 		$stmt = $dbh -> prepare($query);
 
 		$groupName = $_POST['group_name'];
+		$groupName = strip_tags($groupName);
 
 		$stmt->bindParam(':group_name', $groupName);
 
