@@ -34,6 +34,7 @@ $_SESSION['projectTime'] = time();
 
 //SESSION CHECKING
 
+//TODO SESSION SHOULD NOT BE DOING THIS. THIS IS JUST FOR TESTING 
 $_SESSION['userID'] = 1;
 
 require_once('DBFuncs.php');
