@@ -79,7 +79,8 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         } else {
             $groupCreated = true;
             if (addBelongs($groupName, $creatorID)) {
-                if(uploadGroupImage($groupName)){
+		    if(uploadGroupImage($groupName)){
+			    		//TODO: THIS NEEDS TO REDIRECT TO THE GROUP'S PAGE
 					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php");
 				}
 				else{
