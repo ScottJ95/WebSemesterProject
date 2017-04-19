@@ -1,5 +1,13 @@
 <?php
-	session_start();
+session_start();
+
+if(!isset($_SESSION['userID'])){
+	header('Location: http://elvis.rowan.edu/~jefferys0/');
+}
+else{
+	echo "<p> Hello! " . $_SESSION['userID'];
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -55,13 +63,13 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$groupName    = $_POST['groupName'];
 	$groupName = strip_tags($groupName);
 	$groupName = htmlspecialchars($groupName, ENT_QUOTES);
-	echo $groupName;
-        $groupSubject = $_POST['groupSubject'];
+
+	$groupSubject = $_POST['groupSubject'];
+
 	$description  = $_POST['description'];
 	$description = strip_tags($description);
 	$description = htmlspecialchars($description, ENT_QUOTES);
-	echo $description;
-	//$date = time();
+
 	echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
 	$creatorID = $_SESSION['userID'];
 	echo "<p> " . $creatorID . "</p>\n";
@@ -130,21 +138,18 @@ function addBelongs($groupName, $studentID)
 	}
 }
 
-
+//Upload the group image. 
+//Use this again for profile images
+//TODO: FORMAT THIS CODE!!!!!!
 function uploadGroupImage()
 {
 	$groupName = $_POST["groupName"];
 
-    if ($_FILES['groupImage']['error'] == 0) {
+    if ($_FILES['groupImage']['error'] == UPLOAD_ERR_OK) {
         
         echo "<p> Oh look, the file was set </p>\n";
         
         echo "<p> Checking File Type </p>\n";
-        // never assume the upload succeeded
-        if ($_FILES['groupImage']['error'] !== UPLOAD_ERR_OK) {
-            echo "<p> SHIT SOMETHING WENT WRONG </p> \n";
-            die("Upload failed with error code " . $_FILES['groupImage']['error']);
-        }
         
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
@@ -212,7 +217,7 @@ function uploadGroupImage()
 	}
 }
 
-
+//Set up the image in the database
 function setImageDir($targetName, $fileName, $groupName ) 
 {
 	try{
