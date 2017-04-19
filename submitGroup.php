@@ -1,16 +1,19 @@
+
+<?php
+
 <?php
 session_start();
+require_once('DBFuncs.php');
 
-if(!isset($_SESSION['userID'])){
-	header('Location: http://elvis.rowan.edu/~jefferys0/');
-	exit;
+if(!checkSession()){
+        header('Location: http://elvis.rowan.edu/~jefferys0/');
+        exit;
 }
-?>
 
-<?php
+$_SESSION['projectTime'] = time();
+
 
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
-require_once('DBFuncs.php');
 
 if (isset($_SESSION['userID'])) {
     echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
