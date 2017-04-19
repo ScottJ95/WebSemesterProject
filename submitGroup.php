@@ -80,10 +80,10 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
             $groupCreated = true;
             if (addBelongs($groupName, $creatorID)) {
                 if(uploadGroupImage()){
-					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.html");
+					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php");
 				}
 				else{
-					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.html?error=GroupImage");
+					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php?error=GroupImage");
 				}
             }
             
@@ -143,7 +143,7 @@ function uploadGroupImage()
         }
         
         if (($info[2] !== IMAGETYPE_BMP) && ($info[2] !== IMAGETYPE_JPEG) && ($info[2] !== IMAGETYPE_PNG)) {
-			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage"
+			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage");
             die("Not a bmp/jpeg/png");
         }
         
@@ -164,7 +164,7 @@ function uploadGroupImage()
         
         // Make sure it was uploaded
         if (!is_uploaded_file($_FILES["groupImage"]["tmp_name"])) {
-			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileUpload"
+	    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileUpload");
             die("Error: " . $_FILES["groupImage"]["name"] . " did not upload.");
         }
         
@@ -184,7 +184,7 @@ function uploadGroupImage()
                 // but we can't upload another with the same name on top,
                 // because it's now read-only
             } else {
-				header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileCopy"
+				header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileCopy");
                 die("Error copying " . $_FILES["groupImage"]["name"]);
             }
         }
