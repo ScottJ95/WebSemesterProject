@@ -1,6 +1,3 @@
-
-<?php
-
 <?php
 session_start();
 require_once('DBFuncs.php');
@@ -22,6 +19,7 @@ if (isset($_SESSION['userID'])) {
 }
 
 $dbh = ConnectDB();
+
 
 
 //Check to see that the groupName was posted from the previous page.
@@ -52,16 +50,15 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         $query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
         $stmt  = $dbh->prepare($query);
         
-        $groupName = $_POST['groupName'];
-        $groupName = strip_tags($groupName);
-        $groupName = htmlspecialchars($groupName, ENT_QUOTES);
+	$groupName = $_POST['groupName'];
+	$groupName = strip_tags($groupName);
         //echo $groupName;
         $groupSubject = $_POST['groupSubject'];
         $description  = $_POST['description'];
         $description  = strip_tags($description);
         $description  = htmlspecialchars($description, ENT_QUOTES);
         //echo $description;
-        
+	
         echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
         $creatorID = $_SESSION['userID'];
         echo "<p> " . $creatorID . "</p>\n";
@@ -82,7 +79,7 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         } else {
             $groupCreated = true;
             if (addBelongs($groupName, $creatorID)) {
-                if(uploadGroupImage()){
+                if(uploadGroupImage($groupName)){
 					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php");
 				}
 				else{
@@ -133,7 +130,7 @@ function addBelongs($groupName, $studentID)
 
 //Upload the group image. 
 //Use this again for profile images
-function uploadGroupImage()
+function uploadGroupImage($groupName)
 {
 
     if ($_FILES['groupImage']['error'] == 0) {
@@ -173,7 +170,8 @@ function uploadGroupImage()
         
         
         $targetname = "./UPLOADED/archive/" . $groupName . "/" . $_FILES["groupImage"]["name"];
-        
+
+
         if (file_exists($targetname)) {
 			//File exists: Just tell the user
             return false;
