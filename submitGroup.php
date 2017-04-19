@@ -1,6 +1,5 @@
 <?php
 session_start();
-<<<<<<< HEAD
 
 if(!isset($_SESSION['userID'])){
 	header('Location: http://elvis.rowan.edu/~jefferys0/');
@@ -9,8 +8,6 @@ else{
 	echo "<p> Hello! " . $_SESSION['userID'];
 }
 
-=======
->>>>>>> e7fe91c7c56b14e6e020157be5bc9b070e4a0ef7
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -58,7 +55,6 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
     
     try {
-<<<<<<< HEAD
 	    $query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' 
 		    . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
 	    $stmt  = $dbh->prepare($query);
@@ -78,7 +74,6 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$creatorID = $_SESSION['userID'];
 	echo "<p> " . $creatorID . "</p>\n";
 
-=======
         $query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
         $stmt  = $dbh->prepare($query);
         
@@ -92,7 +87,6 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         $description  = strip_tags($description);
         $description  = htmlspecialchars($description, ENT_QUOTES);
         echo $description;
->>>>>>> e7fe91c7c56b14e6e020157be5bc9b070e4a0ef7
         
         //$date = time();
         echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
@@ -166,15 +160,12 @@ function addBelongs($groupName, $studentID)
 //TODO: FORMAT THIS CODE!!!!!!
 function uploadGroupImage()
 {
-<<<<<<< HEAD
 	$groupName = $_POST["groupName"];
 
     if ($_FILES['groupImage']['error'] == UPLOAD_ERR_OK) {
-=======
     $groupName = $_POST["groupName"];
     
     if ($_FILES['groupImage']['error'] == 0) {
->>>>>>> e7fe91c7c56b14e6e020157be5bc9b070e4a0ef7
         
         echo "<p> Oh look, the file was set </p>\n";
         
@@ -246,13 +237,8 @@ function uploadGroupImage()
     }
 }
 
-<<<<<<< HEAD
 //Set up the image in the database
-function setImageDir($targetName, $fileName, $groupName ) 
-=======
-
 function setImageDir($targetName, $fileName, $groupName)
->>>>>>> e7fe91c7c56b14e6e020157be5bc9b070e4a0ef7
 {
     try {
         $image_query = "INSERT INTO images (image_name, image_location) VALUES (:fileName, :targetName)";
