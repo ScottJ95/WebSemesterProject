@@ -160,11 +160,7 @@ function addBelongs($groupName, $studentID)
 //TODO: FORMAT THIS CODE!!!!!!
 function uploadGroupImage()
 {
-	$groupName = $_POST["groupName"];
 
-    if ($_FILES['groupImage']['error'] == UPLOAD_ERR_OK) {
-    $groupName = $_POST["groupName"];
-    
     if ($_FILES['groupImage']['error'] == 0) {
         
         echo "<p> Oh look, the file was set </p>\n";
