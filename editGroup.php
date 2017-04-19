@@ -2,8 +2,12 @@
 
 session_start();
 
+//TODO REMOVE THIS
 $_SESSION['userID'] = 1;
 require_once('DBFuncs.php');
+require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+
+$dbh = ConnectDB();
 
 if(!checkSession()){
         header('Location: http://elvis.rowan.edu/~jefferys0/');
@@ -17,6 +21,14 @@ if(!isset($_GET['groupID'])) {
 	echo 'alert("Group does not exist");'; 
 	echo 'window.location.href = "http://elvis.rowan.edu/~jefferys0/";';
 	echo '</script>';
+	exit;
+}
+
+if(!checkCreator($dbh, $_SESSION['userID'], $_GET['groupID'])){
+	echo '<script type="text/javascript">';
+        echo 'alert("You are not the creator of this group");';
+        echo 'window.location.href = "http://elvis.rowan.edu/~jefferys0/";';
+        echo '</script>';
 	exit;
 }
 
@@ -53,7 +65,20 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
 
 	$userData = getUserByID($dbh, $_SESSION['userID']);
 	$groupData = getGroupByID($dbh, $_GET['groupID']);
+	$groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
 	echo "<h1> Edit Group " . $groupData[0]->group_name . "</h1>";
+	echo "<p> Current Information: </p>\n";
+	echo "<p> Current Group Name: " . $groupData[0]->group_name . "</p>\n";
+	echo "<p> Current Group Subject: " . $groupData[0]->group_subject . "</p>\n";
+	echo "<p> Current Group Description: " . $groupData[0]->group_description . "</p>\n";
+	echo "<p> Current Group Image: </p> \n";
+	if($groupData[0]->image_ID == NULL){
+		//TODO ADD THIS CHECK TO PUT IN DEFAULT IMAGE
+		echo '<p> Image not Set </p>';
+	}
+	else{
+		echo '<img src=".'. $groupImage[0]->image_location .'"alt="' . $groupImage[0]->image_name . '">';
+	}
 
 }
 else{
@@ -69,7 +94,7 @@ else{
 <table title = "Edit Group Input">
 	<tr>
 		<th> Group Name:
-		</th>
+		</th>	
 		<td> <input type = "text" name="groupName" id="groupName" onkeyup="checkName();"/>
 		</td>
 		<span id="name_status"></span>
@@ -118,3 +143,6 @@ else{
     </table>
     </fieldset>
 	</form>
+</body>
+
+</html>
