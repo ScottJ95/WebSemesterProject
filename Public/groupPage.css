@@ -1,0 +1,90 @@
+.navigation{
+	background-color:white;
+	height:50px;
+	width:100%;	
+	min-width:1000px;
+}
+.navigationButton{
+	background-color:Gray;
+	height:50px;
+	width:10%;	
+	min-width:100px;
+}
+.navigationButton:hover{
+	background-color:dark gray;
+	height:50px;
+	width:10%;
+	min-width:100px;
+	text-decoration:underline;	
+}
+
+.members{
+	background-color:lightgray;
+	height:80vh;
+	min-height:800px;
+	width:250px;
+	float:right;	
+}
+.memberText{
+	font-size:30px;	
+	text-align:center;
+	font-weight:bold;
+	padding-top:20px;
+}
+.memberCount{
+	padding-left:15px;
+	font-size:24px;	
+	margin-bottom:15px;	
+}
+#numMem{
+	font-weight:bold;
+	margin-bottom:15px;	
+}
+.memberContainer{
+	border-top: 1px solid black;
+	padding-left:10px;
+	padding-top:25px;
+	font-size:18px;
+	font:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;	
+}
+.messages{
+	background-color:lightblue;
+	float:left;
+	margin-left:85px;
+	width:65%;
+	min-width: 650px;
+	height:800px;
+	text-align:center;
+	margin-top:25px;
+}
+.groupName{
+	font-size:34px;	
+	font-weight:bold;
+	padding-top:25px;
+}
+.groupDesc{
+	font-size:18px;
+	padding-top:25px;
+	padding-bottom:25px;
+	border-bottom:1px solid black;	
+}
+
+.messageContainer{
+	background-color:lightgreen;
+	font-size:24px;
+	/*adjust here as display is decided*/
+}
+.calendarSpace{
+	display:inline-block;
+	margin-left:250px;
+	margin-top:50px;
+	background-color:red;
+	width:1400px;
+	height:1050px;	
+}
+.userInfo{
+	background-color:blue;
+	float:left;
+	width:250px;
+	height:100vh;	
+}
