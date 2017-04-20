@@ -416,7 +416,7 @@ function checkUserRegistration()
         exit();
 }
 
-checkUsernameReg()
+function checkUsernameReg()
 {
         $dbh = ConnectDB();
         $username = $_POST['argument'][0];
