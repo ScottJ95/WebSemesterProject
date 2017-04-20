@@ -51,6 +51,52 @@ function register() {
 
 }
 
+checkUsername()
+{
+	var username = document.getElementById("userBox").value;
+	if(username != "") {
+		$.ajax({
+        	    type: 'POST',
+        	    url:  'DBFuncs.php',
+        	    data: { functionName:'checkUsernameReg',argument:[username] },
+		    success: function (response){
+ 			if(response == 0) {
+				document.getElementById("popup").innerHTML="Username is already in use";
+			}
+			else {
+				document.getElementById("popup").innerHTML="Username is avaliable";
+			}
+		    }
+		});
+
+	}
+}
+
+checkEmail()
+{
+        var email = document.getElementById("emailBox").value;
+	var googleEmail = /@gmail.com/;
+	var rowanEmail = /@students.rowan.edu/;
+        if(email != "") {
+		if(googleEmail.test(email) == true && rowanEmail.test(email) == true){
+                	$.ajax({
+                    	    type: 'POST',
+                   	    url:  'DBFuncs.php',
+                    	    data: { functionName:'checkEmailReg',argument:[email] },
+                            success: function (response){
+                                if(response == 0) {
+                                    document.getElementById("popup").innerHTML="Email is already in use";
+                                }
+                                else {
+                                    document.getElementById("popup").innerHTML="Email is valid";
+                                }
+                            }
+                    	});
+		}
+	}
+}
+
+
 function cancel(){
 	window.location.href = "login.html";
 }

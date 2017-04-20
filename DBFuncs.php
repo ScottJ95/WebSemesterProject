@@ -416,6 +416,22 @@ function checkUserRegistration()
         exit();
 }
 
+checkUsernameReg()
+{
+        $dbh = ConnectDB();
+        $username = $_POST['argument'][0];
+        $name_query = "SELECT username FROM students WHERE username = :userName";
+        $stmt = $dbh-> prepare($name_query);
+        $stmt->bindParam(':userName', $username);
+        $stmt->execute();
+	if ($stmt -> rowCount() == 0) {
+		echo "1";
+	}
+	else {
+		echo "0";
+	}
+}
+
 session_start();
 switch($_POST['functionName']) {
 	case 'checkEmail':
