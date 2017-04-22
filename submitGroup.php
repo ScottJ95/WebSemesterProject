@@ -54,17 +54,15 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         $groupCreated = false;
         
         if ($inserted == 0) {
-            header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=InsertGroup");
-			exit;
+	    exit;
         } else {
             $groupCreated = true;
             if (addBelongs($groupName, $creatorID)) {
 	        if(uploadGroupImage($groupName)){
-		     //TODO: THIS NEEDS TO REDIRECT TO THE GROUP'S PAGE
-		    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php");
+                    redirectSuccess(false);
 		}
 		else{
-			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php?error=GroupImage");
+                    redirectSuccess(true);
 		}
             }
             
@@ -237,6 +235,16 @@ function setImageDir($targetName, $fileName, $groupName)
         die("PDOException at setImageDir: " . $e->getMessage());
     }
     
+}
+
+function redirectSuccess($imageSucceed) {
+    if($imageSucceed == true){
+        header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php');
+    }
+    else{
+        header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php?error="img"');
+    }
+
 }
 
 ?>
