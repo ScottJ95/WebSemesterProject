@@ -432,6 +432,23 @@ function checkUsernameReg()
 	}
 }
 
+function checkEmailReg()
+{
+        $dbh = ConnectDB();
+        $email = $_POST['argument'][0];
+        $name_query = "SELECT email FROM students WHERE email = :Email";
+        $stmt = $dbh-> prepare($name_query);
+        $stmt->bindParam('Email', $email);
+        $stmt->execute();
+        if ($stmt -> rowCount() == 0) {
+                echo "1";
+        }
+        else {
+                echo "0";
+        }
+}
+
+
 session_start();
 switch($_POST['functionName']) {
 	case 'checkEmail':

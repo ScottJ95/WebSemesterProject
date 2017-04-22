@@ -93,6 +93,9 @@ checkEmail()
                             }
                     	});
 		}
+		else {
+		    document.getElementById("popup").innerHTML="Email is valid";
+		}
 	}
 }
 
