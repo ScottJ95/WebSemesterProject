@@ -108,21 +108,5 @@ $dbh = ConnectDB();
     </fieldset>
     </form>
 
-
-<div id="tagline">
- <a href="./hw2-list.html"
-    title="Link to homework list">
-    Scott J.
- </a>
-
-<span style="float: right;">
-<a href="http://validator.w3.org/check/referer">HTML5</a> /
-<a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
-    CSS3 </a>
-</span>
-</div>
-
 </body>
-
-
 </html>

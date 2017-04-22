@@ -73,36 +73,35 @@ $dbh = ConnectDB();
 if(isset($_SESSION['userID']) && isset($_GET['groupID']))
 
 {
-	$_SESSION['groupIDEdit'] = $_GET['groupID'];
-	$userData = getUserByID($dbh, $_SESSION['userID']);
-	$groupData = getGroupByID($dbh, $_GET['groupID']);
-	$groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
+    $_SESSION['groupIDEdit'] = $_GET['groupID'];
+    $userData = getUserByID($dbh, $_SESSION['userID']);
+    $groupData = getGroupByID($dbh, $_GET['groupID']);
+    $groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
 
-	echo "<h1> Edit Group " . $groupData[0]->group_name . "</h1>";
-	echo "<p> Current Information: </p>\n";
-	echo "<p> Current Group Name: " 
-			. $groupData[0]->group_name . "</p>\n";
+    echo "<h1> Edit Group " . $groupData[0]->group_name . "</h1>";
+    echo "<p> Current Information: </p>\n";
+    echo "<p> Current Group Name: " 
+	. $groupData[0]->group_name . "</p>\n";
 
-	$_SESSION['groupNameEdit'] = $groupData[0]->group_name;
+    $_SESSION['groupNameEdit'] = $groupData[0]->group_name;
 
-	echo "<p> Current Group Subject: " 
-			. $groupData[0]->group_subject . "</p>\n";
-	echo "<p> Current Group Description: " 
-			. $groupData[0]->group_description . "</p>\n";
-	echo "<p> Current Group Image: </p> \n";
+    echo "<p> Current Group Subject: " 
+	. $groupData[0]->group_subject . "</p>\n";
+    echo "<p> Current Group Description: " 
+	. $groupData[0]->group_description . "</p>\n";
+    echo "<p> Current Group Image: </p> \n";
 
-	if($groupData[0]->image_ID == NULL){
-		//TODO ADD THIS CHECK TO PUT IN DEFAULT IMAGE
-		echo '<p> Image not Set </p>';
-	}
-	else{
-		echo '<img id="groupImage" src="'. $groupImage[0]->image_location .
-			'"alt="' . $groupImage[0]->image_name . '" style="width:304px;height:228px;">';
-	}
-
+    if($groupData[0]->image_ID == NULL){
+         //TODO ADD THIS CHECK TO PUT IN DEFAULT IMAGE
+	 echo '<p> Image not Set </p>';
+    }
+    else{
+         echo '<img id="groupImage" src="'. $groupImage[0]->image_location .
+	     '"alt="' . $groupImage[0]->image_name . '" style="width:304px;height:228px;">';
+    }
 }
 else{
-        echo "<p> How did you get here? -LevelLord </p>\n";
+    echo "<p> How did you get here? -LevelLord </p>\n";
 }
 ?>
 
@@ -112,27 +111,27 @@ else{
 <legend> Edit Your Group Info </legend>
 
 <table title = "Edit Group Input">
-	<tr>
-		<th> Group Name:
-		</th>	
-		<td> <input type = "text" name="groupName" 
-			id="groupName" onkeyup="checkName(true);"/>
-		</td>
-		<span id="name_status"></span>
+    <tr>
+	<th> Group Name:
+	</th>	
+	    <td> <input type = "text" name="groupName" 
+		id="groupName" onkeyup="checkName(true);"/>
+	    </td>
+	<span id="name_status"></span>
 	</tr>
 
 	<tr> 
-		<th> Subject: 
-		</th> 
+	<th> Subject: 
+	</th> 
 
-		<td> <select name="groupSubject" id="groupSubject"size="1" title="Select Subject">
-            <option value = "Calculus">Calculus</option>
-            <option value = "Biology">Biology</option>
-            <option value = "Chemistry">Chemistry</option>
-            <option value = "Physics">Physics</option>
-            <option value = "ComputerScience">Computer Science</option>
-            <option value = "Psychology">Psychology</option>
-            <option value = "History">History</option>
+	<td><select name="groupSubject" id="groupSubject"size="1" title="Select Subject">
+                <option value = "Calculus">Calculus</option>
+                <option value = "Biology">Biology</option>
+                <option value = "Chemistry">Chemistry</option>
+                <option value = "Physics">Physics</option>
+                <option value = "ComputerScience">Computer Science</option>
+                <option value = "Psychology">Psychology</option>
+                <option value = "History">History</option>
             </select>
         </td>
     </tr>

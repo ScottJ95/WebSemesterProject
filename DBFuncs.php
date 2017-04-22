@@ -51,7 +51,81 @@ function getUserByID($dbh, $userID)
 		die('PDO Error in getCurrentUser(): ' . $e->getMessage());
 	}
 }
+//TODO TEST
+function joinGroup($dbh, $userID, $groupID) {
+    try{
+        $query = "UPDATE groups 
+                  SET group_numUsers = group_numUsers + 1
+                  WHERE group_ID = :groupID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $stmt = null;
+        $dbh = ConnectDB();
+        
+        $query = "INSERT INTO belongs (student_ID, group_ID)
+                  VALUES (:userID, :groupID)";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+    }
 
+    catch(PDOException $e){
+        die('PDO Error in joinGroup(): ' . $e->getMessage());
+    }
+}
+
+//UserID Leaves GroupID
+//TODO TEST
+function leaveGroup($dbh, $userID, $groupID){
+    try{
+        $query = "UPDATE groups 
+                  SET group_numUsers = group_numUsers - 1
+                  WHERE group_ID = :groupID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $stmt = null;
+        $dbh = ConnectDB();
+
+        $query = "DELETE FROM belongs 
+                  WHERE student_ID = :userID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+    }
+
+    catch(PDOException $e){
+        die('PDO Error in leaveGroup(): ' . $e->getMessage());
+    }
+
+}
+//Check to see if a user belongs in a group
+function checkBelongs($dbh, $userID, $groupID) {
+
+    try{
+        $query = "SELECT * FROM belongs 
+                 WHERE student_ID = :userID AND group_ID = :groupID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+
+        $belongsData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        if($belongsData[0]->student_ID == $userID && $belongsData[0]->group_ID == $groupID){
+            return true;
+        }
+        else{
+            return false;
+        }
+        }
+
+    catch(PDOException $e) {
+        die("Error with Check Belongs " . $e->getMessage());
+    }
+        
+}
 //Get the list of users that belong to a group.
 function getGroupUserList($dbh, $groupID)
 {
@@ -119,7 +193,7 @@ function getMatchingGroupName($dbh, $groupName)
 }
 
 //Get a list of groups based on their subject.
-function getMatchinGroupNameSubject($dbh, $groupName, $subject)
+function getMatchingGroupNameSubject($dbh, $groupName, $subject)
 {
     try {
 	$group_query = "SELECT * FROM groups WHERE group_name = :groupName AND group_subject = :subject";
