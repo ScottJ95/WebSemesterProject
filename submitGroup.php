@@ -28,26 +28,7 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     //echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
     
     try {
-	    $query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' 
-		    . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
-	    $stmt  = $dbh->prepare($query);
-
-		
-		$groupName    = $_POST['groupName'];
-		$groupName = strip_tags($groupName);
-		$groupName = htmlspecialchars($groupName, ENT_QUOTES);
-
-		$groupSubject = $_POST['groupSubject'];
-
-		$description  = $_POST['description'];
-		$description = strip_tags($description);
-		$description = htmlspecialchars($description, ENT_QUOTES);
-
-		//echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
-		$creatorID = $_SESSION['userID'];
-		//echo "<p> " . $creatorID . "</p>\n";
-
-		$query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' 
+	$query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' 
 			. 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
         $stmt  = $dbh->prepare($query);
         
@@ -80,13 +61,13 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         } else {
             $groupCreated = true;
             if (addBelongs($groupName, $creatorID)) {
-		    if(uploadGroupImage($groupName)){
-			    		//TODO: THIS NEEDS TO REDIRECT TO THE GROUP'S PAGE
-					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php");
-				}
-				else{
-					header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php?error=GroupImage");
-				}
+	        if(uploadGroupImage($groupName)){
+		     //TODO: THIS NEEDS TO REDIRECT TO THE GROUP'S PAGE
+		    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php");
+		}
+		else{
+			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/redirectSuccessTest.php?error=GroupImage");
+		}
             }
             
         }
@@ -109,9 +90,9 @@ function addBelongs($groupName, $studentID)
         $dbh           = ConnectDB();
         $groupData     = getMatchingGroupName($dbh, $groupName);
         $groupID       = $groupData[0]->group_ID;
-		$belongs_query = "INSERT INTO belongs (student_ID, group_ID) 
-						  VALUES (:studentID, :groupID)";
-        $stmt          = $dbh->prepare($belongs_query);
+	$belongs_query = "INSERT INTO belongs (student_ID, group_ID) 
+			  VALUES (:studentID, :groupID)";
+        $stmt 	       = $dbh->prepare($belongs_query);
         
         $stmt->bindParam(':studentID', $studentID);
         $stmt->bindParam(':groupID', $groupID);
@@ -141,14 +122,15 @@ function uploadGroupImage($groupName)
         //Checking File Type
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
-				header("Location: http://elvis.rowan.edu/~jefferys0/web
-						/WebSemesterProject/error.html?error=GroupImage");
+		header("Location:
+		http://elvis.rowan.edu/~jefferys0/web
+		/WebSemesterProject/error.html?error=GroupImage");
             die("Unable to determine image type of uploaded file");
         }
         
         if (($info[2] !== IMAGETYPE_BMP) && ($info[2] !== IMAGETYPE_JPEG) && ($info[2] !== IMAGETYPE_PNG)) {
-				header("Location: http://elvis.rowan.edu/~jefferys0/web
-						/WebSemesterProject/error.html?error=GroupImage");
+		header("Location: http://elvis.rowan.edu/~jefferys0/web
+			/WebSemesterProject/error.html?error=GroupImage");
             die("Not a bmp/jpeg/png");
         }
         
@@ -166,34 +148,34 @@ function uploadGroupImage($groupName)
         
         // Make sure it was uploaded
         if (!is_uploaded_file($_FILES["groupImage"]["tmp_name"])) {
-				header("Location: http://elvis.rowan.edu/~jefferys0/web
-						/WebSemesterProject/error.html?error=FileUpload");
-				die("Error: " . $_FILES["groupImage"]["name"] . 
-					" did not upload.");
+		header("Location: http://elvis.rowan.edu/~jefferys0/web
+			/WebSemesterProject/error.html?error=FileUpload");
+		die("Error: " . $_FILES["groupImage"]["name"] ." did not upload.");
         }
         
         
 	$targetname = "./UPLOADED/archive/" . $groupName . 
 		    "/" . $_FILES["groupImage"]["name"];
-
+	$fileName = $_FILES["groupImage"]["name"];
 
         if (file_exists($targetname)) {
-			$name = $_FILES["groupImage"]["name"];
-			$actual_name = pathinfo($name,PATHINFO_FILENAME);
-			$original_name = $actual_name;
-			$extension = pathinfo($name, PATHINFO_EXTENSION);
+	    $name = $_FILES["groupImage"]["name"];
+	    $actual_name = pathinfo($name,PATHINFO_FILENAME);
+	    $original_name = $actual_name;
+	    $extension = pathinfo($name, PATHINFO_EXTENSION);
 		
-			$numFound = 1;
-			while(file_exists("./UPLOADED/archive/" . $groupName .
-					"/" . $actual_name . "." . $extension)) 
-			{
-						$actual_name = (string)$original_name.$numFound;
-						$name = $actual_name . "." .$extension;
-						$numFound++;
-			}
-
-			$targetname = "./UPLOADED/archive/" . $groupName .
-				"/" . $name;
+	    $numFound = 1;
+	    while(file_exists("./UPLOADED/archive/" . $groupName .
+		    "/" . $actual_name . "." . $extension)) 
+		{
+		    $actual_name = (string)$original_name.$numFound;
+		    $name = $actual_name . "." .$extension;
+		    $numFound++;
+		}
+	    $targetname = "./UPLOADED/archive/" . $groupName .
+		    "/" . $name;
+	    $fileName = $name;
+	   
 
         }
         
@@ -204,15 +186,15 @@ function uploadGroupImage($groupName)
             // but we can't upload another with the same name on top,
             // because it's now read-only
         } else {
-			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileCopy");
+	    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileCopy");
             die("Error copying " . $_FILES["groupImage"]["name"]);
 		}
 
-        if(setImageDir($targetname, $_FILES["groupImage"]["name"], $groupName)){
-			  return true;
+        if(setImageDir($targetname, $fileName, $groupName)){
+		 return true;
 		}
 		else{
-			return false;
+		    return false;
 		}
         
     }
@@ -236,8 +218,8 @@ function setImageDir($targetName, $fileName, $groupName)
         $stmt->execute();
         
         if ($stmt->rowCount() == 0) {
-			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=ImageQuery");
-			die("Error in Image Query");
+	    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=ImageQuery");
+	    die("Error in Image Query");
             return false;
         }
         

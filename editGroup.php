@@ -71,23 +71,33 @@ $dbh = ConnectDB();
 
 //This is test code to get the current session userID.
 if(isset($_SESSION['userID']) && isset($_GET['groupID']))
-{
 
+{
+	$_SESSION['groupIDEdit'] = $_GET['groupID'];
 	$userData = getUserByID($dbh, $_SESSION['userID']);
 	$groupData = getGroupByID($dbh, $_GET['groupID']);
 	$groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
+
 	echo "<h1> Edit Group " . $groupData[0]->group_name . "</h1>";
 	echo "<p> Current Information: </p>\n";
-	echo "<p> Current Group Name: " . $groupData[0]->group_name . "</p>\n";
-	echo "<p> Current Group Subject: " . $groupData[0]->group_subject . "</p>\n";
-	echo "<p> Current Group Description: " . $groupData[0]->group_description . "</p>\n";
+	echo "<p> Current Group Name: " 
+			. $groupData[0]->group_name . "</p>\n";
+
+	$_SESSION['groupNameEdit'] = $groupData[0]->group_name;
+
+	echo "<p> Current Group Subject: " 
+			. $groupData[0]->group_subject . "</p>\n";
+	echo "<p> Current Group Description: " 
+			. $groupData[0]->group_description . "</p>\n";
 	echo "<p> Current Group Image: </p> \n";
+
 	if($groupData[0]->image_ID == NULL){
 		//TODO ADD THIS CHECK TO PUT IN DEFAULT IMAGE
 		echo '<p> Image not Set </p>';
 	}
 	else{
-		echo '<img src=".'. $groupImage[0]->image_location .'"alt="' . $groupImage[0]->image_name . '">';
+		echo '<img src="'. $groupImage[0]->image_location .
+			'"alt="' . $groupImage[0]->image_name . '">';
 	}
 
 }
@@ -105,7 +115,8 @@ else{
 	<tr>
 		<th> Group Name:
 		</th>	
-		<td> <input type = "text" name="groupName" id="groupName" onkeyup="checkName();"/>
+		<td> <input type = "text" name="groupName" 
+			id="groupName" onkeyup="checkName();"/>
 		</td>
 		<span id="name_status"></span>
 	</tr>
@@ -129,7 +140,11 @@ else{
 	<tr>
         <th>Description:
         </th>
-        <td><textarea name="description" id="description" cols="50" rows="4" maxlength = "250" onkeyup = "descriptionCount();"  placeholder = "Type Description."></textarea>
+		<td><textarea name="description" 
+			id="description" cols="50" rows="4" 
+			maxlength = "250" 
+			onkeyup = "descriptionCount();"  
+			placeholder = "Type Description."></textarea>
         </td>
         <td> <span id="description_charCount"> 250 </span>
         </td>

@@ -108,8 +108,6 @@ $dbh = ConnectDB();
     </fieldset>
     </form>
 
-<p> Here we go bois </p>
-
 
 <div id="tagline">
  <a href="./hw2-list.html"
