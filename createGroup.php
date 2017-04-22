@@ -2,6 +2,8 @@
 session_start();
 require_once('DBFuncs.php');
 
+$_SESSION['userID'] = 1;
+
 if(!checkSession()){
         header('Location: http://elvis.rowan.edu/~jefferys0/');
         exit;

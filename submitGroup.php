@@ -47,7 +47,8 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 		$creatorID = $_SESSION['userID'];
 		//echo "<p> " . $creatorID . "</p>\n";
 
-        $query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' . 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
+		$query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' 
+			. 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
         $stmt  = $dbh->prepare($query);
         
 	$groupName = $_POST['groupName'];
@@ -108,7 +109,8 @@ function addBelongs($groupName, $studentID)
         $dbh           = ConnectDB();
         $groupData     = getMatchingGroupName($dbh, $groupName);
         $groupID       = $groupData[0]->group_ID;
-        $belongs_query = "INSERT INTO belongs (student_ID, group_ID) VALUES (:studentID, :groupID)";
+		$belongs_query = "INSERT INTO belongs (student_ID, group_ID) 
+						  VALUES (:studentID, :groupID)";
         $stmt          = $dbh->prepare($belongs_query);
         
         $stmt->bindParam(':studentID', $studentID);
@@ -139,20 +141,19 @@ function uploadGroupImage($groupName)
         //Checking File Type
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
-			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage");
+				header("Location: http://elvis.rowan.edu/~jefferys0/web
+						/WebSemesterProject/error.html?error=GroupImage");
             die("Unable to determine image type of uploaded file");
         }
         
         if (($info[2] !== IMAGETYPE_BMP) && ($info[2] !== IMAGETYPE_JPEG) && ($info[2] !== IMAGETYPE_PNG)) {
-			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage");
+				header("Location: http://elvis.rowan.edu/~jefferys0/web
+						/WebSemesterProject/error.html?error=GroupImage");
             die("Not a bmp/jpeg/png");
         }
         
         //Make the dir
-        
-        
         if (file_exists("./UPLOADED/archive/" . $groupName)) {
-            //TODO: This should do something based on the page.
         }
         
         else {
@@ -165,31 +166,48 @@ function uploadGroupImage($groupName)
         
         // Make sure it was uploaded
         if (!is_uploaded_file($_FILES["groupImage"]["tmp_name"])) {
-	    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileUpload");
-            die("Error: " . $_FILES["groupImage"]["name"] . " did not upload.");
+				header("Location: http://elvis.rowan.edu/~jefferys0/web
+						/WebSemesterProject/error.html?error=FileUpload");
+				die("Error: " . $_FILES["groupImage"]["name"] . 
+					" did not upload.");
         }
         
         
-        $targetname = "./UPLOADED/archive/" . $groupName . "/" . $_FILES["groupImage"]["name"];
+	$targetname = "./UPLOADED/archive/" . $groupName . 
+		    "/" . $_FILES["groupImage"]["name"];
 
 
         if (file_exists($targetname)) {
-			//File exists: Just tell the user
-            return false;
+			$name = $_FILES["groupImage"]["name"];
+			$actual_name = pathinfo($name,PATHINFO_FILENAME);
+			$original_name = $actual_name;
+			$extension = pathinfo($name, PATHINFO_EXTENSION);
+		
+			$numFound = 1;
+			while(file_exists("./UPLOADED/archive/" . $groupName .
+					"/" . $actual_name . "." . $extension)) 
+			{
+						$actual_name = (string)$original_name.$numFound;
+						$name = $actual_name . "." .$extension;
+						$numFound++;
+			}
+
+			$targetname = "./UPLOADED/archive/" . $groupName .
+				"/" . $name;
+
         }
         
-        else {
-            if (copy($_FILES["groupImage"]["tmp_name"], $targetname)) {
-                // if we don't do this, the file will be mode 600, owned by
-                // www, and so we won't be able to read it ourselves
-                chmod($targetname, 0444);
-                // but we can't upload another with the same name on top,
-                // because it's now read-only
-            } else {
-				header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileCopy");
-                die("Error copying " . $_FILES["groupImage"]["name"]);
-            }
-        }
+        if (copy($_FILES["groupImage"]["tmp_name"], $targetname)) {
+            // if we don't do this, the file will be mode 600, owned by
+            // www, and so we won't be able to read it ourselves
+         	chmod($targetname, 0444);
+            // but we can't upload another with the same name on top,
+            // because it's now read-only
+        } else {
+			header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileCopy");
+            die("Error copying " . $_FILES["groupImage"]["name"]);
+		}
+
         if(setImageDir($targetname, $_FILES["groupImage"]["name"], $groupName)){
 			  return true;
 		}
