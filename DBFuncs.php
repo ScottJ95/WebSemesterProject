@@ -8,22 +8,19 @@ require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 //Checks to see if there is a currently active session
 function checkSession(){
-
-	if(isset($_SESSION['userID'])){
-
-
-        	//$userData = getUserByID($dbh, $_SESSION['userID']);
-        	//echo $userData[0]->student_ID;
-        	//foreach($userData as $user){
-                //	echo "<p> Hi User Num " . $user->student_ID . ", "
-                  //      	. $user->username . "</p>";
-        	//	}
-		//echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
-		return true;
-		}
+    if(isset($_SESSION['userID'])){
+            //$userData = getUserByID($dbh, $_SESSION['userID']);
+            //echo $userData[0]->student_ID;
+            //foreach($userData as $user){
+            //echo "<p> Hi User Num " . $user->student_ID . ", "
+            //. $user->username . "</p>";
+            //	}
+	    //echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
+	    return true;
+	}
 	else{
-		echo "<p> How did you get here? -LevelLord </p>\n";
-		return false;
+	    echo "<p> How did you get here? -LevelLord </p>\n";
+	    return false;
 	}	
 
 }
@@ -37,16 +34,16 @@ function checkSession(){
 //Returns the array containing their information.
 function getUserByID($dbh, $userID)
 {
-	try {
-		$user_query = "SELECT student_ID,fname,lname,username,email FROM students WHERE student_id = :user_ID";
-		$stmt = $dbh-> prepare($user_query);
+    try {
+	$user_query = "SELECT student_ID,fname,lname,username,email FROM students WHERE student_id = :user_ID";
+	$stmt = $dbh-> prepare($user_query);
 
-		$stmt->bindParam(':user_ID', $userID);
-		$stmt->execute();
-		$userData = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$stmt = null;
+	$stmt->bindParam(':user_ID', $userID);
+	$stmt->execute();
+	$userData = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$stmt = null;
 
-		return $userData;
+	return $userData;
 
 	}
 
@@ -58,17 +55,17 @@ function getUserByID($dbh, $userID)
 //Get the list of users that belong to a group.
 function getGroupUserList($dbh, $groupID)
 {
-	try {
-		$user_query = "SELECT student_ID,fname,lname,username,email FROM students " 
-				. "JOIN belongs USING (group_ID) JOIN groups USING (student_ID) "
-				. "WHERE group_ID = :groupID";
+    try {
+	$user_query = "SELECT student_ID,fname,lname,username,email FROM students " 
+			. "JOIN belongs USING (group_ID) JOIN groups USING (student_ID) "
+    			. "WHERE group_ID = :groupID";
 
-		$stmt = $dbh->prepare($user_query);
-		$stmt->bindParam(':group_ID', $groupID);
-		$stmt->execute();
-		$userList = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$stmt = null;
-		return $userData;
+	$stmt = $dbh->prepare($user_query);
+	$stmt->bindParam(':group_ID', $groupID);
+	$stmt->execute();
+	$userList = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$stmt = null;
+	return $userData;
 		
 	}
 
@@ -82,14 +79,14 @@ function getGroupUserList($dbh, $groupID)
 //Get the list of all groups
 function getAllGroups($dbh)
 {
-	try {
-		$group_query = "SELECT * FROM groups";
-		$stmt = $dbh->prepare($group_query);
-		$stmt->execute();
-		$groupData = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$stmt = null;
+    try {
+	$group_query = "SELECT * FROM groups";
+	$stmt = $dbh->prepare($group_query);
+	$stmt->execute();
+	$groupData = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$stmt = null;
 
-		return $groupData;
+	return $groupData;
         }
 
         catch(PDOException $e)
@@ -99,11 +96,10 @@ function getAllGroups($dbh)
 
 }
 
-//TODO: SEE IF WE CAN USE COALESCE HERE
 //Get a group based on their name.
 function getMatchingGroupName($dbh, $groupName)
 {	
-	try{
+    try{
 	$group_query = "SELECT * FROM groups WHERE group_name = :groupName";
 	$stmt = $dbh->prepare($group_query);
 
@@ -125,18 +121,18 @@ function getMatchingGroupName($dbh, $groupName)
 //Get a list of groups based on their subject.
 function getMatchinGroupNameSubject($dbh, $groupName, $subject)
 {
-	try {
-		$group_query = "SELECT * FROM groups WHERE group_name = :groupName AND group_subject = :subject";
-		$stmt = $dbh->prepare($group_query);
+    try {
+	$group_query = "SELECT * FROM groups WHERE group_name = :groupName AND group_subject = :subject";
+	$stmt = $dbh->prepare($group_query);
 
-		$stmt->bindParam(":groupName", $groupName);
-		$stmt->bindParam(":subject", $subject);
+	$stmt->bindParam(":groupName", $groupName);
+	$stmt->bindParam(":subject", $subject);
 
-		$stmt->execute();
+	$stmt->execute();
 
-		$groupData = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$groupData = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-		return $groupData;
+	return $groupData;
         }
 
         catch(PDOException $e)
@@ -149,16 +145,16 @@ function getMatchinGroupNameSubject($dbh, $groupName, $subject)
 //get a group by their ID
 function getGroupByID($dbh, $groupID)
 {
-	try {
-		$group_query = "SELECT * FROM groups WHERE group_ID = :groupID";
-		$stmt = $dbh->prepare($group_query);
+    try {
+	$group_query = "SELECT * FROM groups WHERE group_ID = :groupID";
+	$stmt = $dbh->prepare($group_query);
 
-		$stmt->bindParam(":groupID", $groupID);
-		$stmt->execute();
+	$stmt->bindParam(":groupID", $groupID);
+	$stmt->execute();
 
-		$groupData = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$groupData = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-		return $groupData;
+	return $groupData;
         }
 
         catch(PDOException $e)
@@ -172,69 +168,68 @@ function getGroupByID($dbh, $groupID)
 //Get a group's messages by their ID
 function getGroupMessageList($dbh, $groupID)
 {
-	try {
-		$message_query = "SELECT * FROM messages WHERE group_ID = :groupID";
-		$stmt = $dbh->prepare($message_query);
+    try {
+	$message_query = "SELECT * FROM messages WHERE group_ID = :groupID";
+	$stmt = $dbh->prepare($message_query);
 
-		$stmt->bindParam(":groupID", $groupID);
-		$stmt->execute();
+	$stmt->bindParam(":groupID", $groupID);
+	$stmt->execute();
 
-		$messageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$messageData = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-		return $messageData;
-        }
+	return $messageData;
+    }
 
-        catch(PDOException $e)
-        {
-                die('PDO Error in getGroupMessages: ' . $e->getMessage());
-        }
+    catch(PDOException $e)
+    {
+        die('PDO Error in getGroupMessages: ' . $e->getMessage());
+    }
 
 }
 
 //Get all the groups userID has created
 function getCreatedGroups($dbh, $userID)
 {
+    try {
+	$group_query = "SELECT * FROM groups WHERE creator_ID = :userID";
 
-	try {
-		$group_query = "SELECT * FROM groups WHERE creator_ID = :userID";
+	$stmt = $dbh->prepare($group_query);
+	$stmt->bindParam(":userID", $userID);
+	$stmt->execute();
 
-		$stmt = $dbh->prepare($group_query);
-		$stmt->bindParam(":userID", $userID);
-		$stmt->execute();
+	$groupData = $stmt->fetchALL(PDO::FETCH_OBJ);
 
-		$groupData = $stmt->fetchALL(PDO::FETCH_OBJ);
+	return $groupData;
 
-		return $groupData;
+    }
 
-        }
-
-        catch(PDOException $e)
-        {
-                die('PDO Error in    : ' . $e->getMessage());
-        }
+    catch(PDOException $e)
+    {
+        die('PDO Error in    : ' . $e->getMessage());
+    }
 	
 }
 
 function checkCreator($dbh, $userID, $groupID) {
 	
-	try {
-                $group_query = "SELECT * FROM groups WHERE creator_ID = :userID AND group_ID = :groupID";
+    try {
+        $group_query = "SELECT * FROM groups WHERE creator_ID = :userID AND group_ID = :groupID";
 
-                $stmt = $dbh->prepare($group_query);
-		$stmt->bindParam(":userID", $userID);
-		$stmt->bindParam(":groupID", $groupID);
-                $stmt->execute();
+        $stmt = $dbh->prepare($group_query);
+	$stmt->bindParam(":userID", $userID);
+	$stmt->bindParam(":groupID", $groupID);
+        $stmt->execute();
 
-                $groupData = $stmt->fetchALL(PDO::FETCH_OBJ);
+        $groupData = $stmt->fetchALL(PDO::FETCH_OBJ);
 
-                return $groupData;
+        return $groupData;
 
-        }
+    }
 
-        catch(PDOException $e)
-        {
-                die('PDO Error in    : ' . $e->getMessage());
-        }
+    catch(PDOException $e)
+    {
+        die('PDO Error in    : ' . $e->getMessage());
+    }
 
 
 }
@@ -242,111 +237,115 @@ function checkCreator($dbh, $userID, $groupID) {
 //Check to see if someone has a account
 function checkUsername()
 {
-        $dbh = ConnectDB();
-        $username = $_POST['argument'][0];
-	$password = $_POST['argument'][1];
-        $user_query = "SELECT student_id,fname,lname,username,email FROM students WHERE username = :userName and password = :passWord";
-        $stmt = $dbh-> prepare($user_query);
-	$stmt->bindParam(':userName', $username);
-	$stmt->bindParam(':passWord', $password);
-	$stmt->execute();
+    $dbh = ConnectDB();
+    $username = $_POST['argument'][0];
+    $password = $_POST['argument'][1];
+    $user_query = "SELECT student_id,fname,lname,username,email 
+                    FROM students 
+                    WHERE username = :userName and password = :passWord";
+    $stmt = $dbh-> prepare($user_query);
+    $stmt->bindParam(':userName', $username);
+    $stmt->bindParam(':passWord', $password);
+    $stmt->execute();
 
+    if ($stmt -> rowCount() == 0) {
+            echo "0";
+    }
+    else{
+	$user_query = "SELECT change_password 
+                    FROM students 
+                    WHERE change_password = 1 and username = :userName";
+	$stmt = $dbh-> prepare($user_query);
+	$stmt->bindParam(':userName', $username);
+        $stmt->execute();
 	if ($stmt -> rowCount() == 0) {
-                echo "0";
-        }
-	else{
-		$user_query = "SELECT change_password FROM students WHERE change_password = 1 and username = :userName";
-		$stmt = $dbh-> prepare($user_query);
-		$stmt->bindParam(':userName', $username);
-        	$stmt->execute();
-		if ($stmt -> rowCount() == 0) {
-			$_SESSION['username'] = $username;
-                	echo "1";
-		}
-		else
-		{
-			$_SESSION['username'] = $username;
-                	echo "2";
-		}
-        }
-        exit();
+		$_SESSION['username'] = $username;
+                echo "1";
+	}
+	else
+	{
+	    $_SESSION['username'] = $username;
+            echo "2";
+	}
+    }
+    exit();
 }
 
 function changePassword()
 {
-	$dbh = ConnectDB();
-        $username = $_SESSION['username'];
-        $password = $_POST['argument'];
-        $user_query = "UPDATE students SET password = :Password,change_password = 0 WHERE username = :userName;";
-        $stmt = $dbh-> prepare($user_query);
-        $stmt->bindParam(':userName', $username);
-        $stmt->bindParam(':Password', $password);
-        $stmt->execute();
-	echo "1";
-	exit();
+    $dbh = ConnectDB();
+    $username = $_SESSION['username'];
+    $password = $_POST['argument'];
+    $user_query = "UPDATE students SET password = :Password,change_password = 0 WHERE username = :userName;";
+    $stmt = $dbh-> prepare($user_query);
+    $stmt->bindParam(':userName', $username);
+    $stmt->bindParam(':Password', $password);
+    $stmt->execute();
+    echo "1";
+    exit();
 }
 
 function checkEmail()
 {
-        $dbh = ConnectDB();
-        $email = $_POST['argument'][0];
-        $user_query = "SELECT change_password_time FROM students WHERE email = :Email";
+    $dbh = ConnectDB();
+    $email = $_POST['argument'][0];
+    $user_query = "SELECT change_password_time FROM students WHERE email = :Email";
+    $stmt = $dbh-> prepare($user_query);
+    $stmt->bindParam(':Email', $email);
+    $stmt->execute();
+	
+    if ($stmt -> rowCount() == 0) {
+        echo "0";
+    }
+    else{	
+	$user_query = "SELECT change_password_time 
+                    FROM students 
+                    WHERE email = :Email and TIMESTAMPDIFF(MINUTE, change_password_time, now()) > 5;";
         $stmt = $dbh-> prepare($user_query);
-	$stmt->bindParam(':Email', $email);
-	$stmt->execute();
-	
-        if ($stmt -> rowCount() == 0) {
-                echo "0";
+        $stmt->bindParam(':Email', $email);
+        $stmt->execute();
+	if ($stmt -> rowCount() == 0){
+	    echo "2";
 	}
-	else{	
-		$user_query = "SELECT change_password_time FROM students WHERE email = :Email and TIMESTAMPDIFF(MINUTE, change_password_time, now()) > 5;";
-        	$stmt = $dbh-> prepare($user_query);
-        	$stmt->bindParam(':Email', $email);
-        	$stmt->execute();
-		if ($stmt -> rowCount() == 0){
-			echo "2";
-		}
-		else
-		{
-			$password = $_POST['argument'][1];
-			$to      = $email;
-	        	$subject = 'Reddit 2.0 - Password Reset';
-	        	$message = 'New password is : '. $password;
-			mail($to, $subject, $message);
+	else
+	{
+	    $password = $_POST['argument'][1];
+	    $to      = $email;
+	    $subject = 'Reddit 2.0 - Password Reset';
+	    $message = 'New password is : '. $password;
+	    mail($to, $subject, $message);
 
-			$user_query = "UPDATE students SET password = :Password,change_password_time = now(),change_password = 1 WHERE email = :Email;";
-			$stmt = $dbh-> prepare($user_query);
-			$stmt->bindParam(':Email', $email);
-	        	$stmt->bindParam(':Password', $password);
-	        	$stmt->execute();
-
-			echo "1";
-		}
-        }
-	exit();
-	
+	    $user_query = "UPDATE students 
+                            SET password = :Password,change_password_time = now(),change_password = 1 
+                            WHERE email = :Email;";
+	    $stmt = $dbh-> prepare($user_query);
+	    $stmt->bindParam(':Email', $email);
+	    $stmt->bindParam(':Password', $password);
+	    $stmt->execute();
+	    echo "1";
+	}
+    }
+    exit();	
 }
 
 function getGroupImage($dbh, $groupID)
 {
 
-	try{
-                $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
-                $stmt = $dbh-> prepare($image_query);
+    try{
+        $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
+        $stmt = $dbh-> prepare($image_query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$stmt = null;
+        return $imageData;
 
-                $stmt->bindParam(':groupID', $groupID);
-                $stmt->execute();
-                $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$stmt = null;
-	
-                return $imageData;
+    }
 
-        }
-
-        catch(PDOException $e)
-        {
-                die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
-        }
+    catch(PDOException $e)
+    {
+        die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+    }
 
 
 }
@@ -377,36 +376,36 @@ function getImageByDir($dbh, $dir)
 }
 function checkUserRegistration()
 {
-        $dbh = ConnectDB();
-	$username = $_POST['argument'][0];
-	$email = $_POST['argument'][1];
-	$password = $_POST['argument'][2];
+    $dbh = ConnectDB();
+    $username = $_POST['argument'][0];
+    $email = $_POST['argument'][1];
+    $password = $_POST['argument'][2];
 
-        $name_query = "SELECT username FROM students WHERE username = :userName";
-        $stmt = $dbh-> prepare($name_query);
-        $stmt->bindParam(':userName', $username);
-	$stmt->execute();
+    $name_query = "SELECT username FROM students WHERE username = :userName";
+    $stmt = $dbh-> prepare($name_query);
+    $stmt->bindParam(':userName', $username);
+    $stmt->execute();
 
-        if ($stmt -> rowCount() == 0) {
-                $email_query = "SELECT email FROM students WHERE email = :email";
-                $stmt = $dbh-> prepare($email_query);
+    if ($stmt -> rowCount() == 0) {
+        $email_query = "SELECT email FROM students WHERE email = :email";
+        $stmt = $dbh-> prepare($email_query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+	if ($stmt -> rowCount() == 0) {
+		$reg_query = "INSERT INTO students (username, password, email) VALUES(:userName, :password, :email)";
+		$stmt = $dbh-> prepare($reg_query);
+		$stmt->bindParam(':userName', $username);
+		$stmt->bindParam(':password', $password);
                 $stmt->bindParam(':email', $email);
-                $stmt->execute();
-		if ($stmt -> rowCount() == 0) {
-			$reg_query = "INSERT INTO students (username, password, email) VALUES(:userName, :password, :email)";
-			$stmt = $dbh-> prepare($reg_query);
-			$stmt->bindParam(':userName', $username);
-			$stmt->bindParam(':password', $password);
-                	$stmt->bindParam(':email', $email);
-			$stmt->execute();
-			//Registration was successful.
-                        echo "2";
-                }
-                else
-		{
-			//If the email already exists;.
-                        echo "1";
-                }
+		$stmt->execute();
+		//Registration was successful.
+                echo "2";
+        }
+        else
+	{
+		//If the email already exists;.
+                echo "1";
+        }
  
 	}
 	else{
