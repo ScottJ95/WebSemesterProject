@@ -331,7 +331,7 @@ function getGroupImage($dbh, $groupID)
 {
 
 	try{
-                $image_query = "SELECT image_name, image_location FROM images join groups using(image_ID) where group_ID = :groupID";
+                $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
                 $stmt = $dbh-> prepare($image_query);
 
                 $stmt->bindParam(':groupID', $groupID);

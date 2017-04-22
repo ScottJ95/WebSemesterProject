@@ -12,60 +12,57 @@ $dbh = ConnectDB();
 //If the groupname was set, we need to update the dir name
 
 $groupID = $_SESSION['groupIDEdit'];
+echo $groupID;
 $oldGroupName = $_SESSION['groupNameEdit'];
 $newGroupName = NULL;
 $newGroupDesc = NULL;
 $newGroupSubject = NULL;
-$_SESSION['groupIDEdit'] = NULL;
-$_SESSION['groupNameEdit'] = NULL;
 $updateDir = false;
 //Clear these when done.
 
-if(isset($_POST['groupName'] && !empty($_POST['groupName']))) {
+if(isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$newGroupName = $_POST['groupName'];
 	$newGroupName = strip_tags($newGroupName);
 	$updateDir = true;
 }
 
-if(isset($_POST['description'] && !empty($_POST['description']))) {
+if(isset($_POST['description']) && !empty($_POST['description'])) {
 	$newGroupDesc = $_POST['description'];
 	$newGroupDesc = strip_tags($newGroupDesc);
 	$newGroupDesc = htmlspecialchars($newGroupDesc,ENT_QUOTES);
 }
 
 
-if(isset($_POST['groupSubject'] && !empty($_POST['groupSubjecte']))) {
+if(isset($_POST['groupSubject']) && !empty($_POST['groupSubjecte'])) {
 	$newGroupSubject = $_POST['groupSubject'];
 }
 
 try {
     $query = 'UPDATE groups SET
-	    group_name = COALESCE(:groupName,group_name)
-	    group_description = COALESCE(:description,group_description)
-	    group_subject = COALESCE(:groupSubject,group_Subject)
+	    group_name = COALESCE(:groupName,group_name),
+	    group_description = COALESCE(:description,group_description),
+	    group_subject = COALESCE(:groupSubject,group_subject)
 	    WHERE group_ID = :groupID';
 
     $stmt = $dbh->prepare($query);
     $stmt->bindParam(':groupName', $newGroupName);
     $stmt->bindParam(':groupSubject', $newGroupSubject);
     $stmt->bindParam(':description', $newGroupDesc);
+    $stmt->bindParam(':groupID', $groupID);
     $stmt->execute();
     $updated = $stmt->rowCount();
+    echo $updated;
     $stmt = null;
     
     $oldDir = "./UPLOADED/archive/" .$oldGroupName;
     $updateDir = $oldDir;
     if($updateDir == true){
         $newDir = "./UPLOADED/archive/" .$newGroupName;
-        updateGroupDir($oldDir,$newDir);
+        updateGroupDir($oldDir,$newDir,$groupID);
         $updateDir = $newDir;
     }
-    updateImage($updateDir);
-    echo '<script type="text/javascript">';
-    echo 'alert("Group Updated Successfully!");';
-    echo 'window.location.href = "http://elvis.rowan.edu/~jefferys0
-        /web/WebSemesterProject/editGroup.php?groupID=' . $groupID . ';';
-    echo '</script>';
+    updateImage($updateDir,$groupID);
+    header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/editGroup.php?groupID=' . $groupID);
     exit;
 }
 
@@ -76,10 +73,9 @@ catch (PDOException $e) {
 
 
 //Update the group directory name
-function updateGroupDir($oldDir, $newDir){
-    rename($oldDir, $newDir);
+function updateGroupDir($oldDir, $newDir, $groupID){
     $dbh = ConnectDB();
-    $groupImage = getGroupImage($dbh,$groupID);
+    $groupImage = getGroupImage($dbh, $groupID);
 
     $imageID = $groupImage[0]->image_ID;
     $oldImageDir = $groupImage[0]->image_location;
@@ -95,6 +91,7 @@ function updateGroupDir($oldDir, $newDir){
         $stmt->execute();
 
         $stmt = NULL;
+        rename($oldDir,$newDir);
         return $newDir;
     }
 
@@ -105,32 +102,29 @@ function updateGroupDir($oldDir, $newDir){
 
 
 //Update the image if it was set
-function updateImage($updateDir){
+function updateImage($updateDir,$groupID){
     if ($_FILES['groupImage']['error'] == 0) {
-
+        echo "Updating Image";
         //Checking File Type
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
-            header("Location:
-             http://elvis.rowan.edu/~jefferys0/web
-            /WebSemesterProject/error.html?error=GroupImage");
+            header("Location:http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage");
             die("Unable to determine image type of uploaded file");
         }
 
         if (($info[2] !== IMAGETYPE_BMP) && ($info[2] !== IMAGETYPE_JPEG) 
             && ($info[2] !== IMAGETYPE_PNG)) {
-                header("Location: http://elvis.rowan.edu/~jefferys0/web
-                /WebSemesterProject/error.html?error=GroupImage");
+                header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage");
                 die("Not a bmp/jpeg/png");
         }
 
         //Image is valid, so now upload and update it. 
-        if(!is_uploaded_file($FILES["groupImage"]["tmp_name"])){
+        if(!is_uploaded_file($_FILES["groupImage"]["tmp_name"])){
             die("Error in Uploading File");
         }
 
         $fileName = $_FILES["groupImage"]["name"];
-        $targetname = $updateDiri . "/" . $fileName;
+        $targetname = $updateDir . "/" . $fileName;
 
         if (file_exists($targetname)) {
             $name = $_FILES["groupImage"]["name"];
@@ -139,15 +133,13 @@ function updateImage($updateDir){
             $extension = pathinfo($name, PATHINFO_EXTENSION);
 
             $numFound = 1;
-            while(file_exists("./UPLOADED/archive/" . $groupName .
-                    "/" . $actual_name . "." . $extension))
+            while(file_exists($updateDir ."/" . $actual_name . "." . $extension))
                 {
                     $actual_name = (string)$original_name.$numFound;
                     $name = $actual_name . "." .$extension;
                     $numFound++;
                 }
-            $targetname = "./UPLOADED/archive/" . $groupName .
-                    "/" . $name;
+            $targetname = $updateDir . "/" . $name;
             $fileName = $name;
         }
 
@@ -161,7 +153,7 @@ function updateImage($updateDir){
             die("Error copying " . $_FILES["groupImage"]["name"]);
         }
 
-        if(setImageDir($targetname, $fileName)){
+        if(setImageDir($targetname, $fileName,$groupID)){
             return true;
         }
         else{
@@ -175,7 +167,7 @@ function updateImage($updateDir){
     }
 }
 
-function setImageDir($targetname, $fileName){
+function setImageDir($targetname, $fileName,$groupID){
 
     try {
         $image_query = "INSERT INTO images (image_name, image_location) VALUES (:fileName, :targetName)";
@@ -183,7 +175,7 @@ function setImageDir($targetname, $fileName){
         $stmt        = $dbh->prepare($image_query);
 
         $stmt->bindParam(':fileName', $fileName);
-        $stmt->bindParam(':targetName', $targetName);
+        $stmt->bindParam(':targetName', $targetname);
 
         $stmt->execute();
 
@@ -195,7 +187,7 @@ function setImageDir($targetname, $fileName){
         $stmt = null;
 
         $dbh       = ConnectDB();
-        $imageData = getImageByDir($dbh, $targetName);
+        $imageData = getImageByDir($dbh, $targetname);
         $image_ID  = $imageData[0]->image_ID;
 
         $update_query = "UPDATE groups SET image_ID = :image_ID WHERE group_ID = :groupID";
