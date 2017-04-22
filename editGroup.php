@@ -96,8 +96,8 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
 		echo '<p> Image not Set </p>';
 	}
 	else{
-		echo '<img src="'. $groupImage[0]->image_location .
-			'"alt="' . $groupImage[0]->image_name . '">';
+		echo '<img id="groupImage" src="'. $groupImage[0]->image_location .
+			'"alt="' . $groupImage[0]->image_name . '" style="width:304px;height:228px;">';
 	}
 
 }
@@ -106,7 +106,7 @@ else{
 }
 ?>
 
-<form enctype="multipart/form-data" action = "updateGroup.php" method="post" onsubmit = "return checkForm();">
+<form enctype="multipart/form-data" action = "updateGroup.php" method="post" onsubmit = "return checkForm(true);">
 
 <fieldset>
 <legend> Edit Your Group Info </legend>
@@ -116,7 +116,7 @@ else{
 		<th> Group Name:
 		</th>	
 		<td> <input type = "text" name="groupName" 
-			id="groupName" onkeyup="checkName();"/>
+			id="groupName" onkeyup="checkName(true);"/>
 		</td>
 		<span id="name_status"></span>
 	</tr>

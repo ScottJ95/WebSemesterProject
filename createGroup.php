@@ -53,14 +53,14 @@ $dbh = ConnectDB();
 <p> This is a form that lets you make a new group. 
 </p>
 
-<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkForm();">
+<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkForm(false);">
 <fieldset>
 <legend> Create A New Group </legend>
 <table title="Create Group Input">
     <tr>
         <th> Group Name:
         </th>
-        <td> <input type="text" name="groupName" id="groupName" onkeyup = "checkName();"/>
+        <td> <input type="text" name="groupName" id="groupName" onkeyup = "checkName(false);"/>
         </td>
         <span id= "name_status"></span>
     </tr>

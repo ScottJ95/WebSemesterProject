@@ -17,13 +17,14 @@ $oldGroupName = $_SESSION['groupNameEdit'];
 $newGroupName = NULL;
 $newGroupDesc = NULL;
 $newGroupSubject = NULL;
-$updateDir = false;
+$updateDirCheck = false;
 //Clear these when done.
 
 if(isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$newGroupName = $_POST['groupName'];
 	$newGroupName = strip_tags($newGroupName);
-	$updateDir = true;
+        echo "<p> Update Dir is True? </p?";
+	$updateDirCheck = true;
 }
 
 if(isset($_POST['description']) && !empty($_POST['description'])) {
@@ -33,7 +34,7 @@ if(isset($_POST['description']) && !empty($_POST['description'])) {
 }
 
 
-if(isset($_POST['groupSubject']) && !empty($_POST['groupSubjecte'])) {
+if(isset($_POST['groupSubject']) && !empty($_POST['groupSubject'])) {
 	$newGroupSubject = $_POST['groupSubject'];
 }
 
@@ -56,7 +57,7 @@ try {
     
     $oldDir = "./UPLOADED/archive/" .$oldGroupName;
     $updateDir = $oldDir;
-    if($updateDir == true){
+    if($updateDirCheck == true){
         $newDir = "./UPLOADED/archive/" .$newGroupName;
         updateGroupDir($oldDir,$newDir,$groupID);
         $updateDir = $newDir;
@@ -170,13 +171,17 @@ function updateImage($updateDir,$groupID){
 function setImageDir($targetname, $fileName,$groupID){
 
     try {
-        $image_query = "INSERT INTO images (image_name, image_location) VALUES (:fileName, :targetName)";
-        $dbh         = ConnectDB();
+        $dbh = ConnectDB();
+        $imageData = getGroupImage($dbh,$groupID);
+        $imageID = $imageData[0]->image_ID;
+        echo "<p> Image ID " . $imageID . "</p>";
+        $image_query = "UPDATE  images 
+                        SET image_name = :fileName, image_location = :targetname 
+                        WHERE image_ID = :imageID";
         $stmt        = $dbh->prepare($image_query);
-
         $stmt->bindParam(':fileName', $fileName);
-        $stmt->bindParam(':targetName', $targetname);
-
+        $stmt->bindParam(':targetname', $targetname);
+        $stmt->bindParam(':imageID', $imageID);
         $stmt->execute();
 
         if ($stmt->rowCount() == 0) {

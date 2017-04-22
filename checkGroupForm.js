@@ -2,11 +2,11 @@
 //I found this source code online at: 
 //http://talkerscode.com/webtricks/check%20username%20and%20email%20availability%20from%20database%20using%20ajax.php
 //TODO: Have this be in a seperate file?
-function checkName(){
+function checkName(edit){
 
     var groupName = $("#groupName").val();
 
-    console.log(groupName); //Debugging. Comment out.
+    //console.log(groupName); //Debugging. Comment out.
 
     if(groupName) { //If it's not null, let's check it.
         //Jquery to setup AJAX we can give it a bunch of stuff
@@ -42,17 +42,29 @@ function checkName(){
     else //Nothing typed into the group name
     {
         $( '#name_stats').html("");
-        return false;
+        if(edit === true){
+            console.log("Edit True");
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
 
-function checkDescription(){
+function checkDescription(edit){
     var descriptionText = $('#description').val();
-
+    console.log(descriptionText);
     if(descriptionText === ""){
         console.log("I got here");
-        alert("Please enter a description");
-        return false;
+        if(edit === true){
+            console.log("Description True");
+            return true;
+        }
+        else{
+            alert("Please enter a description");
+            return false;
+        }
     }
     else{
         return true;
@@ -60,20 +72,37 @@ function checkDescription(){
 
 }
 
-function checkForm() {
-    if(!checkName() && $("#groupName").val() != "") {
-        if(checkDescription()){
-            return true;
+function checkForm(edit) {
+    if(edit === false){
+        if(!checkName(edit) && $("#groupName").val() != "") {
+            if(checkDescription(edit)){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
-        else{
+        else {
+            alert("Please Enter a group name!");
             return false;
         }
     }
     else {
-        alert("Please Enter a group name!");
-        return false;
-    }
+        console.log("Ok");
+        if(!checkName(edit)) {
+            if(checkDescription(edit)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
 
+
+    }
 }
 
 function descriptionCount() {

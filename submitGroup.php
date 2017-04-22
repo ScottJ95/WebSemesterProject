@@ -20,8 +20,6 @@ if (isset($_SESSION['userID'])) {
 
 $dbh = ConnectDB();
 
-
-
 //Check to see that the groupName was posted from the previous page.
 if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     
@@ -122,15 +120,10 @@ function uploadGroupImage($groupName)
         //Checking File Type
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
-		header("Location:
-		http://elvis.rowan.edu/~jefferys0/web
-		/WebSemesterProject/error.html?error=GroupImage");
             die("Unable to determine image type of uploaded file");
         }
         
         if (($info[2] !== IMAGETYPE_BMP) && ($info[2] !== IMAGETYPE_JPEG) && ($info[2] !== IMAGETYPE_PNG)) {
-		header("Location: http://elvis.rowan.edu/~jefferys0/web
-			/WebSemesterProject/error.html?error=GroupImage");
             die("Not a bmp/jpeg/png");
         }
         
@@ -148,8 +141,6 @@ function uploadGroupImage($groupName)
         
         // Make sure it was uploaded
         if (!is_uploaded_file($_FILES["groupImage"]["tmp_name"])) {
-		header("Location: http://elvis.rowan.edu/~jefferys0/web
-			/WebSemesterProject/error.html?error=FileUpload");
 		die("Error: " . $_FILES["groupImage"]["name"] ." did not upload.");
         }
         
@@ -186,7 +177,6 @@ function uploadGroupImage($groupName)
             // but we can't upload another with the same name on top,
             // because it's now read-only
         } else {
-	    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=FileCopy");
             die("Error copying " . $_FILES["groupImage"]["name"]);
 		}
 
@@ -218,7 +208,6 @@ function setImageDir($targetName, $fileName, $groupName)
         $stmt->execute();
         
         if ($stmt->rowCount() == 0) {
-	    header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=ImageQuery");
 	    die("Error in Image Query");
             return false;
         }
