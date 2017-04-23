@@ -92,8 +92,7 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
     echo "<p> Current Group Image: </p> \n";
 
     if($groupData[0]->image_ID == NULL){
-         //TODO ADD THIS CHECK TO PUT IN DEFAULT IMAGE
-	 echo '<p> Image not Set </p>';
+        echo '<img id="groupImage" src="./UPLOADED/archive/profile_default.jpg" alt= "Default" style="width:304px;height:228px;">';
     }
     else{
          echo '<img id="groupImage" src="'. $groupImage[0]->image_location .
