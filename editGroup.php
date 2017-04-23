@@ -78,7 +78,7 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
     $groupData = getGroupByID($dbh, $_GET['groupID']);
     $groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
 
-    echo "<h1> Edit Group " . $groupData[0]->group_name . "</h1>";
+    echo "<h1 id = "editHeader"> Edit Group " . $groupData[0]->group_name . "</h1>";
     echo "<p> Current Information: </p>\n";
     echo "<p> Current Group Name: " 
 	. $groupData[0]->group_name . "</p>\n";
@@ -109,7 +109,7 @@ else{
 <fieldset>
 <legend> Edit Your Group Info </legend>
 
-<table title = "Edit Group Input">
+<table title = "Edit Group Input" id="editGroupTable">
     <tr>
 	<th> Group Name:
 	</th>	

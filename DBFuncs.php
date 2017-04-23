@@ -19,7 +19,6 @@ function checkSession(){
 	    return true;
 	}
 	else{
-	    echo "<p> How did you get here? -LevelLord </p>\n";
 	    return false;
 	}	
 
@@ -35,7 +34,7 @@ function checkSession(){
 function getUserByID($dbh, $userID)
 {
     try {
-	$user_query = "SELECT student_ID,fname,lname,username,email FROM students WHERE student_id = :user_ID";
+	$user_query = "SELECT student_ID,fname,lname,username,email,image_ID FROM students WHERE student_id = :user_ID";
 	$stmt = $dbh-> prepare($user_query);
 
 	$stmt->bindParam(':user_ID', $userID);
@@ -51,6 +50,29 @@ function getUserByID($dbh, $userID)
 		die('PDO Error in getCurrentUser(): ' . $e->getMessage());
 	}
 }
+
+function getUserImage($dbh, $userID)
+{
+
+    try{
+        $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
+        $stmt = $dbh-> prepare($image_query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+        $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $stmt = null;
+        return $imageData;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+    }
+
+
+}
+
 //TODO TEST
 function joinGroup($dbh, $userID, $groupID) {
     try{

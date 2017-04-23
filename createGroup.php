@@ -56,7 +56,7 @@ $dbh = ConnectDB();
 <form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkForm(false);">
 <fieldset>
 <legend> Create A New Group </legend>
-<table title="Create Group Input">
+<table title="Create Group Input" id= "createGroupTable">
     <tr>
         <th> Group Name:
         </th>
