@@ -543,6 +543,20 @@ function checkEmailReg()
         }
 }
 
+function getGroups()
+{
+	$dbh = ConnectDB();	
+	$username = $_SESSION['username'];
+	$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username";
+	$stmt = $dbh-> prepare($query);
+	$stmt->bindParam(':Username', $username);
+	$stmt->execute();
+
+	$result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$groupData = json_encode($result_array);
+	$stmt = null;
+        echo $groupData;
+}
 
 session_start();
 switch($_POST['functionName']) {
@@ -554,6 +568,9 @@ switch($_POST['functionName']) {
 		break;			
 	case 'changePassword':
 		changePassword();
+		break;
+	case 'getGroups':
+		getGroups();
 		break;
 	case 'checkUserRegistration':
 		checkUserRegistration();
