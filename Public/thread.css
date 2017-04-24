@@ -106,8 +106,7 @@
 }
 
 .right{
-	width: 10vw;
-	min-width:250px;
+	min-width:130px;
 	height:700px;
 	float:left;
 	background-color: #B9E5B5;
@@ -137,11 +136,11 @@
 
 .groupContainer
 {
-	height: 95%;
+	height: 50%;
 	width:90%;
 	margin:auto;
-	margin-bottom: 20px;
-	
+	margin-bottom: 10px;
+	margin-top:10px;	
 }
 
 a:link, a:visited, a:hover, a:active{
@@ -150,12 +149,12 @@ a:link, a:visited, a:hover, a:active{
 }
 
 .post{
-	background-color:lightblue;
-	border-radius: 25px;
+	/*background-color:lightblue;
+	border-radius: 25px;*/
 	border: 2px solid #FF0E12;
-	padding: 20px; 
-	width: 90%;
-	height: 100px; 
+	padding: 10px; 
+	width: 95%;
+	height: 80px; 
 	margin:auto;
 	margin-bottom:10px;
 }
@@ -185,12 +184,10 @@ a:link, a:visited, a:hover, a:active{
 .userNameChat{
 	font-weight:bolder;
 	font-size:16px;
-	height:64px;
-	width:90%;
+	height:10px;
+	width:50%;
 	display:block;
-	vertical-align:middle;
-	line-height:64px;
-	padding-left:15px;
+	padding-left:5px;
 	float:left;
 }
 
@@ -199,7 +196,8 @@ a:link, a:visited, a:hover, a:active{
 	width:90%;
 	display: block;
 	margin-left:80px;
-	font-size:24px;
+	font-size:16px;
+
 }
 
 .inputMessage{
@@ -208,7 +206,8 @@ a:link, a:visited, a:hover, a:active{
 	height:200px;
 	width:90%;
 	float:left;
-	margin-left:50px;
+	margin-left:25px;
+	
 }
 
 #btnSend{
