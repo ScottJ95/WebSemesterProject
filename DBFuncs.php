@@ -18,7 +18,7 @@ function checkSession(){
 	    //echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
 	    return true;
 	}
-	else{
+    else{
 	    return false;
 	}	
 
@@ -545,6 +545,10 @@ function checkEmailReg()
 
 function getGroups()
 {
+
+	if(checkSession())
+	{
+
 	$case = $_POST['argument'][0];//0-all, 1-in, 2-created
 	switch($case){
 	case 0:
@@ -568,7 +572,10 @@ function getGroups()
 	$result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
 	$groupData = json_encode($result_array);
 	$stmt = null;
-        echo $groupData;
+	echo $groupData;
+	}
+	else
+		echo 0;
 }
 
 session_start();
