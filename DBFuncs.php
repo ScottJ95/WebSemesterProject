@@ -545,9 +545,22 @@ function checkEmailReg()
 
 function getGroups()
 {
+	$case = $_POST['argument'][0];//0-all, 1-in, 2-created
+	switch($case){
+	case 0:
+		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username";
+		break;
+	case 1:
+		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username and t3.student_ID != t1.creator_ID";
+		break;
+	case 2:
+		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join students t2 on t1.creator_ID = t2.student_ID where t2.username = :Username";
+                break;
+	}
+
+
 	$dbh = ConnectDB();	
 	$username = $_SESSION['username'];
-	$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username";
 	$stmt = $dbh-> prepare($query);
 	$stmt->bindParam(':Username', $username);
 	$stmt->execute();
