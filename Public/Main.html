@@ -13,20 +13,21 @@
     		<div class = "userImage"> </div>
         	<div id = "userName"> Your Username Here</div>
         	<button class="navButton" id="home">Home</button><br>
-    		<button class="navButton" id="profile">Profile</button>
+    		<button class="navButton" id="profile" onclick="editProfile();">Profile</button>
     		<button class="navButton" id="me">SomethingElseHere</button>
-    		<button class="navButton" id="signOut">Log Out</button>
+    		<button class="navButton" id="signOut" onclick="logout();">Log Out</button>
     	</div>
     <div class = "realcenter">
     	<div class = "groupContainer" id = "groups">
 		<H1>Groups</H1>
-		<button class="tabButton" id="create">Create a group</button>
+		<button class="tabButton" id="create" onclick="createGroup();">Create a group</button>
 		<br>
-
-		<button class="tabButton" id="all" onclick="Groups('0');">All</button>
-		<button class="tabButton" id="created" onclick="Groups('2');">Created</button>
-		<button class="tabButton" id="In" onclick="Groups('1');">In</button>
-		<div class = "groupList" id="groupList">
+		<div class="tab">
+		<button class="tabButton" id="all" onclick="Groups(event,'0');">All</button>
+		<button class="tabButton" id="created" onclick="Groups(event,'2');">Created</button>
+		<button class="tabButton" id="In" onclick="Groups(event,'1');">In</button>
+		</div>
+		<div class="tabcontent" id="groupList">
 		<!--	<Button class="groupButton" id="group"></button>
 			<Button class="groupButton" id="group"></button>
                         <Button class="groupButton" id="group"></button>

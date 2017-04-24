@@ -1,13 +1,22 @@
 function start() {
+
+
 	//ADD USERNAME HERE
 	//document.getElementById("userName").innerHTML="";
-                
-	Groups('0');
+        
+	document.getElementById("all").click();
 }
 
 
 
-function Groups(x){
+function Groups(evt,x){
+	
+tablinks = document.getElementsByClassName("tabButton");	
+for (i = 0; i < tablinks.length; i++) {
+	tablinks[i].className = tablinks[i].className.replace(" active", "");
+}
+evt.currentTarget.className += " active";
+
 document.getElementById("groupList").innerHTML="";
 	$.ajax({
                    type: 'POST',
@@ -29,4 +38,15 @@ document.getElementById("groupList").innerHTML="";
 function groupButton(){
 	//Send to Group page
 	//window.location.href = "newpassword.html";
+}
+
+function createGroup(){
+	window.location.href = "createGroup.php";
+}
+function logout(){
+	window.location.href = "login.html";
+	//Set session variables to null
+}
+function editProfile(){
+	window.location.href = "editProfile.php";
 }
