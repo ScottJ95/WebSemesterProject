@@ -343,24 +343,29 @@ function checkUsername()
     $stmt->bindParam(':userName', $username);
     $stmt->bindParam(':passWord', $password);
     $stmt->execute();
-
+	
     if ($stmt -> rowCount() == 0) {
             echo "0";
     }
     else{
-	$user_query = "SELECT change_password 
+	$studentData = $stmt->fetchAll(PDO::FETCH_OBJ);
+	    
+	$user_query = "SELECT change_password
                     FROM students 
                     WHERE change_password = 1 and username = :userName";
 	$stmt = $dbh-> prepare($user_query);
 	$stmt->bindParam(':userName', $username);
-        $stmt->execute();
+	$stmt->execute();
+
 	if ($stmt -> rowCount() == 0) {
 		$_SESSION['username'] = $username;
+		$_SESSION['userID'] = $studentData[0] -> student_id;
                 echo "1";
 	}
 	else
 	{
-	    $_SESSION['username'] = $username;
+		$_SESSION['username'] = $username;
+		$_SESSION['userID'] = $studentData[0] -> student_id;
             echo "2";
 	}
     }
@@ -578,6 +583,14 @@ function getGroups()
 		echo 0;
 }
 
+function getSessionVar(){
+	echo $_SESSION['username'];
+}
+function sessionOff(){
+	$_SESSION['username'] = NULL;
+	$_SESSION['userID'] = NULL;
+}
+
 session_start();
 switch($_POST['functionName']) {
 	case 'checkEmail':
@@ -594,6 +607,12 @@ switch($_POST['functionName']) {
 		break;
 	case 'checkUserRegistration':
 		checkUserRegistration();
+		break;
+	case 'getSessionVar':
+		getSessionVar();
+		break;
+	case 'sessionOff':
+		sessionOff();
 		break;
 }
 

@@ -1,13 +1,15 @@
 function start() {
 
-
+	getSessionUsername();
 	//ADD USERNAME HERE
 	//document.getElementById("userName").innerHTML="";
         
 	document.getElementById("all").click();
 }
 
+function joinGroup(){
 
+}
 
 function Groups(evt,x){
 	
@@ -39,6 +41,29 @@ document.getElementById("groupList").innerHTML="";
 
                 });
 }
+function getSessionUsername(){
+	$.ajax({
+                   type: 'POST',
+                   url:  'DBFuncs.php',
+                   data: { functionName:'getSessionVar'},
+
+                   success: function (response) {                   
+				document.getElementById("userName").innerHTML=response;
+                   }
+
+                });
+
+}
+function setSessionVar(){
+$.ajax({
+                   type: 'POST',
+                   url:  'DBFuncs.php',
+                   data: { functionName:'sessionOff'},
+
+                   success: function (response) {}
+
+                });
+}
 
 function groupButton(){
 	//Send to Group page
@@ -49,8 +74,8 @@ function createGroup(){
 	window.location.href = "createGroup.php";
 }
 function logout(){
+//	setSessionVar();
 	window.location.href = "login.html";
-	//Set session variables to null
 }
 function editProfile(){
 	window.location.href = "editProfile.php";
