@@ -5,6 +5,8 @@
 <title>Chats</title>
 <link href="thread.css" rel="stylesheet" type="text/css" media="screen">
 </head>
+
+
 <body>
 <div class = "container"> 
 	<div class = "left">
@@ -15,8 +17,8 @@
     	<button class="navButton" id="me">SomethingElseHere</button>
     	<button class="navButton" id="signOut">Log Out</button>
     </div>
-    <div class = "center"
-    	<div class = "groupContainer" id = "style-5">
+    <div class = "center">
+    	<div class = "groupContainer" id = "style-5" style="overflow-y: scroll; height:400px;">
                 <div class = "post">
                     <div class = "userContainer">
                     	<div class="userImageChat"> 
@@ -50,15 +52,15 @@
                     <div class = "messageChat">
                         something something tutor me
                     </div>
-                
+		</div>
                 </div>
-	   	</div>            
     		<div id ="newMessage"> 
               	<textarea id="inputMessage" class="inputMessage"> </textarea>
-    		</div>   
+    		 </div>
        <div class = "buttonContainer">
                 <button id="btnSend" class="btn btn-action">Send</button>
                 <button id="btnAttach" class="btn btn-action">Attach</button>
+       
        </div>
     </div>
     <div class = "right">
