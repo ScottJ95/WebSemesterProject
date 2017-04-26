@@ -548,6 +548,67 @@ function checkEmailReg()
         }
 }
 
+function joinGroups()
+{
+     if(checkSession())
+     {
+	$groupName = $_POST['argument'][0];
+	$subject = $_POST['argument'][1];
+
+	$query = "select group_ID, group_name,group_subject,group_numUsers,group_description from groups where group_name = :GroupName and group_subject = :Subject";
+	$dbh = ConnectDB();
+        $stmt = $dbh-> prepare($query);
+	$stmt->bindParam(':GroupName', $groupName);
+	$stmt->bindParam(':Subject', $subject);
+	$stmt->execute();
+	
+	$result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $groupData = json_encode($result_array);
+        $stmt = null;
+        echo $groupData;
+
+     }
+     else
+	echo 0;
+
+}
+
+function joinTheGroup($groupName, $subject){
+
+	if(checkSession())
+        {
+	$subject = str_replace(' ','',$subject);
+	$query = "select group_ID, group_name,group_subject,group_numUsers,group_description from groups where group_name = :GroupName and group_subject = :Subject";
+        $dbh = ConnectDB();
+        $stmt = $dbh-> prepare($query);
+        $stmt->bindParam(':GroupName', $groupName);
+        $stmt->bindParam(':Subject', $subject);
+        $stmt->execute();
+	
+	if ($stmt -> rowCount() == 0) {
+            return 0;
+    	}
+    	else{
+     	   $result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
+	   $groupID = $result_array[0] -> group_ID;
+	   $studentID = $_SESSION['userID'];
+	   $query = "insert into belongs (student_ID,group_ID) values (:StudentID,:GroupID)";
+	   $dbh = ConnectDB();
+           $stmt = $dbh-> prepare($query);
+	   $stmt->bindParam(':GroupID', $groupID);
+           $stmt->bindParam(':StudentID', $studentID);
+           $stmt->execute();
+	   return 1;
+	}
+	}
+	else
+	{
+		return  2;
+	}
+}
+
+
+
 function getGroups()
 {
 
@@ -613,6 +674,9 @@ switch($_POST['functionName']) {
 		break;
 	case 'sessionOff':
 		sessionOff();
+		break;
+	case 'joinGroups':
+		joinGroups();
 		break;
 }
 

@@ -2,14 +2,13 @@
 session_start();
 require_once('DBFuncs.php');
 
-$_SESSION['userID'] = 1;
+
 
 if(!checkSession()){
         header('Location: http://elvis.rowan.edu/~jefferys0/');
         exit;
 }
 
-$_SESSION['projectTime'] = time();
 
 ?>
 
@@ -27,10 +26,9 @@ $_SESSION['projectTime'] = time();
    <script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
   <script type="text/javascript" src="./checkGroupForm.js"></script>
+<link href="thread.css" rel="stylesheet" type="text/css" media="screen">   
 </head>
 
-<!-- createGroup.php is the form page for creating a new group.
- Status: Not yet finished -->
 
 
 
@@ -45,22 +43,23 @@ require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 $dbh = ConnectDB();
 
 
+
 ?>
 
 
-<h1> Create a New Group </h1>
+<h1> Join a Group </h1>
 
-<p> This is a form that lets you make a new group. 
+<p> This is a form that lets you join a group. 
 </p>
 
-<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkForm(false);">
+<form enctype="multipart/form-data" action="" method="post">
 <fieldset>
-<legend> Create A New Group </legend>
+<legend> Search For A Group </legend>
 <table title="Create Group Input" id= "createGroupTable">
     <tr>
         <th> Group Name:
         </th>
-        <td> <input type="text" name="groupName" id="groupName" onkeyup = "checkName(false);"/>
+        <td> <input type="text" name="groupName" id="groupName"/>
         </td>
         <span id= "name_status"></span>
     </tr>
@@ -80,21 +79,6 @@ $dbh = ConnectDB();
         </td>
     </tr>
 
-    <tr>
-        <th>Description:
-        </th>
-        <td><textarea name="description" id="description" cols="50" rows="4" maxlength = "250" onkeyup = "descriptionCount();"  placeholder = "Type Description."></textarea>
-        </td>
-        <td> <span id="description_charCount"> 250 </span>
-        </td>
-    </tr>
-
-    <tr>
-        <th>Photo:
-        </th>
-        <td> <input type = "file" name="groupImage" accept = "image/jpg, image/jpeg, image/bmp, image/png"/>
-        </td>
-    </tr>
 
     <tr>
         <td>
@@ -107,6 +91,27 @@ $dbh = ConnectDB();
     </table>
     </fieldset>
     </form>
+
+<?php
+	require_once('DBFuncs.php');
+	if(isset($_POST['groupName'])&&$_POST['groupName']!=""){
+	    $groupData = joinTheGroup($_POST['groupName'],$_POST['groupSubject']); 
+
+		if($groupData == 0){
+			echo "<p>Unable to find the group: " . $_POST['groupName'] . "</p>";
+		}
+		else{
+			echo "<p>Joined</p>";
+		}
+	
+	}
+	else
+	{
+		echo "<p>Please enter a Group name</p>";
+	}
+?>
+
+
 
 </body>
 </html>

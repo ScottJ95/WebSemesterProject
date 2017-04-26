@@ -73,6 +73,9 @@ function groupButton(){
 function createGroup(){
 	window.location.href = "createGroup.php";
 }
+function joinGroup(){
+        window.location.href = "joinGroup.php";
+}
 function logout(){
 //	setSessionVar();
 	window.location.href = "login.html";

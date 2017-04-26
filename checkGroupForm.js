@@ -105,6 +105,44 @@ function checkForm(edit) {
     }
 }
 
+function findGroups()
+{
+	$('#name_stats').html("");
+	if($("#groupName").val() === ""){
+		$('#name_stats').html("Please enter a Group Name");
+		return false;
+	}
+	else
+	{
+	$.ajax({
+           type: 'post',
+               url:  'DBFuncs.php',
+           data: {
+               functionName:'joinGroups', argument:[$("#groupName").val(),$("#groupSubject").val()]
+           },
+
+           success: function (response) {
+            if(response == 0) {
+                window.location.href = "login.html";
+		return false;    
+            }
+
+            else {
+
+	//	 $('#name_stats').html(response);
+                //Move to list of groups
+            	return false;
+	    }
+        }
+        });
+	}
+}
+
+function showGroups()
+{
+	
+}
+
 function descriptionCount() {
     var descriptionText = $("#description").val();
     $("#description_charCount").html(250 - descriptionText.length);
