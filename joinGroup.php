@@ -100,8 +100,12 @@ $dbh = ConnectDB();
 		if($groupData == 0){
 			echo "<p>Unable to find the group: " . $_POST['groupName'] . "</p>";
 		}
+	    	else if($groupData == 3){
+			echo "<p>Aready in Group: " . $_POST['groupName'] . "</p>";
+		}
 		else{
 			echo "<p>Joined</p>";
+			
 		}
 	
 	}

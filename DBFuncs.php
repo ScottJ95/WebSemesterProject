@@ -631,16 +631,39 @@ function joinTheGroup($groupName, $subject){
 	if ($stmt -> rowCount() == 0) {
             return 0;
     	}
-    	else{
-     	   $result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
+	else{
+
+	   $result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
 	   $groupID = $result_array[0] -> group_ID;
 	   $studentID = $_SESSION['userID'];
+	   
+	   
+	   $query = "select * from belongs where student_ID = :StudentID and group_ID = :GroupID";
+           $dbh = ConnectDB();
+           $stmt = $dbh-> prepare($query);
+           $stmt->bindParam(':GroupID', $groupID);
+           $stmt->bindParam(':StudentID', $studentID);
+           $stmt->execute();
+
+	   if ($stmt -> rowCount() != 0) {
+            return 3;
+           }
+	   
+	   
 	   $query = "insert into belongs (student_ID,group_ID) values (:StudentID,:GroupID)";
 	   $dbh = ConnectDB();
            $stmt = $dbh-> prepare($query);
 	   $stmt->bindParam(':GroupID', $groupID);
            $stmt->bindParam(':StudentID', $studentID);
+	   $stmt->execute();
+
+
+	$query = "update groups set group_numUsers = group_numUsers+'1' where group_ID = :GroupID";
+           $dbh = ConnectDB();
+           $stmt = $dbh-> prepare($query);
+           $stmt->bindParam(':GroupID', $groupID);
            $stmt->execute();
+
 	   return 1;
 	}
 	}
