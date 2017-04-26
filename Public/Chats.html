@@ -4,21 +4,23 @@
 <meta charset="utf-8">
 <title>Chats</title>
 <link href="thread.css" rel="stylesheet" type="text/css" media="screen">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="Chats.js"></script>
 </head>
 
 
-<body>
+<body onload="getSource();">
 <div class = "container"> 
 	<div class = "left">
     	<div class = "userImage"> </div>
-        <div id = "userName"> Your Username Here</div>
+        <div id = "userName">  </div>
         <button class="navButton" id="home">Home</button><br>
     	<button class="navButton" id="profile">Profile</button>
     	<button class="navButton" id="me">SomethingElseHere</button>
     	<button class="navButton" id="signOut">Log Out</button>
     </div>
     <div class = "center">
-    	<div class = "groupContainer" id = "style-5" style="overflow-y: scroll; height:400px;">
+    	<div id = "groupContainer style-5" style="overflow-y: scroll; height:400px;">
                 <div class = "post">
                     <div class = "userContainer">
                     	<div class="userImageChat"> 
@@ -58,24 +60,31 @@
               	<textarea id="inputMessage" class="inputMessage"> </textarea>
     		 </div>
        <div class = "buttonContainer">
-                <button id="btnSend" class="btn btn-action">Send</button>
+                <button id="btnSend" class="btn btn-action" onClick="submitMessage.js">Send</button>
                 <button id="btnAttach" class="btn btn-action">Attach</button>
        
        </div>
     </div>
     <div class = "right">
-    	<div class = "usersTitle"> 
-        	Users in this Group
+    
+    <div class = "members"> 
+    	<div class = "memberText">MEMBERS</div>
+        <div class = "memberCount"> Total members: <label id = "numMem"></label>
         </div>
-        <div class = "usersContainer">
-        	<div class = "user"> jack</div>
-            <div class = "user"> jimmy</div>
-            <div class = "user"> joe</div>
-            <div class = "user"> john</div>
-            <div class = "user"> jeeves</div>
+        <div class = "memberContainer">
+        	<ul id = "memberList">
+            </ul>
+        </div>
+    </div>
+
         </div>
 
     </div>
-</div>
+     <div class = "calendarSpace">
+     	
+        <iframe onload = "getSource();" id = "calendar" src="abc" style="margin: auto; border: 0; width:1400px; height:1050px; frameborder:0; scrolling:no">
+        </iframe>
+    </div>
+ <script src="Chats.js"></script>
 </body>
 </html>

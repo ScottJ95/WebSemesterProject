@@ -134,7 +134,7 @@
 					   color-stop(.5, transparent), to(transparent));
 }
 
-.groupContainer
+#groupContainer
 {
 	height: 50%;
 	width:90%;
@@ -277,4 +277,16 @@ div.tab button.active {
     border-top: none;
 }
 
-
+.members{
+	background-color:lightgray;
+	height:80vh;
+	min-height:800px;
+	width:250px;
+	float:right;	
+}
+.memberText{
+	font-size:30px;	
+	text-align:center;
+	font-weight:bold;
+	padding-top:20px;
+}

@@ -24,11 +24,54 @@ function checkSession(){
 
 }
 
+//Get the current group's creator
+//Returns the current group's creator's email address.
+function getCreator($dbh, $groupID) {
+	
+    try {
+        $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID";
+
+        $stmt = $dbh->prepare($group_query);
+		$stmt->bindParam(":groupID", $groupID);
+        $stmt->execute();
+
+        $userEmail = $stmt->fetchALL(PDO::FETCH_OBJ);
+
+        return $userEmail[0];
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in    : ' . $e->getCreator());
+    }
+
+
+}
+
+//Get the current logged in user,
+//Returns that user's email address.
+function getEmailCurrentUser($dbh, $userID)
+{
+    try {
+	$user_query = "SELECT email FROM students WHERE student_id = :user_ID";
+	$stmt = $dbh-> prepare($user_query);
+
+	$stmt->bindParam(':user_ID', $userID);
+	$stmt->execute();
+	$userEmail = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$stmt = null;
+
+	return $userEmail[0];
+
+	}
+
+	catch(PDOException $e) 	{
+		die('PDO Error in getCurrentUser(): ' . $e->getEmailCurrentUser());
+	}
+}
 
 //Select Functions
-
-
-
 //Get the current logged in user
 //Returns the array containing their information.
 function getUserByID($dbh, $userID)
