@@ -1,22 +1,15 @@
 <?php
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
-
 $dbh = ConnectDB();
-
 ?>
 
 <script type="text/javascript">
-
 function findUserName(){
-
 	var username = $("#emailBox").val();
 	var pasword = $("#passwordBox").val();
-
 	$( '#popup').html("IT WORKED");
-
         console.log(username); //Debugging. Comment out.
-
         if(username) { //If it's not null, let's check it.
                 //Jquery to setup AJAX we can give it a bunch of stuff
                 //type: post or get?
@@ -40,14 +33,12 @@ function findUserName(){
                         if(response == "OK") {
                                 return true;
                         }
-
                         else {
                                 return false;
                         }
                 }
                 });//End Ajax
         } //End If
-
         else //Nothing typed into the group name
         {
                 $( '#name_stats').html("");
