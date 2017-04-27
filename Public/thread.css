@@ -71,7 +71,7 @@
 }
 
 .groupButton{
-	width:100%;
+	width:80%;
         height:75px;
         background-color: #AAAAAA;
         color: #111111;
@@ -79,7 +79,7 @@
         font-weight:bold;
 }
 .groupButton:hover{
-	width:100%;
+	width:80%;
         height:75px;
         background-color: #AAAAAA;
         color: #111111;
@@ -87,6 +87,22 @@
         font-weight:bold;
 }
 
+.leaveButton{
+        width:18%;
+        height:75px;
+        background-color: #AAAAAA;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+.leaveButton:hover{
+        width:18%;
+        height:75px;
+        background-color: #AAAAAA;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
 
 
 .center{

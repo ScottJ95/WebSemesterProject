@@ -34,7 +34,7 @@ document.getElementById("groupList").innerHTML="";
 
                         for(i = 0;i<groupData.length;i++)
                         {
-                                document.getElementById("groupList").innerHTML+="<Button class=\"groupButton\" id=\"group\" onclick=\"moveToChat();\">"+groupData[i].group_name+" Size: "+groupData[i].group_numUsers+" Description: "+ groupData[i].group_description+"</button>";
+                                document.getElementById("groupList").innerHTML+="<button class=\"groupButton\" id=\"group\" onclick=\"moveToChat();\">"+groupData[i].group_name+" Size: "+groupData[i].group_numUsers+" Description: "+ groupData[i].group_description+"</button> <button class=\"leaveButton\" id=\"leave\">Leave</button>";
                         }
                   }
 		   }
