@@ -26,8 +26,9 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
     //echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
     
     try {
-	$query = 'INSERT INTO groups (group_name,group_subject,group_description,creator_ID) ' 
-			. 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
+	$query = 'INSERT INTO groups' .
+                 '(group_name,group_subject,group_description,creator_ID) ' 
+		. 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
         $stmt  = $dbh->prepare($query);
         
 	$groupName = $_POST['groupName'];
@@ -59,10 +60,10 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
             $groupCreated = true;
             if (addBelongs($groupName, $creatorID)) {
 	        if(uploadGroupImage($groupName)){
-                    redirectSuccess(false);
+                    redirectSuccess(true);
 		}
 		else{
-                    redirectSuccess(true);
+                    redirectSuccess(false);
 		}
             }
             
@@ -143,8 +144,9 @@ function uploadGroupImage($groupName)
         }
         
         
-	$targetname = "./UPLOADED/archive/" . $groupName . 
-		    "/" . $_FILES["groupImage"]["name"];
+	$targetname = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/"
+                     . $groupName . "/" . $_FILES["groupImage"]["name"];
+
 	$fileName = $_FILES["groupImage"]["name"];
 
         if (file_exists($targetname)) {
@@ -154,15 +156,15 @@ function uploadGroupImage($groupName)
 	    $extension = pathinfo($name, PATHINFO_EXTENSION);
 		
 	    $numFound = 1;
-	    while(file_exists("./UPLOADED/archive/" . $groupName .
-		    "/" . $actual_name . "." . $extension)) 
+	    while(file_exists("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" 
+                  . $groupName . "/" . $actual_name . "." . $extension)) 
 		{
 		    $actual_name = (string)$original_name.$numFound;
 		    $name = $actual_name . "." .$extension;
 		    $numFound++;
 		}
-	    $targetname = "./UPLOADED/archive/" . $groupName .
-		    "/" . $name;
+	    $targetname = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" 
+                . $groupName . "/" . $name;
 	    $fileName = $name;
 	   
 
@@ -178,6 +180,7 @@ function uploadGroupImage($groupName)
             die("Error copying " . $_FILES["groupImage"]["name"]);
 		}
 
+        $targetname = "/~jefferys0/web/WebSemesterProject/UPLOADED/archive/" . $groupName . "/" . $fileName;
         if(setImageDir($targetname, $fileName, $groupName)){
 		 return true;
 		}

@@ -78,7 +78,7 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
     $groupData = getGroupByID($dbh, $_GET['groupID']);
     $groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
 
-    echo "<h1 id = "editHeader"> Edit Group " . $groupData[0]->group_name . "</h1>";
+    echo '<h1 id = "editHeader"> Edit Group ' . $groupData[0]->group_name . '</h1>';
     echo "<p> Current Information: </p>\n";
     echo "<p> Current Group Name: " 
 	. $groupData[0]->group_name . "</p>\n";
@@ -92,7 +92,8 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
     echo "<p> Current Group Image: </p> \n";
 
     if($groupData[0]->image_ID == NULL){
-        echo '<img id="groupImage" src="./UPLOADED/archive/profile_default.jpg" alt= "Default" style="width:304px;height:228px;">';
+        echo '<img id="groupImage" src="/~jefferys0/web/WebSemesterProject/UPLOADED/archive/profile_default.jpg"' .   
+            'alt= "Default" style="width:304px;height:228px;">';
     }
     else{
          echo '<img id="groupImage" src="'. $groupImage[0]->image_location .

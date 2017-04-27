@@ -55,14 +55,17 @@ try {
     echo $updated;
     $stmt = null;
     
-    $oldDir = "./UPLOADED/archive/" .$oldGroupName;
+    $currGroupName = $oldGroupName;
+    $oldDir = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" .$oldGroupName;
     $updateDir = $oldDir;
     if($updateDirCheck == true){
-        $newDir = "./UPLOADED/archive/" .$newGroupName;
-        updateGroupDir($oldDir,$newDir,$groupID);
-        $updateDir = $newDir;
+        $newDirQ = "/~jefferys0/web/WebSemesterProject/UPLOADED/archive/" .$newGroupName;
+        $newDirAbs = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" .$newGroupName;
+        $currGroupName = $newGroupName;
+        updateGroupDir($oldDir,$newDirQ,$newDirAbs,$groupID);
+        $updateDir = $newDirAbs;
     }
-    updateImage($updateDir,$groupID);
+    updateImage($updateDir,$groupID, $currGroupName);
     header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/editGroup.php?groupID=' . $groupID);
     exit;
 }
@@ -74,13 +77,13 @@ catch (PDOException $e) {
 
 
 //Update the group directory name
-function updateGroupDir($oldDir, $newDir, $groupID){
+function updateGroupDir($oldDir, $newDirQ, $newDirAbs, $groupID){
     $dbh = ConnectDB();
     $groupImage = getGroupImage($dbh, $groupID);
 
     $imageID = $groupImage[0]->image_ID;
     $oldImageDir = $groupImage[0]->image_location;
-    $newImageDir = $newDir . "/" . $groupImage[0]->image_name;
+    $newImageDir = $newDirQ . "/" . $groupImage[0]->image_name;
 
     try{
         $query = "UPDATE images
@@ -92,7 +95,7 @@ function updateGroupDir($oldDir, $newDir, $groupID){
         $stmt->execute();
 
         $stmt = NULL;
-        rename($oldDir,$newDir);
+        rename($oldDir,$newDirAbs);
         return $newDir;
     }
 
@@ -103,7 +106,7 @@ function updateGroupDir($oldDir, $newDir, $groupID){
 
 
 //Update the image if it was set
-function updateImage($updateDir,$groupID){
+function updateImage($updateDir,$groupID, $groupName){
     if ($_FILES['groupImage']['error'] == 0) {
         echo "Updating Image";
         //Checking File Type
@@ -153,7 +156,7 @@ function updateImage($updateDir,$groupID){
         } else {
             die("Error copying " . $_FILES["groupImage"]["name"]);
         }
-
+        $targetname = "/~jefferys0/web/WebSemesterProject/UPLOADED/archive/" . $groupName ."/" . $fileName;
         if(setImageDir($targetname, $fileName,$groupID)){
             return true;
         }

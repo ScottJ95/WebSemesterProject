@@ -3,6 +3,7 @@ session_start();
 require_once('DBFuncs.php');
 
 $_SESSION['userID'] = 1;
+$_SESSION['username'] = "BobSmith95";
 
 if(!checkSession()){
         header('Location: http://elvis.rowan.edu/~jefferys0/');
