@@ -23,21 +23,47 @@ function checkSession(){
 	}	
 
 }
-
 //Get the current group's creator
 //Returns the current group's creator's email address.
-function getCreator($dbh, $groupID) {
+function getCreatorEmail() {
 	
     try {
+		$dbh = ConnectDB();
+		$groupID = $_POST['argument'][0];
+        $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID"; // get creator ID
+        $stmt = $dbh->prepare($group_query);
+		$stmt->bindParam(":groupID", $groupID);
+        $stmt->execute();
+
+        $userID = $stmt->fetchALL(PDO::FETCH_OBJ); // creator ID now
+		
+        return getEmailCurrentUser($userId);
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in    : ' . $e->getCreatorEmail());
+    }
+
+
+}
+//Get the current group's creator
+//Returns the current group's creator's email address.
+function getCreator() {
+	
+    try {
+		$dbh = ConnectDB();
+		$groupID = $_POST['argument'][0];		
         $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID";
 
         $stmt = $dbh->prepare($group_query);
 		$stmt->bindParam(":groupID", $groupID);
         $stmt->execute();
+		echo $stmt;
+        $groupIDReturn = $stmt->fetchALL(PDO::FETCH_OBJ);
 
-        $userEmail = $stmt->fetchALL(PDO::FETCH_OBJ);
-
-        return $userEmail[0];
+        return $groupIDReturn;
 
     }
 
@@ -47,6 +73,27 @@ function getCreator($dbh, $groupID) {
     }
 
 
+}
+//Get the ID of student from a messageID,
+//Returns that user's ID
+function getUserIDFromMessageID($message_ID)
+{
+    try {
+	$user_query = "SELECT student_ID FROM messages WHERE message_ID = :message_ID";
+	$stmt = $dbh-> prepare($user_query);
+
+	$stmt->bindParam(':message_ID', $message_ID);
+	$stmt->execute();
+	$userEmail = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$stmt = null;
+
+	return $userEmail[0];
+
+	}
+
+	catch(PDOException $e) 	{
+		die('PDO Error in getCurrentUser(): ' . $e->getEmailCurrentUser());
+	}
 }
 
 //Get the current logged in user,
@@ -684,13 +731,13 @@ function getGroups()
 	$case = $_POST['argument'][0];//0-all, 1-in, 2-created
 	switch($case){
 	case 0:
-		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username";
+		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username";
 		break;
 	case 1:
-		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username and t3.student_ID != t1.creator_ID";
+		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username and t3.student_ID != t1.creator_ID";
 		break;
 	case 2:
-		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description from groups t1 inner join students t2 on t1.creator_ID = t2.student_ID where t2.username = :Username";
+		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID from groups t1 inner join students t2 on t1.creator_ID = t2.student_ID where t2.username = :Username";
                 break;
 	}
 

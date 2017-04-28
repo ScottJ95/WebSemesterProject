@@ -5,6 +5,14 @@
  * template.css v1.0  04/02/2017
  */
 
+ @font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+ 
+body{
+	background-color: #151818;	
+	height:100vh;
+	width:100vw;
+	background-image:url("backgroundPattern.jpg");
+}
 
 .container{
 	border-style:solid;
@@ -19,9 +27,14 @@
 	min-width: 250px;
 	height:700px;
 	float:left;	
-	background-color: #F8D8D8;
+	background-color: #344F4E;
 }
-
+#userName{
+	font-family:Avenir;
+	font-weight:bold;
+	text-align:center;
+	padding-bottom:10px;
+}
 .userImage{
 	background-color:white;
 	background-image:url('defaultIcon.svg');
@@ -35,28 +48,46 @@
 }
 
 .navButton{
-	width:100%;
-	height:35px;
-	background-color: #330000;
-	color: #FFCC00;
-	font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
-	font-weight:bold;	
+    background-color: #1A2726;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height:45px;
+    width:200px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
 }
 
 .navButton:hover{
-	width:100%;
-	height:35px;
-	background-color: #330000;
-	color: #FFCC00;
-	font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
-	font-weight:bold;	
+	background-color: #283535;
+    border-radius: 5px;
+    color: white;
+    height:50px;
+    width:200px;
+    text-align: center;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 17px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
 }
+
 
 .tabButton{
         width:31%;
         height:50px;
-        background-color: #330000;
-        color: #FFCC00;
+        background-color: #1E232A;
+        color: white;
         font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
         font-weight:bold;
 }
@@ -64,8 +95,8 @@
 .tabButton:hover{
         width:31%;
         height:50px;
-        background-color: #330000;
-        color: #FFCC00;
+        background-color: #3B4655;
+        color: white;
         font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
         font-weight:bold;
 }
@@ -110,15 +141,15 @@
 	min-width:500px;
 	height:700px;
 	float:left;
-	background-color: #BCCCF7;
+	background-color: #1A2726;
 }
 
 .realcenter{
 	width: 50vw;
-        min-width:250px;
-        height:700px;
-        float:left;
-        background-color: #B9E5B5;
+    min-width:250px;
+    height:700px;
+    float:left;
+    background-color: #1A2726;
 }
 
 .right{
@@ -134,7 +165,6 @@
 	box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #F5F5F5;
 }
-
 #style-5::-webkit-scrollbar
 {
 	width: 10px;
@@ -167,7 +197,7 @@ a:link, a:visited, a:hover, a:active{
 .post{
 	/*background-color:lightblue;
 	border-radius: 25px;*/
-	border: 2px solid #FF0E12;
+	border: 2px solid #1E2939;
 	padding: 10px; 
 	width: 95%;
 	height: 80px; 
@@ -176,6 +206,7 @@ a:link, a:visited, a:hover, a:active{
 	margin-top:5px;
 	margin-left:5px;
 	margin-right:5px;
+	background-color: #AAC4C7;
 }
 
 .groupList{
@@ -208,6 +239,7 @@ a:link, a:visited, a:hover, a:active{
 	display:block;
 	padding-left:5px;
 	float:left;
+	color: black;
 }
 
 .messageChat{
@@ -216,10 +248,12 @@ a:link, a:visited, a:hover, a:active{
 	display: block;
 	margin-left:80px;
 	font-size:16px;
+	color: black;
 
 }
 
 .inputMessage{
+	margin-top:25px;
 	background-color:white;
 	word-wrap:break-word;
 	height:200px;
@@ -294,9 +328,9 @@ div.tab button.active {
 }
 
 .members{
-	background-color:lightgray;
+	background-color:#406148;
 	height:80vh;
-	min-height:800px;
+	height:700px;
 	width:250px;
 	float:right;	
 }
@@ -305,4 +339,32 @@ div.tab button.active {
 	text-align:center;
 	font-weight:bold;
 	padding-top:20px;
+	font-family:Avenir;
+	color: white;
+}
+.memberCount{
+	font-size:15px;	
+	text-align:left;
+	padding-left:30px;
+	padding-top:20px;
+	font-family:Helvetica Neue;
+	color: white;
+}
+
+.memberList{
+	font-size: 15px;
+	text-align:left;
+	padding-left: 30px;	
+	font-family: Georgia;
+	color: white;
+}
+.calendarSpace{
+	margin:auto;	
+	scrolling:no;
+}
+
+.btn{
+ background-color: #3B4655;
+ color:white;
+ width:100px; 
 }

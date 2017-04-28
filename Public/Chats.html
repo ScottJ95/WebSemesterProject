@@ -9,15 +9,15 @@
 </head>
 
 
-<body onload="getSource();">
+<body>
 <div class = "container"> 
 	<div class = "left">
     	<div class = "userImage"> </div>
         <div id = "userName">  </div>
-        <button class="navButton" id="home">Home</button><br>
-    	<button class="navButton" id="profile">Profile</button>
+        <button class="navButton" id="home" onclick="main();">Home</button><br>
+    	<button class="navButton" id="profile" onclick="editProfile();">Profile</button>
     	<button class="navButton" id="me">SomethingElseHere</button>
-    	<button class="navButton" id="signOut">Log Out</button>
+    	<button class="navButton" id="signOut" onclick="logout();">Log Out</button>
     </div>
     <div class = "center">
     	<div id = "groupContainer style-5" style="overflow-y: scroll; height:400px;">
@@ -55,6 +55,17 @@
                         something something tutor me
                     </div>
 		</div>
+                <div class = "post">
+                    <div class = "userContainer">
+                        <div class="userImageChat"> 
+                        </div>
+                        <div class="userNameChat">Username Here</div>
+                  </div><br>
+
+                    <div class = "messageChat">
+                        something something tutor me
+                    </div>
+		</div>     
                 </div>
     		<div id ="newMessage"> 
               	<textarea id="inputMessage" class="inputMessage"> </textarea>
@@ -82,7 +93,7 @@
     </div>
      <div class = "calendarSpace">
      	
-        <iframe onload = "getSource();" id = "calendar" src="abc" style="margin: auto; border: 0; width:1400px; height:1050px; frameborder:0; scrolling:no">
+        <iframe onload = "getSource();" id = "calendar" src="abc" style="width:1400px; height:1050px; display:block; margin:auto;">
         </iframe>
     </div>
  <script src="Chats.js"></script>

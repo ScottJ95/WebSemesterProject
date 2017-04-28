@@ -34,7 +34,7 @@ document.getElementById("groupList").innerHTML="";
 
                         for(i = 0;i<groupData.length;i++)
                         {
-                                document.getElementById("groupList").innerHTML+="<button class=\"groupButton\" id=\"group\" onclick=\"moveToChat();\">"+groupData[i].group_name+" Size: "+groupData[i].group_numUsers+" Description: "+ groupData[i].group_description+"</button> <button class=\"leaveButton\" id=\"leave\">Leave</button>";
+                                document.getElementById("groupList").innerHTML+="<button class=\"groupButton\" id=\"group\" onclick=\"moveToChat("+groupData[i].group_ID+");\">"+groupData[i].group_name+" Size: "+groupData[i].group_numUsers+" Description: "+ groupData[i].group_description+"</button> <button class=\"leaveButton\" id=\"leave\">Leave</button>";
                         }
                   }
 		   }
@@ -83,7 +83,7 @@ function logout(){
 function editProfile(){
 	window.location.href = "editProfile.php";
 }
-function moveToChat(){
+function moveToChat(idOfGroup){
 	//Set Session variables
-	window.location.href = "Chats.html";
+	window.location.href = "Chats.html?groupID="+idOfGroup;
 }
