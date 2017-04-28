@@ -18,6 +18,8 @@
     	<div class = "groupName">GROUP NAME HERE</div>
         <div class = "groupDesc">Group description goes here</div>
         <div class = "messageContainer">fetched data of sent messages go here with specific format TBD
+        		<?php include "/populateMessages.php"; ?>
+
         </div>
         <textarea class = "inputArea" placeholder="Write your messsage here...">
         </textarea>
@@ -26,8 +28,13 @@
     
     <div class = "members"> 
     	<div class = "memberText">MEMBERS</div>
-        <div class = "memberCount"> Total members: <label id = "numMem">5</label></div>
-        <div class = "memberContainer">generate a list of usernames of members here
+        <div class = "memberCount"> Total members: <label id = "numMem">
+        	<?php include "getMembers.php"; ?> </label>
+        </div>
+        <div class = "memberContainer">
+        	<ul id = "memberList">
+            	<?php include "/populateMembers.php"; ?>
+            </ul>
         </div>
     </div>
     <div class = "calendarSpace">

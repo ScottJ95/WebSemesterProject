@@ -26,7 +26,7 @@ function login() {
 				   document.getElementById("popup").innerHTML="Log In";
 
 				  //Set Session var
-				//Send to main menu
+				window.location.href = "Main.html";
 			   }
 			   else //Password needs to be changed
 			   {	
@@ -115,7 +115,7 @@ function passwordChange(){
                            else
                            {
                                    document.getElementById("popup").innerHTML="Password has changed. Logging in now.";
-                           	//Log in
+                           	window.location.href = "Main.html";
 			   }
 			}
                 });

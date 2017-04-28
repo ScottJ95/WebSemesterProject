@@ -5,6 +5,14 @@
  * template.css v1.0  04/02/2017
  */
 
+ @font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+ 
+body{
+	background-color: #151818;	
+	height:100vh;
+	width:100vw;
+	background-image:url("backgroundPattern.jpg");
+}
 
 .container{
 	border-style:solid;
@@ -19,9 +27,14 @@
 	min-width: 250px;
 	height:700px;
 	float:left;	
-	background-color: #F8D8D8;
+	background-color: #344F4E;
 }
-
+#userName{
+	font-family:Avenir;
+	font-weight:bold;
+	text-align:center;
+	padding-bottom:10px;
+}
 .userImage{
 	background-color:white;
 	background-image:url('defaultIcon.svg');
@@ -35,28 +48,46 @@
 }
 
 .navButton{
-	width:100%;
-	height:35px;
-	background-color: #330000;
-	color: #FFCC00;
-	font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
-	font-weight:bold;	
+    background-color: #1A2726;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height:45px;
+    width:200px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
 }
 
 .navButton:hover{
-	width:100%;
-	height:35px;
-	background-color: #330000;
-	color: #FFCC00;
-	font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
-	font-weight:bold;	
+	background-color: #283535;
+    border-radius: 5px;
+    color: white;
+    height:50px;
+    width:200px;
+    text-align: center;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 17px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
 }
+
 
 .tabButton{
         width:31%;
         height:50px;
-        background-color: #330000;
-        color: #FFCC00;
+        background-color: #1E232A;
+        color: white;
         font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
         font-weight:bold;
 }
@@ -64,14 +95,14 @@
 .tabButton:hover{
         width:31%;
         height:50px;
-        background-color: #330000;
-        color: #FFCC00;
+        background-color: #3B4655;
+        color: white;
         font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
         font-weight:bold;
 }
 
 .groupButton{
-	width:100%;
+	width:80%;
         height:75px;
         background-color: #AAAAAA;
         color: #111111;
@@ -79,7 +110,24 @@
         font-weight:bold;
 }
 .groupButton:hover{
-	width:100%;
+	width:80%;
+        height:75px;
+        background-color: #AAAAAA;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+
+.leaveButton{
+        width:18%;
+        height:75px;
+        background-color: #AAAAAA;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+.leaveButton:hover{
+        width:18%;
         height:75px;
         background-color: #AAAAAA;
         color: #111111;
@@ -88,26 +136,24 @@
 }
 
 
-
 .center{
 	width:50vw;
 	min-width:500px;
 	height:700px;
 	float:left;
-	background-color: #BCCCF7;
+	background-color: #1A2726;
 }
 
 .realcenter{
 	width: 50vw;
-        min-width:250px;
-        height:700px;
-        float:left;
-        background-color: #B9E5B5;
+    min-width:250px;
+    height:700px;
+    float:left;
+    background-color: #1A2726;
 }
 
 .right{
-	width: 10vw;
-	min-width:250px;
+	min-width:130px;
 	height:700px;
 	float:left;
 	background-color: #B9E5B5;
@@ -119,7 +165,6 @@
 	box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #F5F5F5;
 }
-
 #style-5::-webkit-scrollbar
 {
 	width: 10px;
@@ -135,13 +180,13 @@
 					   color-stop(.5, transparent), to(transparent));
 }
 
-.groupContainer
+#groupContainer
 {
-	height: 95%;
+	height: 50%;
 	width:90%;
 	margin:auto;
-	margin-bottom: 20px;
-	
+	margin-bottom: 10px;
+	margin-top:10px;	
 }
 
 a:link, a:visited, a:hover, a:active{
@@ -150,14 +195,18 @@ a:link, a:visited, a:hover, a:active{
 }
 
 .post{
-	background-color:lightblue;
-	border-radius: 25px;
-	border: 2px solid #FF0E12;
-	padding: 20px; 
-	width: 90%;
-	height: 100px; 
+	/*background-color:lightblue;
+	border-radius: 25px;*/
+	border: 2px solid #1E2939;
+	padding: 10px; 
+	width: 95%;
+	height: 80px; 
 	margin:auto;
-	margin-bottom:10px;
+	margin-bottom:5px;
+	margin-top:5px;
+	margin-left:5px;
+	margin-right:5px;
+	background-color: #AAC4C7;
 }
 
 .groupList{
@@ -185,13 +234,12 @@ a:link, a:visited, a:hover, a:active{
 .userNameChat{
 	font-weight:bolder;
 	font-size:16px;
-	height:64px;
-	width:90%;
+	height:10px;
+	width:50%;
 	display:block;
-	vertical-align:middle;
-	line-height:64px;
-	padding-left:15px;
+	padding-left:5px;
 	float:left;
+	color: black;
 }
 
 .messageChat{
@@ -199,16 +247,19 @@ a:link, a:visited, a:hover, a:active{
 	width:90%;
 	display: block;
 	margin-left:80px;
-	font-size:24px;
+	font-size:16px;
+	color: black;
+
 }
 
 .inputMessage{
+	margin-top:25px;
 	background-color:white;
 	word-wrap:break-word;
 	height:200px;
 	width:90%;
 	float:left;
-	margin-left:50px;
+	margin-left:25px;	
 }
 
 #btnSend{
@@ -238,4 +289,82 @@ a:link, a:visited, a:hover, a:active{
 	margin-left: 30px;
 }
 
+div.tab {
+    overflow: hidden;
+    border: 1px solid #000;
+    background-color: #727272;
+    margin-top: 5px;
+}
 
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: #ffffff;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #777777;
+    color: #ffffff;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #595959;
+    color: #ffffff;
+}
+
+/* Style the tab content */
+.tabcontent {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.members{
+	background-color:#406148;
+	height:80vh;
+	height:700px;
+	width:250px;
+	float:right;	
+}
+.memberText{
+	font-size:30px;	
+	text-align:center;
+	font-weight:bold;
+	padding-top:20px;
+	font-family:Avenir;
+	color: white;
+}
+.memberCount{
+	font-size:15px;	
+	text-align:left;
+	padding-left:30px;
+	padding-top:20px;
+	font-family:Helvetica Neue;
+	color: white;
+}
+
+.memberList{
+	font-size: 15px;
+	text-align:left;
+	padding-left: 30px;	
+	font-family: Georgia;
+	color: white;
+}
+.calendarSpace{
+	margin:auto;	
+	scrolling:no;
+}
+
+.btn{
+ background-color: #3B4655;
+ color:white;
+ width:100px; 
+}

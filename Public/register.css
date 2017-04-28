@@ -1,28 +1,62 @@
 /* CSS For the landing page
 **	author: Nick Faccenda
 */
-
+ @font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+ 
 .header{
-    font-size:50px;
-    width:100vw;
+    font-family: Helvetice Neue;
+    font-size: 150px;
+    color:white;
+    text-align: center;
+    padding-top:50px;
+    padding-bottom:50px;	
+    background-color: rgba(045, 050, 058, .8);
+}
+
+.popup{
+    color:red;
+    font-size:18px;
     text-align:center;
-    font-weight: bold;
+}
+
+body{
+    background-color: #151818;	
+    height:100vh;
+    width:100vw;
+    background-image:url("backgroundPattern.jpg");
+}
+
+.container{
+    width: 50vw;
+    height: 900px;
+    margin: auto;
+    background-color: #1A1D1B;
+}
+
+.textBoxField{
+    width:400px;
+    margin:auto;	
 }
 
 .infoText{
+    font-size:50px;
+    width:100%;
+    height:150px;
+    line-height:150px;
+    margin:auto;
     margin-top:100px;
-    font-size:36px;
-    width:100vw;
     text-align:center;
-    font-weight: bold;		
     margin-bottom:20px;
+    font-family: avenir;	
+    color:white;
+    background: #344F4E; 
 }
 
 .inputBox{
     width:400px;
     height:45px;
-    display:block;
     margin:auto;
+    margin-top:50px;
     font-family: "avenir", lucida grande, tahoma, verdana, sans-serif;
     padding-left:10px;
     font-size: 16px;
@@ -37,7 +71,7 @@
 }
 
 .homebuttons{
-    background-color: gray;
+    background-color: #283535;
     border: none;
     border-radius: 5px;
     color: white;
@@ -47,8 +81,8 @@
     text-decoration: none;
     display: block;
     margin:auto;
-    margin-top: 10px;
-    font-family: "avenir", lucida grande, tahoma, verdana, sans-serif;
+    margin-top: 20px;
+    font-family: Helvetica Neue;
     font-size: 16px;
     transition-property: all;
     transition-duration: .6s;
@@ -56,8 +90,7 @@
 }
 
 .homebuttons:hover{
-    background-color: darkgray;
-    border: none;
+    background-color: #344F4E;
     border-radius: 5px;
     color: white;
     height:50px;
@@ -67,31 +100,14 @@
     display: block;
     margin:auto;
     margin-top: 10px;
-    font-family: "avenir", lucida grande, tahoma, verdana, sans-serif;
+    font-family: Helvetica Neue;
     font-size: 17px;
-	
     transition-property: all;
     transition-duration: .6s;
     transition-timing-function: ease;
 }
 
-.formContainer{
-    margin: 0 auto;
-    text-align: center;
-}
-
-.message{
-    padding-top:5px;
-    padding-bottom: 5px;
-    margin: 0 auto;
-    text-align: center;
-}
-
 .statusmsg{
     margin-top:100px;
     text-align:center;
-}
-
-body{
-	background-color: orange;	
 }

@@ -7,68 +7,31 @@ if(!checkSession()){
         exit;
 }
 
-$_SESSION['projectTime'] = time();
 
 
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
-if (isset($_SESSION['userID'])) {
-    echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
-} else {
-    echo "<p> How did you get here? -LevelLord </p>\n";
-}
 
 $dbh = ConnectDB();
 
 //Check to see that the groupName was posted from the previous page.
-if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
-    
-    //echo "<p>Adding" . $_POST['groupName'] . "to DB\n";
+if (isset($_POST['groupName']) && !empty($_POST['groupName']) && isset($_POST['groupSubject']) && !empty($_POST['groupSubject'])) {
     
     try {
-	$query = 'INSERT INTO groups' .
-                 '(group_name,group_subject,group_description,creator_ID) ' 
-		. 'VALUES (:groupName, :groupSubject, :description, :creatorID)';
-        $stmt  = $dbh->prepare($query);
-        
-	$groupName = $_POST['groupName'];
-	$groupName = strip_tags($groupName);
-        //echo $groupName;
-        $groupSubject = $_POST['groupSubject'];
-        $description  = $_POST['description'];
-        $description  = strip_tags($description);
-        $description  = htmlspecialchars($description, ENT_QUOTES);
-        //echo $description;
-	
-        echo "<p> " . $groupName . ", " . $groupSubject . ", " . $description . "</p>\n";
-        $creatorID = $_SESSION['userID'];
-        echo "<p> " . $creatorID . "</p>\n";
-    
-        $stmt->bindParam(':groupName', $groupName);
-        $stmt->bindParam(':groupSubject', $groupSubject);
-        $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':creatorID', $creatorID);
+    	$groupName = $_POST['groupName'];
+        $subject = $_POST['groupSubject'];
+
+        $query = "select group_ID, group_name,group_subject,group_numUsers,group_description from groups where group_name = :GroupName and group_subject = :Subject";
+        $dbh = ConnectDB();
+        $stmt = $dbh-> prepare($query);
+        $stmt->bindParam(':GroupName', $groupName);
+        $stmt->bindParam(':Subject', $subject);
         $stmt->execute();
-        $inserted = $stmt->rowCount();
-        
-        $stmt         = null;
-        $groupCreated = false;
-        
-        if ($inserted == 0) {
-	    exit;
-        } else {
-            $groupCreated = true;
-            if (addBelongs($groupName, $creatorID)) {
-	        if(uploadGroupImage($groupName)){
-                    redirectSuccess(true);
-		}
-		else{
-                    redirectSuccess(false);
-		}
-            }
-            
-        }
-        
+
+        $result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $groupData = json_encode($result_array);
+        $stmt = null;
+           
     }
     
     catch (PDOException $e) {
@@ -78,7 +41,7 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 }
 
 else {
-    echo "<p> No Insert </p>\n";
+    echo "<p> 404 : Something went wrong </p>\n";
 }
 
 function addBelongs($groupName, $studentID)
@@ -144,9 +107,8 @@ function uploadGroupImage($groupName)
         }
         
         
-	$targetname = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/"
-                     . $groupName . "/" . $_FILES["groupImage"]["name"];
-
+	$targetname = "./UPLOADED/archive/" . $groupName . 
+		    "/" . $_FILES["groupImage"]["name"];
 	$fileName = $_FILES["groupImage"]["name"];
 
         if (file_exists($targetname)) {
@@ -156,15 +118,15 @@ function uploadGroupImage($groupName)
 	    $extension = pathinfo($name, PATHINFO_EXTENSION);
 		
 	    $numFound = 1;
-	    while(file_exists("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" 
-                  . $groupName . "/" . $actual_name . "." . $extension)) 
+	    while(file_exists("./UPLOADED/archive/" . $groupName .
+		    "/" . $actual_name . "." . $extension)) 
 		{
 		    $actual_name = (string)$original_name.$numFound;
 		    $name = $actual_name . "." .$extension;
 		    $numFound++;
 		}
-	    $targetname = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" 
-                . $groupName . "/" . $name;
+	    $targetname = "./UPLOADED/archive/" . $groupName .
+		    "/" . $name;
 	    $fileName = $name;
 	   
 
@@ -180,7 +142,6 @@ function uploadGroupImage($groupName)
             die("Error copying " . $_FILES["groupImage"]["name"]);
 		}
 
-        $targetname = "/~jefferys0/web/WebSemesterProject/UPLOADED/archive/" . $groupName . "/" . $fileName;
         if(setImageDir($targetname, $fileName, $groupName)){
 		 return true;
 		}
@@ -251,3 +212,40 @@ function redirectSuccess($imageSucceed) {
 }
 
 ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>Join a Group</title>
+  <meta http-equiv="Content-Type"
+        content="application/xhtml+xml; charset=UTF-8" />
+  <meta name="Author" content="Jacob Kershaw" />
+
+  <link rel="stylesheet" href="tagline.css" />
+  <script type="text/javascript" src="./AjaxFunctions.js"></script>
+   <script type="text/javascript"
+          src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
+  <script type="text/javascript" src="./checkGroupForm.js"></script>
+<link href="thread.css" rel="stylesheet" type="text/css" media="screen">	
+</head>
+
+<body onload="showGroups()">
+<h1> Join a Group </h1>
+
+<div class="tabcontent" id="groupList">
+
+	<div class = "post">
+                    <div class = "userContainer">
+                        <div class="userImageChat">
+                        </div>
+                        <div class="userNameChat">Username Here</div>
+                  </div><br>
+
+                    <div class = "messageChat">
+                        something something tutor me
+                    </div>
+                </div>
+
+</div>
+
+</body>
+</html>
