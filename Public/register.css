@@ -75,6 +75,23 @@
     transition-timing-function: ease;
 }
 
+.formContainer{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.message{
+    padding-top:5px;
+    padding-bottom: 5px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.statusmsg{
+    margin-top:100px;
+    text-align:center;
+}
+
 body{
-    background-color: orange;	
+	background-color: orange;	
 }

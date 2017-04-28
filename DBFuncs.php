@@ -255,7 +255,8 @@ function checkUsername()
                 echo "0";
         }
 	else{
-		$user_query = "SELECT change_password FROM students WHERE change_password = 1 and username = :userName";
+		$user_query = "SELECT change_password FROM students WHERE 
+                change_password = 1 and username = :userName";
 		$stmt = $dbh-> prepare($user_query);
 		$stmt->bindParam(':userName', $username);
         	$stmt->execute();
@@ -377,43 +378,66 @@ function getImageByDir($dbh, $dir)
 }
 function checkUserRegistration()
 {
-        $dbh = ConnectDB();
-	$username = $_POST['argument'][0];
-	$email = $_POST['argument'][1];
-	$password = $_POST['argument'][2];
+    $dbh = ConnectDB();
+    $username = $_POST['argument'][0];
+    $email = $_POST['argument'][1];
+    $password = $_POST['argument'][2];
 
-        $name_query = "SELECT username FROM students WHERE username = :userName";
-        $stmt = $dbh-> prepare($name_query);
-        $stmt->bindParam(':userName', $username);
-	$stmt->execute();
+    $name_query = "SELECT username FROM students WHERE username = :userName";
+    $stmt = $dbh-> prepare($name_query);
+    $stmt->bindParam(':userName', $username);
+    $stmt->execute();
 
-        if ($stmt -> rowCount() == 0) {
-                $email_query = "SELECT email FROM students WHERE email = :email";
-                $stmt = $dbh-> prepare($email_query);
-                $stmt->bindParam(':email', $email);
-                $stmt->execute();
-		if ($stmt -> rowCount() == 0) {
-			$reg_query = "INSERT INTO students (username, password, email) VALUES(:userName, :password, :email)";
-			$stmt = $dbh-> prepare($reg_query);
-			$stmt->bindParam(':userName', $username);
-			$stmt->bindParam(':password', $password);
-                	$stmt->bindParam(':email', $email);
-			$stmt->execute();
-			//Registration was successful.
-                        echo "2";
-                }
-                else
-		{
-			//If the email already exists;.
-                        echo "1";
-                }
+    if ($stmt -> rowCount() == 0) {
+        $email_query = "SELECT email FROM students WHERE email = :email";      
+        $stmt = $dbh-> prepare($email_query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+	if ($stmt -> rowCount() == 0) {
+            $hash = md5( rand(0,1000) );
+	    $reg_query = "INSERT INTO students (username, password, email, hash_link) VALUES(:userName, :password, :email, :hash)";
+	    $stmt = $dbh-> prepare($reg_query);
+	    $stmt->bindParam(':userName', $username);
+	    $stmt->bindParam(':password', md5($password));
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':hash', $hash);
+	    $stmt->execute();
+
+            //send verification email
+            $to      = $email;
+            $subject = 'Signup | Verification';
+            $message = '
  
-	}
-	else{
-		//If the username already exists.
-		echo "0";
-	}
-        exit();
+            Thanks for signing up!
+            Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
+ 
+            Please click this link to activate your account:
+            http://elvis.rowan.edu/~hudson37/web/WebSemesterProject/verify.php?email='.$email.'&hash='.$hash.'
+ 
+            '; // Our message above including the link
+                     
+            $headers = 'From:noreply@yourwebsite.com' . "\r\n"; // Set from headers
+            mail($to, $subject, $message, $headers); // Send our email
+
+            mkdir("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
+            chmod("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
+	    
+            //Registration was successful.
+            echo "2";
+        }
+
+        else {
+	    //If the email already exists;.
+            echo "1";
+        }
+    }
+
+    else{
+    	//If the username already exists.
+	echo "0";
+    }
+    exit();
 }
 
 function checkUsernameReg()
@@ -436,9 +460,9 @@ function checkEmailReg()
 {
         $dbh = ConnectDB();
         $email = $_POST['argument'][0];
-        $name_query = "SELECT email FROM students WHERE email = :Email";
+        $name_query = "SELECT email FROM students WHERE email = :email";
         $stmt = $dbh-> prepare($name_query);
-        $stmt->bindParam('Email', $email);
+        $stmt->bindParam(':email', $email);
         $stmt->execute();
         if ($stmt -> rowCount() == 0) {
                 echo "1";
@@ -447,7 +471,6 @@ function checkEmailReg()
                 echo "0";
         }
 }
-
 
 session_start();
 switch($_POST['functionName']) {
@@ -463,6 +486,12 @@ switch($_POST['functionName']) {
 	case 'checkUserRegistration':
 		checkUserRegistration();
 		break;
+	case 'checkUsernameReg':
+		checkUsernameReg();
+		break;
+        case 'checkEmailReg':
+                checkEmailReg();
+                break;
 }
 
 ?>
