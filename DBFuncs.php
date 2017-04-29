@@ -163,7 +163,6 @@ function getUserImage($dbh, $userID)
 
 }
 
-//TODO TEST
 function joinGroup($dbh, $userID, $groupID) {
     try{
         $query = "UPDATE groups 
@@ -189,7 +188,6 @@ function joinGroup($dbh, $userID, $groupID) {
 }
 
 //UserID Leaves GroupID
-//TODO TEST
 function leaveGroup($dbh, $userID, $groupID){
     try{
         $query = "UPDATE groups 
