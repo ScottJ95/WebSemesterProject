@@ -93,26 +93,26 @@ $dbh = ConnectDB();
     </form>
 
 <?php
-	require_once('DBFuncs.php');
-	if(isset($_POST['groupName'])&&$_POST['groupName']!=""){
-	    $groupData = joinTheGroup($_POST['groupName'],$_POST['groupSubject']); 
+    require_once('DBFuncs.php');
+    if(isset($_POST['groupName'])&&$_POST['groupName']!=""){
+        $groupData = joinTheGroup($_POST['groupName'],$_POST['groupSubject']); 
 
-		if($groupData == 0){
-			echo "<p>Unable to find the group: " . $_POST['groupName'] . "</p>";
-		}
-	    	else if($groupData == 3){
-			echo "<p>Aready in Group: " . $_POST['groupName'] . "</p>";
-		}
-		else{
-			echo "<p>Joined</p>";
+	    if($groupData == 0){
+		echo "<p>Unable to find the group: " . $_POST['groupName'] . "</p>";
+	    }
+	    else if($groupData == 3){
+		echo "<p>Aready in Group: " . $_POST['groupName'] . "</p>";
+	    }
+	    else{
+		echo "<p>Joined</p>";
 			
-		}
+	    }
 	
-	}
-	else
-	{
-		echo "<p>Please enter a Group name</p>";
-	}
+    }
+    else
+    {
+        echo "<p>Please enter a Group name</p>";
+    }
 ?>
 
 
