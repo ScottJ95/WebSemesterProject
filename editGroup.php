@@ -167,10 +167,17 @@ else{
 		</td>
 
 	</tr>
+    <tr>
+        <td>
+        </td>
+        <td> <button onclick="deleteGroupCheck()";>Delete Group </button>
 
     </table>
     </fieldset>
 	</form>
+
+ 
+
 </body>
 
 </html>

@@ -26,13 +26,17 @@ function checkName(edit){
            success: function (response) {
                //Call was successful, so do this function
                //First, set the name_status html to the response.
+            console.log(response);
             $( '#name_status').html(response);
+            console.log(response == "\nGroup Name Already Exists");
             //Check the response so we can return the check
-            if(response == "OK") {
+            if(response === '\nGroup Name Already Exists') {
+                console.log("???");
                 return true;
             }
 
             else {
+                console.log("False");
                 return false;
             }
         }
@@ -138,12 +142,35 @@ function findGroups()
 	}
 }
 
-function showGroups()
-{
-	
-}
 
 function descriptionCount() {
     var descriptionText = $("#description").val();
     $("#description_charCount").html(250 - descriptionText.length);
+}
+
+function deleteGroupCheck(){
+    if(confirm("Are you SURE you want to delete? THIS CANNOT BE UNDONE!!!")){
+        $.ajax({
+           type: 'post',
+               url:  'DBFuncs.php',
+           data: {
+               functionName:'deleteGroup',
+           },
+
+           success: function (response) {
+            console.log(response);
+            if(response == 0) {
+                alert("Group has been deleted");
+                window.history.back();
+            }
+
+            else {
+                alert(response);
+                return false;
+            }
+        }
+        });
+    }
+    else{
+    }
 }

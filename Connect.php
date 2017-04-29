@@ -27,4 +27,3 @@ function ConnectDB() {
     return $dbh;
 }
 ?>
-

@@ -65,6 +65,8 @@ try {
         updateGroupDir($oldDir,$newDirQ,$newDirAbs,$groupID);
         $updateDir = $newDirAbs;
     }
+    $_SESSION['groupIDEdit'] = NULL;
+    $_SESSION['groupNameEdit'] = NULL;
     updateImage($updateDir,$groupID, $currGroupName);
     header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/editGroup.php?groupID=' . $groupID);
     exit;

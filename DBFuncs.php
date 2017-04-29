@@ -624,44 +624,45 @@ function checkUserRegistration()
 
 function checkUsernameReg()
 {
-        $dbh = ConnectDB();
-        $username = $_POST['argument'][0];
-        $name_query = "SELECT username FROM students WHERE username = :userName";
-        $stmt = $dbh-> prepare($name_query);
-        $stmt->bindParam(':userName', $username);
-        $stmt->execute();
-	if ($stmt -> rowCount() == 0) {
-		echo "1";
-	}
-	else {
-		echo "0";
-	}
+    $dbh = ConnectDB();
+    $username = $_POST['argument'][0];
+    $name_query = "SELECT username FROM students WHERE username = :userName";
+    $stmt = $dbh-> prepare($name_query);
+    $stmt->bindParam(':userName', $username);
+    $stmt->execute();
+    if ($stmt -> rowCount() == 0) {
+	echo "1";
+    }
+    else {
+	echo "0";
+    }
 }
 
 function checkEmailReg()
 {
-        $dbh = ConnectDB();
-        $email = $_POST['argument'][0];
-        $name_query = "SELECT email FROM students WHERE email = :email";
-        $stmt = $dbh-> prepare($name_query);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        if ($stmt -> rowCount() == 0) {
-                echo "1";
-        }
-        else {
-                echo "0";
-        }
+    $dbh = ConnectDB();
+    $email = $_POST['argument'][0];
+    $name_query = "SELECT email FROM students WHERE email = :email";
+    $stmt = $dbh-> prepare($name_query);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    if ($stmt -> rowCount() == 0) {
+        echo "1";
+    }
+    else {
+        echo "0";
+    }
 }
 
 function joinGroups()
 {
-     if(checkSession())
-     {
+    if(checkSession()) {
 	$groupName = $_POST['argument'][0];
 	$subject = $_POST['argument'][1];
 
-	$query = "select group_ID, group_name,group_subject,group_numUsers,group_description from groups where group_name = :GroupName and group_subject = :Subject";
+	$query = "SELECT group_ID, group_name,group_subject,group_numUsers,group_description 
+                FROM groups 
+                WHERE group_name = :GroupName AND group_subject = :Subject";
 	$dbh = ConnectDB();
         $stmt = $dbh-> prepare($query);
 	$stmt->bindParam(':GroupName', $groupName);
@@ -681,10 +682,10 @@ function joinGroups()
 
 function joinTheGroup($groupName, $subject){
 
-	if(checkSession())
-        {
-	$subject = str_replace(' ','',$subject);
-	$query = "select group_ID, group_name,group_subject,group_numUsers,group_description from groups where group_name = :GroupName and group_subject = :Subject";
+    if(checkSession()){
+        $subject = str_replace(' ','',$subject);
+	$query = "SELECT group_ID, group_name,group_subject,group_numUsers,group_description 
+                FROM groups WHERE group_name = :GroupName AND group_subject = :Subject";
         $dbh = ConnectDB();
         $stmt = $dbh-> prepare($query);
         $stmt->bindParam(':GroupName', $groupName);
@@ -700,7 +701,6 @@ function joinTheGroup($groupName, $subject){
 	   $groupID = $result_array[0] -> group_ID;
 	   $studentID = $_SESSION['userID'];
 	   
-	   
 	   $query = "select * from belongs where student_ID = :StudentID and group_ID = :GroupID";
            $dbh = ConnectDB();
            $stmt = $dbh-> prepare($query);
@@ -711,7 +711,6 @@ function joinTheGroup($groupName, $subject){
 	   if ($stmt -> rowCount() != 0) {
             return 3;
            }
-	   
 	   
 	   $query = "insert into belongs (student_ID,group_ID) values (:StudentID,:GroupID)";
 	   $dbh = ConnectDB();
@@ -729,11 +728,11 @@ function joinTheGroup($groupName, $subject){
 
 	   return 1;
 	}
-	}
-	else
-	{
-		return  2;
-	}
+    }
+    else
+    {
+	return  2;	
+    }
 }
 
 
@@ -741,36 +740,80 @@ function joinTheGroup($groupName, $subject){
 function getGroups()
 {
 
-	if(checkSession())
-	{
+    if(checkSession())
+    {
 
-	$case = $_POST['argument'][0];//0-all, 1-in, 2-created
-	switch($case){
-	case 0:
-		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username";
-		break;
-	case 1:
-		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID from groups t1 inner join belongs t2 on t1.group_ID = t2.group_ID inner join students t3 on t2.student_ID = t3.student_ID where t3.username = :Username and t3.student_ID != t1.creator_ID";
-		break;
-	case 2:
-		$query = "select group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID from groups t1 inner join students t2 on t1.creator_ID = t2.student_ID where t2.username = :Username";
-                break;
-	}
+    $case = $_POST['argument'][0];//0-all, 1-in, 2-created
+    switch($case){
+    case 0:
+	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
+                FROM groups t1 
+                INNER JOIN belongs t2 ON t1.group_ID = t2.group_ID 
+                INNER JOIN students t3 ON t2.student_ID = t3.student_ID 
+                WHERE t3.username = :Username";
+	break;
+    case 1:
+	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
+                FROM groups t1 
+                INNER JOIN belongs t2 ON t1.group_ID = t2.group_ID 
+                INNER JOIN students t3 ON t2.student_ID = t3.student_ID 
+                WHERE t3.username = :Username AND t3.student_ID != t1.creator_ID";
+	break;
+    case 2:
+	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
+                FROM groups t1 
+                INNER JOIN students t2 ON t1.creator_ID = t2.student_ID 
+                WHERE t2.username = :Username";
+            break;
+    }
 
 
-	$dbh = ConnectDB();	
-	$username = $_SESSION['username'];
-	$stmt = $dbh-> prepare($query);
-	$stmt->bindParam(':Username', $username);
-	$stmt->execute();
+    $dbh = ConnectDB();	
+    $username = $_SESSION['username'];
+    $stmt = $dbh-> prepare($query);
+    $stmt->bindParam(':Username', $username);
+    $stmt->execute();
 
-	$result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
-	$groupData = json_encode($result_array);
-	$stmt = null;
-	echo $groupData;
-	}
-	else
-		echo 0;
+    $result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
+    $groupData = json_encode($result_array);
+    $stmt = null;
+    echo $groupData;
+    }
+    else
+	echo 0;
+}
+
+function deleteGroup(){
+   if(isset($_SESSION['groupIDEdit']) && !empty($_SESSION['groupIDEdit'])){
+    try{
+        $query = "DELETE FROM groups WHERE group_ID = :groupID";
+        $groupID = $_SESSION['groupIDEdit'];
+        $_SESSION['groupIDEdit'] = NULL;
+        $_SESSION['groupNameEdit'] = NULL;
+        
+        $dbh = ConnectDB();
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $deleted = $stmt->rowCount();
+        if($deleted == 0){
+        echo "Deleted 0";
+        exit();
+        }
+
+        echo 0;
+        exit();
+        }
+
+    catch(PDOException $e){
+        die("Wtf??") . $e->getMessage();
+    }
+}
+    else{
+        print "Error";
+        exit();
+    }
+
 }
 
 function getSessionVar(){
@@ -813,6 +856,9 @@ switch($_POST['functionName']) {
 	case 'joinGroups':
 		joinGroups();
 		break;
+        case 'deleteGroup':
+                deleteGroup();
+                break;
 }
 
 ?>
