@@ -16,6 +16,10 @@ function checkName(edit){
         //success or failure callbacks
         //This is equivalent to jquery.post(), but this made more sense to me.
         //https://api.jquery.com/jquery.post/
+        if(groupName.toLowerCase() == "users"){
+            $('#name_status').html("You cannot name your group that!");
+            return true;
+        }
         $.ajax({ 
            type: 'post',
                url:  'checkGroup.php',
@@ -28,9 +32,9 @@ function checkName(edit){
                //First, set the name_status html to the response.
             console.log(response);
             $( '#name_status').html(response);
-            console.log(response == "\nGroup Name Already Exists");
+            console.log(response == "Group Name Already Exists");
             //Check the response so we can return the check
-            if(response === '\nGroup Name Already Exists') {
+            if(response === 'Group Name Already Exists') {
                 console.log("???");
                 return true;
             }
