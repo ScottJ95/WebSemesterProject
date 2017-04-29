@@ -164,7 +164,7 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
       <tr>
         <th>Profile Photo:
         </th>
-        <td> <input type = "file" name="groupImage" accept = "image/jpg, image/jpeg, image/bmp, image/png"/>
+        <td> <input type = "file" name="profileImage" accept = "image/jpg, image/jpeg, image/bmp, image/png"/>
         </td>
     </tr>
 

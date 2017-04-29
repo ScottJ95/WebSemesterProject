@@ -1,11 +1,14 @@
-function checkProfile() {
-   
+var userNameCheck = null;
+
+function checkProfile() { 
     var password = document.getElementById("passwordBox").value;
     var confirmPassword = document.getElementById("confirmPasswordBox").value; 
-    console.log(confirmPassword);
     document.getElementById("passMessage").innerHTML = "";
     document.getElementById("passconfMessage").innerHTML = "";
-    if(checkUsername() && checkEmail()){ 
+    console.log("Here");
+    console.log(userNameCheck);
+    if(userNameCheck === emailCheck ){
+        console.log("Pass"); 
         if(password != confirmPassword)
         {
     	    document.getElementById("passconfMessage").innerHTML = "Passwords do not match";
@@ -17,6 +20,7 @@ function checkProfile() {
         }
     }
     else{
+        console.log("What?");
         return false;
     }
 }
@@ -32,23 +36,31 @@ function checkUsername()
 	    success: function (response){
  	        if(response == 0) {
 	    	    document.getElementById("userMessage").innerHTML="Username is already in use";
+                    console.log("??");
+                    userNameCheck = false;
                     return false;
 	        }
                 else {
 	    	    document.getElementById("userMessage").innerHTML="Username is avaliable";
+                    console.log("Username True");
+                    userNameCheck = true;
                     return true;
+                    
 	        }
 	    }
 	});
     }
     else{
+        userNameCheck = true;
         return true;
     }
 }
 
 function checkEmail()
 {
+    console.log("email");
     var email = document.getElementById("emailBox").value;
+    console.log(email);
     var googleEmail = /@gmail.com/;
     var rowanEmail = /@students.rowan.edu/;
     if(email != "") {
@@ -75,6 +87,7 @@ function checkEmail()
         }
     }
     else{
+        console.log("Email Pass");
         return true;
     }
 }
