@@ -37,6 +37,7 @@ if($userData == NULL || $userData[0]->student_ID != $queryID){
     exit;
 }
 
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -70,6 +71,10 @@ $enableEdit = true;
 
 if($userID != $queryID){
   $enableEdit = false;
+}
+
+else if($userID ==1){
+    $enableEdit = true;
 }
 
 $userData = getUserByID($dbh,$queryID);

@@ -9,17 +9,12 @@ require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 //Checks to see if there is a currently active session
 function checkSession(){
     if(isset($_SESSION['userID'])){
-            //$userData = getUserByID($dbh, $_SESSION['userID']);
-            //echo $userData[0]->student_ID;
-            //foreach($userData as $user){
-            //echo "<p> Hi User Num " . $user->student_ID . ", "
-            //. $user->username . "</p>";
-            //	}
-	    //echo "<p> Hi User Num " . $_SESSION['userID'] . "</p> \n";
 	    return true;
 	}
-    else{
-	    return false;
+    else
+        {
+	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/'); 
+           return false;
 	}	
 
 }
