@@ -177,22 +177,39 @@ function setImageDir($targetname, $fileName,$groupID){
         $dbh = ConnectDB();
         $imageData = getGroupImage($dbh,$groupID);
         $imageID = $imageData[0]->image_ID;
-        echo "<p> Image ID " . $imageID . "</p>";
-        $image_query = "UPDATE  images 
-                        SET image_name = :fileName, image_location = :targetname 
-                        WHERE image_ID = :imageID";
-        $stmt        = $dbh->prepare($image_query);
-        $stmt->bindParam(':fileName', $fileName);
-        $stmt->bindParam(':targetname', $targetname);
-        $stmt->bindParam(':imageID', $imageID);
-        $stmt->execute();
+        if($imageID != NULL) {
+            echo "<p> Image ID " . $imageID . "</p>";
+            $image_query = "UPDATE  images 
+                            SET image_name = :fileName, image_location = :targetname 
+                            WHERE image_ID = :imageID";
+            $stmt        = $dbh->prepare($image_query);
+            $stmt->bindParam(':fileName', $fileName);
+            $stmt->bindParam(':targetname', $targetname);
+            $stmt->bindParam(':imageID', $imageID);
+            $stmt->execute();
 
-        if ($stmt->rowCount() == 0) {
-            die("Error in Image Query");
-            return false;
+            if ($stmt->rowCount() == 0) {
+                die("Error in Image Query");
+                return false;
+             }
+
         }
-    
-        $stmt = null;
+
+        else{
+            echo "<p> Image ID " . $imageID . "</p>";
+            $image_query = " INSERT INTO images (image_name, image_location)
+                            VALUES(:fileName, :targetName)"; 
+            $stmt        = $dbh->prepare($image_query);
+            $stmt->bindParam(':fileName', $fileName);
+            $stmt->bindParam(':targetName', $targetname);
+            $stmt->execute();
+
+            if ($stmt->rowCount() == 0) {
+                die("Error in Image Query");
+                return false;
+             }
+
+        }
 
         $dbh       = ConnectDB();
         $imageData = getImageByDir($dbh, $targetname);

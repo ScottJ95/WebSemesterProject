@@ -545,21 +545,21 @@ function getImageByDir($dbh, $dir)
 {
 
 	try{
-                $image_query = "SELECT image_ID FROM images where image_location = :dir";
-                $stmt = $dbh-> prepare($image_query);
+            $image_query = "SELECT image_ID FROM images where image_location = :dir";
+            $stmt = $dbh-> prepare($image_query);
 
-                $stmt->bindParam(':dir', $dir);
-                $stmt->execute();
-                $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
-                $stmt = null;
+            $stmt->bindParam(':dir', $dir);
+            $stmt->execute();
+            $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $stmt = null;
 
-                return $imageData;
+            return $imageData;
 
         }
 
         catch(PDOException $e)
         {
-                die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+            die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
         }
 
 }
@@ -583,7 +583,8 @@ function checkUserRegistration()
 
 	if ($stmt -> rowCount() == 0) {
             $hash = md5( rand(0,1000) );
-	    $reg_query = "INSERT INTO students (username, password, email, hash_link) VALUES(:userName, :password, :email, :hash)";
+	    $reg_query = "INSERT INTO students (username, password, email, hash_link) 
+                          VALUES(:userName, :password, :email, :hash)";
 	    $stmt = $dbh-> prepare($reg_query);
 	    $stmt->bindParam(':userName', $username);
 	    $stmt->bindParam(':password', md5($password));

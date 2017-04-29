@@ -116,6 +116,15 @@ function uploadGroupImage($groupName)
 
     if ($_FILES['groupImage']['error'] == 0) {
         
+        if (file_exists("./UPLOADED/archive/" . $groupName)) {
+        }
+
+        else {
+            // bug in mkdir() requires you to chmod()
+            mkdir("./UPLOADED/archive/" . $groupName, 0777);
+            chmod("./UPLOADED/archive/" . $groupName, 0777);
+        }
+
         //Checking File Type
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
@@ -126,15 +135,6 @@ function uploadGroupImage($groupName)
             die("Not a bmp/jpeg/png");
         }
         
-        //Make the dir
-        if (file_exists("./UPLOADED/archive/" . $groupName)) {
-        }
-        
-        else {
-            // bug in mkdir() requires you to chmod()
-            mkdir("./UPLOADED/archive/" . $groupName, 0777);
-            chmod("./UPLOADED/archive/" . $groupName, 0777);
-        }
         
         echo "<h2>Copying File And Setting Permission</h2>";
         
@@ -191,6 +191,16 @@ function uploadGroupImage($groupName)
     }
     
     else {
+        //Still make the dir
+        if (file_exists("./UPLOADED/archive/" . $groupName)) {
+        }
+
+        else {
+            // bug in mkdir() requires you to chmod()
+            mkdir("./UPLOADED/archive/" . $groupName, 0777);
+            chmod("./UPLOADED/archive/" . $groupName, 0777);
+        }
+
         return false;
     }
 }
