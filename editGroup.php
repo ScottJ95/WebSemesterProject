@@ -34,7 +34,11 @@ if($groupData == NULL){
         exit;
 }
 
-if(!checkCreator($dbh, $_SESSION['userID'], $_GET['groupID'])){
+if($_SESSION['userID'] == 1){
+        echo 'Welcome Admin';
+}
+
+else if(!checkCreator($dbh, $_SESSION['userID'], $_GET['groupID'])){
 	echo '<script type="text/javascript">';
         echo 'alert("You are not the creator of this group");';
         echo 'window.location.href = "http://elvis.rowan.edu/~jefferys0/";';
