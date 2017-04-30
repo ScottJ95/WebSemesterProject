@@ -13,7 +13,7 @@
     background-color: rgba(045, 050, 058, .8);
 }
 
-.popup{
+.message{
     color:red;
     font-size:18px;
     text-align:center;
@@ -107,7 +107,3 @@ body{
     transition-timing-function: ease;
 }
 
-.statusmsg{
-    margin-top:100px;
-    text-align:center;
-}

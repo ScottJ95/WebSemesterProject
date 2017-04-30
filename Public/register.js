@@ -35,10 +35,13 @@ function register() {
             data: { functionName:'checkUserRegistration',argument:[username,email,password] },
                 
             success: function (response) {
-	        if(response == 0) {
+                if(response == 0) {
+                    document.getElementById("userMessage").innerHTML="Username or Email field contains illegal characters";
+                }
+	        else if(response == 1) {
                     document.getElementById("userMessage").innerHTML="Username already in use";
 	        }
-	        else if(response == 1) {
+	        else if(response == 2) {
 	            document.getElementById("emailMessage").innerHTML="Email is already in use";
 	        }
 	        else {

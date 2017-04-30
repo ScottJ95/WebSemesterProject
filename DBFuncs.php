@@ -564,6 +564,16 @@ function checkUserRegistration()
     $email = $_POST['argument'][1];
     $password = $_POST['argument'][2];
 
+
+    if($username != strip_tags($username) || $email != strip_tags($email)) {
+    // contains HTMLi
+
+    echo "0";
+
+}
+
+else {
+
     $name_query = "SELECT username FROM students WHERE username = :userName";
     $stmt = $dbh-> prepare($name_query);
     $stmt->bindParam(':userName', $username);
@@ -605,18 +615,19 @@ function checkUserRegistration()
             chmod("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
 	    
             //Registration was successful.
-            echo "2";
+            echo "3";
         }
 
         else {
 	    //If the email already exists;.
-            echo "1";
+            echo "2";
         }
     }
 
-    else{
-    	//If the username already exists.
-	echo "0";
+        else{
+    	    //If the username already exists.
+	    echo "1";
+        }
     }
     exit();
 }
