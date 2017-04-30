@@ -13,7 +13,8 @@ function checkSession(){
 	}
     else
         {
-	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/'); 
+            //TODO: CHANGE TO INDEX.HTML
+	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/login.html'); 
            return false;
 	}	
 
@@ -23,8 +24,8 @@ function checkSession(){
 function getCreatorEmail() {
 	
     try {
-		$dbh = ConnectDB();
-		$groupID = $_POST['argument'][0];
+	$dbh = ConnectDB();
+	$groupID = $_POST['argument'][0];
         $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID"; // get creator ID
         $stmt = $dbh->prepare($group_query);
 		$stmt->bindParam(":groupID", $groupID);
@@ -43,27 +44,25 @@ function getCreatorEmail() {
 
 
 }
-//Get the current group's creator
-//Returns the current group's creator's email address.
+
 function getCreator() {
-	
+    
     try {
-		$dbh = ConnectDB();
-		$groupID = $_POST['argument'][0];		
+        $dbh = ConnectDB();
+        $groupID = $_POST['argument'][0];        
         $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID";
-
         $stmt = $dbh->prepare($group_query);
-		$stmt->bindParam(":groupID", $groupID);
+        $stmt->bindParam(":groupID", $groupID);
         $stmt->execute();
-		echo $stmt;
         $groupIDReturn = $stmt->fetchALL(PDO::FETCH_OBJ);
-
-        return $groupIDReturn;
+        $creatorID = $groupIDReturn[0]->creator_ID;
+        echo $creatorID;
 
     }
 
     catch(PDOException $e)
     {
+        echo 1;
         die('PDO Error in    : ' . $e->getCreator());
     }
 
@@ -858,6 +857,9 @@ switch($_POST['functionName']) {
 		break;
         case 'deleteGroup':
                 deleteGroup();
+                break;
+        case 'getCreator':
+                getCreator();
                 break;
 }
 
