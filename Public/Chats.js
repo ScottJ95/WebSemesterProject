@@ -1,8 +1,7 @@
 const userNameChats = getSessionUsername();
 const groupIDChats = urlSample = window.location.href.split('=')[1];
-require_once('DBFuncs.php');
-require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
-$dbh = ConnectDB();
+getNumMembers();
+members();
 
 function getSessionUsername(){//function that gets the current users name
 	$.ajax({
@@ -21,69 +20,65 @@ function getSessionUsername(){//function that gets the current users name
 function getNumMembers(){//function adds the number of members to the 
 						// userbar on the side
 	$.ajax({
+
                    type: 'POST',
                    url:  'DBFuncs.php',
                    data: { functionName:'getGroupUserList', argument:groupIDChats},
-                   success: function (response) {                   
-				document.getElementById("numMem").innerHTML=" "+response.length;
+                   success: function (response) { 
+				   var result = JSON.parse(response);
+				   window.alert(result.username);
+				   members(response);
+				document.getElementById("numMem").innerHTML=" "+result.length;
                    }
 
                 });
 
 }
-function getEmailFromUserID(user){//function adds the appropriate source to the calendar 
-	$.ajax({
-                   type: 'POST',
-                   url:  'DBFuncs.php',
-                   data: { functionName:'getEmailCurrentUser', argument:user},
+function getEmailFromUserID(user) { //function adds the appropriate source to the calendar 
+    $.ajax({
+        type: 'POST',
+        url: 'DBFuncs.php',
+        data: {
+            functionName: 'getCreatorEmail',
+            argument: [user]
+        },
 
-                   success: function (response) {         
+        success: function(response) {
+            document.getElementById("calendar").setAttribute("src", "https://calendar.google.com/calendar/embed?src=" + response + "&ctz=America/New_York");
 
-					return response;
-				
-				   }
-	});
-}
-function getSource(){//function adds the appropriate source to the calendar 
-	$.ajax({
-                   type: 'POST',
-                   url:  'DBFuncs.php',
-                   data: { functionName:'getGroupByID', argument:groupIDChats},
-
-                   success: function (response) {         
-				//calSrc = getEmailFromUserID(response);
-				document.getElementById("calendar").setAttribute("src", "https://calendar.google.com/calendar/embed?src="+response[4]+"&ctz=America/New_York");
-                   }
-
-                });
-
+        }
+    });
 }
 
-function members(){
+function getSource() { //function adds the appropriate source to the calendar 
+    $.ajax({
+        type: 'POST',
+        url: 'DBFuncs.php',
+        data: {
+            functionName: 'getCreator',
+            argument: [groupIDChats]
+        },
+
+        success: function(response) {
+			var sourceEmail = getEmailFromUserID(response);
+        }
+    });
+}
+
+function members(members) {
 	
-	document.getElementById("memberList").innerHTML="";
-	$.ajax({
-                   type: 'POST',
-                   url:  'DBFuncs.php',
-                   data: { functionName:'getGroupUserList', argument:groupIDChats},
-
-                   success: function (response) {
-			   if(response == 0)
-			       document.getElementById("memberList").innerHTML+="<li class=\"groupMembers\">None</li>";
-
-			   else
-			   {
-                        var memberList = JSON.parse(response);
-
-                        for(i = 0;i<memberList.length;i++)
-                        {
-								print(memberList[i].username);
-                                document.getElementById("memberList").innerHTML+="<li class=\"groupMembers\">"+memberList[i].username+"</li>";
-                        }
-                  }
-		   }
-
-                });
+	var memberCollection = JSON.parse(members);
+	if(memberCollection.length == 0)
+	{
+       document.getElementById("memberList").innerHTML += "<li class=\"groupMembers\">None</li>";
+	}
+	else
+	{
+                for (i = 0; i < memberCollection.length; i++) {
+                    document.getElementById("memberList").innerHTML += "<li class=\"groupMembers\">" + memberCollection[i].username + "</li>";
+                }		
+	}
+	
 }
 
 function messages(){
@@ -92,7 +87,7 @@ function messages(){
 	$.ajax({
                    type: 'POST',
                    url:  'DBFuncs.php',
-                   data: { functionName:'getGroupMessageList', argument:groupID},
+                   data: { functionName:'getGroupMessageList', argument:groupIDChats},
 
                    success: function (response) {
 			   if(response == 0)
@@ -128,5 +123,37 @@ function editProfile(){
 }
 function main(){
         window.location.href = "Main.html";
+}
+
+function getUserID(){//gets current logged in username from Session
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getSessionUserID'},
+
+        success: function (response) {                   
+		return response;
+        }
+
+    });
+}
+function submitMessage(){
+    var message = document.getElementById("inputMessage").value; //get value of message
+	var date = new Date(); //get current date
+	var userID = getUserID();  //get current UserID
+	
+		$.ajax({
+   	    type: 'POST',
+    	    url:  'DBFuncs.php',
+            data: { functionName:'addMessage',argument:[groupIDChats, userID, date, message] },
+                
+            success: function (response) {
+				window.alert("success");
+				messages();
+			}
+		
+		
+        });
+	
 }
 

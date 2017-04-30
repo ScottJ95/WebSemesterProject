@@ -19,21 +19,24 @@ function checkSession(){
 	}	
 
 }
+
+
 //Get the current group's creator
 //Returns the current group's creator's email address.
 function getCreatorEmail() {
 	
     try {
-	$dbh = ConnectDB();
-	$groupID = $_POST['argument'][0];
-        $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID"; // get creator ID
+		$dbh = ConnectDB();
+		$studentID = $_POST['argument'][0];
+        $group_query = "SELECT email FROM students WHERE student_ID = :studentID"; // get creator ID
         $stmt = $dbh->prepare($group_query);
-		$stmt->bindParam(":groupID", $groupID);
+		$stmt->bindParam(":studentID", $studentID);
         $stmt->execute();
 
         $userID = $stmt->fetchALL(PDO::FETCH_OBJ); // creator ID now
-		
-        return getEmailCurrentUser($userId);
+		$creatorAddress = $userID[0]->email;
+		//$creatorEmail = explode("@", $creatorAddress);
+        echo $creatorAddress;//[0];
 
     }
 
@@ -45,24 +48,42 @@ function getCreatorEmail() {
 
 }
 
+function addMessage($groupID, $userID, $date, $body) {
+    try{
+		$dbh = ConnectDB();		        
+        $query = "INSERT INTO messages (student_ID, group_ID,message_date, message_body)
+                  VALUES (:groupID, :userID, :date, :body)";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->bindParam(':groupID', $groupID);
+		$stmt->bindParam(':date', $date);
+        $stmt->bindParam(':body', $body);
+        $stmt->execute();
+    }
+
+    catch(PDOException $e){
+        die('PDO Error in joinGroup(): ' . $e->getMessage());
+    }
+}
+//Get the current group's creator
+//Returns the current group's creator's email address.
 function getCreator() {
-    
+	
     try {
-        $dbh = ConnectDB();
-        $groupID = $_POST['argument'][0];        
+		$dbh = ConnectDB();
+		$groupID = $_POST['argument'][0];		
         $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID";
         $stmt = $dbh->prepare($group_query);
-        $stmt->bindParam(":groupID", $groupID);
+		$stmt->bindParam(":groupID", $groupID);
         $stmt->execute();
         $groupIDReturn = $stmt->fetchALL(PDO::FETCH_OBJ);
-        $creatorID = $groupIDReturn[0]->creator_ID;
+		$creatorID = $groupIDReturn[0]->creator_ID;
         echo $creatorID;
 
     }
 
     catch(PDOException $e)
     {
-        echo 1;
         die('PDO Error in    : ' . $e->getCreator());
     }
 
@@ -231,26 +252,27 @@ function checkBelongs($dbh, $userID, $groupID) {
         
 }
 //Get the list of users that belong to a group.
-function getGroupUserList($dbh, $groupID)
+function getGroupUserList()
 {
     try {
-	$user_query = "SELECT student_ID,fname,lname,username,email FROM students " 
-			. "JOIN belongs USING (group_ID) JOIN groups USING (student_ID) "
-    			. "WHERE group_ID = :groupID";
+    $dbh = ConnectDB();
+    $groupID = 26;
 
-	$stmt = $dbh->prepare($user_query);
-	$stmt->bindParam(':group_ID', $groupID);
-	$stmt->execute();
-	$userList = $stmt->fetchAll(PDO::FETCH_OBJ);
-	$stmt = null;
-	return $userData;
-		
-	}
+    $user_query = "SELECT student_ID,fname,lname,username,email FROM students JOIN belongs USING(student_ID) WHERE  group_ID = :groupID";
 
-	catch(PDOException $e) 
-	{
-		die('PDO Error in groupUserList: ' . $e->getMessage());
-	}	
+    $stmt = $dbh->prepare($user_query);
+    $stmt->bindParam(':groupID', $groupID);
+    $stmt->execute();
+    $userList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $users = json_encode($userList);
+    echo $users;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in groupUserList: ' . $e->getMessage());
+    }
 }
 
 
@@ -759,21 +781,22 @@ function getGroups()
 	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN belongs t2 ON t1.group_ID = t2.group_ID 
-                INNER JOIN students t3 ON t2.student_ID = t3.student_ID 
-                WHERE t3.username = :Username";
+                ORDER BY group_name";
 	break;
     case 1:
 	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN belongs t2 ON t1.group_ID = t2.group_ID 
                 INNER JOIN students t3 ON t2.student_ID = t3.student_ID 
-                WHERE t3.username = :Username AND t3.student_ID != t1.creator_ID";
+                WHERE t3.username = :Username AND t3.student_ID != t1.creator_ID
+                ORDER BY group_name";
 	break;
     case 2:
 	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN students t2 ON t1.creator_ID = t2.student_ID 
-                WHERE t2.username = :Username";
+                WHERE t2.username = :Username
+                ORDER BY group_name";
             break;
     }
 
@@ -829,6 +852,9 @@ function deleteGroup(){
 function getSessionVar(){
 	echo $_SESSION['username'];
 }
+function getSessionUserID(){
+	echo $_SESSION['userID'];
+}
 function sessionOff(){
 	$_SESSION['username'] = NULL;
 	$_SESSION['userID'] = NULL;
@@ -872,6 +898,18 @@ switch($_POST['functionName']) {
         case 'getCreator':
                 getCreator();
                 break;
+        case 'getCreatorEmail':
+                getCreatorEmail();
+                break;	
+		case 'getSessionUserID':
+				getSessionUserID();
+				break;
+		case 'addMessage':
+				addMessage();
+				break;	
+		case 'getGroupUserList':
+				getGroupUserList();
+				break;					
 }
 
 ?>
