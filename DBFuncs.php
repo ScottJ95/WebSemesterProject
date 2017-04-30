@@ -771,20 +771,23 @@ function getGroups()
                 FROM groups t1 
                 INNER JOIN belongs t2 ON t1.group_ID = t2.group_ID 
                 INNER JOIN students t3 ON t2.student_ID = t3.student_ID 
-                WHERE t3.username = :Username";
+                WHERE t3.username = :Username
+                ORDER BY group_name";
 	break;
     case 1:
 	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN belongs t2 ON t1.group_ID = t2.group_ID 
                 INNER JOIN students t3 ON t2.student_ID = t3.student_ID 
-                WHERE t3.username = :Username AND t3.student_ID != t1.creator_ID";
+                WHERE t3.username = :Username AND t3.student_ID != t1.creator_ID
+                ORDER BY group_name";
 	break;
     case 2:
 	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN students t2 ON t1.creator_ID = t2.student_ID 
-                WHERE t2.username = :Username";
+                WHERE t2.username = :Username
+                ORDER BY group_name";
             break;
     }
 
