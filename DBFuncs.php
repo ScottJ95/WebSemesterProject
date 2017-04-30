@@ -45,18 +45,19 @@ function getCreatorEmail() {
         die('PDO Error in    : ' . $e->getCreatorEmail());
     }
 
-
 }
 
-function addMessage($groupID, $userID, $date, $body) {
+function addMessage() {
     try{
-		$dbh = ConnectDB();		        
-        $query = "INSERT INTO messages (student_ID, group_ID,message_date, message_body)
-                  VALUES (:groupID, :userID, :date, :body)";
+		$dbh = ConnectDB();	
+		$groupID = $_POST['argument'][0];
+		$userID = $_POST['argument'][1];
+		$body = $_POST['argument'][2];				
+        $query = "INSERT INTO messages (student_ID, group_ID, message_body)
+                  VALUES (:groupID, :userID, :body)";
         $stmt = $dbh->prepare($query);
         $stmt->bindParam(':userID', $userID);
         $stmt->bindParam(':groupID', $groupID);
-		$stmt->bindParam(':date', $date);
         $stmt->bindParam(':body', $body);
         $stmt->execute();
     }
@@ -89,6 +90,7 @@ function getCreator() {
 
 
 }
+
 //Get the ID of student from a messageID,
 //Returns that user's ID
 function getUserIDFromMessageID($message_ID)
@@ -256,7 +258,7 @@ function getGroupUserList()
 {
     try {
     $dbh = ConnectDB();
-    $groupID = 26;
+    $groupID = $_POST['argument'][0];
 
     $user_query = "SELECT student_ID,fname,lname,username,email FROM students JOIN belongs USING(student_ID) WHERE  group_ID = :groupID";
 
@@ -274,6 +276,7 @@ function getGroupUserList()
         die('PDO Error in groupUserList: ' . $e->getMessage());
     }
 }
+
 
 
 //Get the list of all groups
@@ -366,18 +369,20 @@ function getGroupByID($dbh, $groupID)
 
 
 //Get a group's messages by their ID
-function getGroupMessageList($dbh, $groupID)
+function getGroupMessageList()
 {
     try {
+    $dbh = ConnectDB();
+    $groupID = $_POST['argument'][0];		
 	$message_query = "SELECT * FROM messages WHERE group_ID = :groupID";
 	$stmt = $dbh->prepare($message_query);
 
 	$stmt->bindParam(":groupID", $groupID);
 	$stmt->execute();
 
-	$messageData = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-	return $messageData;
+	$messageData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $messages = json_encode($messageData);
+	echo $messages;
     }
 
     catch(PDOException $e)
@@ -386,6 +391,7 @@ function getGroupMessageList($dbh, $groupID)
     }
 
 }
+
 
 //Get all the groups userID has created
 function getCreatedGroups($dbh, $userID)
@@ -911,7 +917,11 @@ switch($_POST['functionName']) {
 				break;	
 		case 'getGroupUserList':
 				getGroupUserList();
-				break;					
+				break;	
+		case 'getGroupMessageList';		
+				getGroupMessageList();
+				break;	
+}				
 }
 
 ?>
