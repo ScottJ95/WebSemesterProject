@@ -770,8 +770,6 @@ function getGroups()
 	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN belongs t2 ON t1.group_ID = t2.group_ID 
-                INNER JOIN students t3 ON t2.student_ID = t3.student_ID 
-                WHERE t3.username = :Username
                 ORDER BY group_name";
 	break;
     case 1:
