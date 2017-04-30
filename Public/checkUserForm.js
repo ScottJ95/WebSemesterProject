@@ -1,4 +1,5 @@
-var userNameCheck = null;
+var userNameCheck = false;
+var emailCheck = false;
 
 function checkProfile() { 
     var password = document.getElementById("passwordBox").value;
@@ -7,7 +8,7 @@ function checkProfile() {
     document.getElementById("passconfMessage").innerHTML = "";
     console.log("Here");
     console.log(userNameCheck);
-    if(userNameCheck === emailCheck ){
+    if(userNameCheck == true && emailCheck == true ){
         console.log("Pass"); 
         if(password != confirmPassword)
         {
@@ -72,10 +73,12 @@ function checkEmail()
                 success: function (response){
                     if(response == 0) {
      	                document.getElementById("emailMessage").innerHTML="  Email is already in use";
+                        emailCheck = false;
                         return false;
 	            }      
                     else {
-	    	        document.getElementById("emailMessage").innerHTML="  Email is valid";    
+	    	        document.getElementById("emailMessage").innerHTML="  Email is valid";
+                        emailCheck = true;    
                         return true;  
 	            }
 	        }            	
@@ -83,11 +86,13 @@ function checkEmail()
         }
         else {
             document.getElementById("emailMessage").innerHTML="  Email must be Google or Rowan account";
+            emailCheck = false;
             return false;
         }
     }
     else{
         console.log("Email Pass");
+        emailCheck = true;
         return true;
     }
 }
