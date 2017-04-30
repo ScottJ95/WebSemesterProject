@@ -12,7 +12,7 @@ $dbh = ConnectDB();
 //If the groupname was set, we need to update the dir name
 
 $groupID = $_SESSION['groupIDEdit'];
-echo $groupID;
+//echo $groupID;
 $oldGroupName = $_SESSION['groupNameEdit'];
 $newGroupName = NULL;
 $newGroupDesc = NULL;
@@ -23,7 +23,7 @@ $updateDirCheck = false;
 if(isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$newGroupName = $_POST['groupName'];
 	$newGroupName = strip_tags($newGroupName);
-        echo "<p> Update Dir is True? </p>";
+        //echo "<p> Update Dir is True? </p>";
 	$updateDirCheck = true;
 }
 
@@ -52,7 +52,7 @@ try {
     $stmt->bindParam(':groupID', $groupID);
     $stmt->execute();
     $updated = $stmt->rowCount();
-    echo $updated;
+   // echo $updated;
     if ($updated === 0){
         echo "<script> window.history.back(); </script>";
         exit;
@@ -118,19 +118,21 @@ function updateImage($updateDir,$groupID, $groupName){
         //Checking File Type
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
-            header("Location:http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage");
-            die("Unable to determine image type of uploaded file");
+            echo "That looks like a bad image";
+            return false;
         }
 
         if (($info[2] !== IMAGETYPE_BMP) && ($info[2] !== IMAGETYPE_JPEG) 
             && ($info[2] !== IMAGETYPE_PNG)) {
-                header("Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/error.html?error=GroupImage");
-                die("Not a bmp/jpeg/png");
+            echo "That looks like a bad image";
+            return false;
+
         }
 
         //Image is valid, so now upload and update it. 
         if(!is_uploaded_file($_FILES["groupImage"]["tmp_name"])){
-            die("Error in Uploading File");
+            echo "File didn't upload ";
+            return false;
         }
 
         $fileName = $_FILES["groupImage"]["name"];
@@ -184,7 +186,7 @@ function setImageDir($targetname, $fileName,$groupID){
         $imageData = getGroupImage($dbh,$groupID);
         $imageID = $imageData[0]->image_ID;
         if($imageID != NULL) {
-            echo "<p> Image ID " . $imageID . "</p>";
+            //echo "<p> Image ID " . $imageID . "</p>";
             $image_query = "UPDATE  images 
                             SET image_name = :fileName, image_location = :targetname 
                             WHERE image_ID = :imageID";
@@ -195,14 +197,14 @@ function setImageDir($targetname, $fileName,$groupID){
             $stmt->execute();
 
             if ($stmt->rowCount() == 0) {
-                die("Error in Image Query");
+                echo "Image query error";
                 return false;
              }
 
         }
 
         else{
-            echo "<p> Image ID " . $imageID . "</p>";
+            //echo "<p> Image ID " . $imageID . "</p>";
             $image_query = " INSERT INTO images (image_name, image_location)
                             VALUES(:fileName, :targetName)"; 
             $stmt        = $dbh->prepare($image_query);
@@ -211,7 +213,7 @@ function setImageDir($targetname, $fileName,$groupID){
             $stmt->execute();
 
             if ($stmt->rowCount() == 0) {
-                die("Error in Image Query");
+                echo "Image query error";
                 return false;
              }
 

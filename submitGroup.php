@@ -100,7 +100,7 @@ function addBelongs($groupName, $studentID)
             //echo "<p> Belongs Added</p>\n";
             return true;
         } else {
-            //echo "<p> Shit At Add Belongs</p><\n";
+            echo "It looks like something went wrong. Try again".
             return false;
         }
     }
@@ -129,11 +129,13 @@ function uploadGroupImage($groupName)
         //Checking File Type
         $info = getimagesize($_FILES['groupImage']['tmp_name']);
         if ($info === FALSE) {
-            die("Unable to determine image type of uploaded file");
+            echo "It looks like your image is bad.";
+            return false;
         }
         
         if (($info[2] !== IMAGETYPE_BMP) && ($info[2] !== IMAGETYPE_JPEG) && ($info[2] !== IMAGETYPE_PNG)) {
-            die("Not a bmp/jpeg/png");
+            echo "It looks like your image is bad.";
+            return false;
         }
         
         
@@ -178,7 +180,8 @@ function uploadGroupImage($groupName)
             // but we can't upload another with the same name on top,
             // because it's now read-only
         } else {
-            die("Error copying " . $_FILES["groupImage"]["name"]);
+                echo "Something went wrong copying the file";
+                return false;
 		}
 
         $targetname = "/~jefferys0/web/WebSemesterProject/UPLOADED/archive/" . $groupName . "/" . $fileName;
@@ -220,7 +223,7 @@ function setImageDir($targetName, $fileName, $groupName)
         $stmt->execute();
         
         if ($stmt->rowCount() == 0) {
-	    die("Error in Image Query");
+            echo "Something went wrong with the DB Query.";
             return false;
         }
         
