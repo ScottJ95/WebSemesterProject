@@ -10,10 +10,10 @@
 
 <body>
 <div class = "header"> Welcome </div>
-<div class = "infoText"> Account Information </div>
 
 <div class = "container">
-
+<div class = "infoText"> Account Information </div>
+<div class = "message" id = "accountregMessage"></div>
 <div class = "textBoxField">
     <div class = "message" id = "userMessage"></div>
     <input class = "inputBox" id="userBox" type="username" placeholder="Username" onkeyup = "checkUsername();">
@@ -33,15 +33,16 @@
     <div class = "message" id = "passconfMessage"></div>
     <input class = "inputBox" id="confirmPasswordBox" type="password" placeholder="Confirm password"></div><br>
 
-</div>
-
 <div class = "buttonContainer">
     <button onclick="register()" class = "homebuttons"  id = "btnLogin">Sign Up!</button>
     <button onclick="cancel()" class = "homebuttons"  id = "cancel">Cancel</button>
 </div>
 </div>
 
-<div class = "message" id = "accountregMessage"></div>
+
+</div>
+
+
 
 
 </body>
