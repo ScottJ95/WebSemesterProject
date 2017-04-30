@@ -23,7 +23,7 @@ $updateDirCheck = false;
 if(isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$newGroupName = $_POST['groupName'];
 	$newGroupName = strip_tags($newGroupName);
-        echo "<p> Update Dir is True? </p?";
+        echo "<p> Update Dir is True? </p>";
 	$updateDirCheck = true;
 }
 
@@ -53,6 +53,10 @@ try {
     $stmt->execute();
     $updated = $stmt->rowCount();
     echo $updated;
+    if ($updated === 0){
+        echo "<script> window.history.back(); </script>";
+        exit;
+    }
     $stmt = null;
     
     $currGroupName = $oldGroupName;

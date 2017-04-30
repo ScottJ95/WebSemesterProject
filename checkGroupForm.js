@@ -2,6 +2,8 @@
 //I found this source code online at: 
 //http://talkerscode.com/webtricks/check%20username%20and%20email%20availability%20from%20database%20using%20ajax.php
 //TODO: Have this be in a seperate file?
+//
+var nameCheck = true;
 function checkName(edit){
 
     var groupName = $("#groupName").val();
@@ -18,6 +20,7 @@ function checkName(edit){
         //https://api.jquery.com/jquery.post/
         if(groupName.toLowerCase() == "users"){
             $('#name_status').html("You cannot name your group that!");
+            nameCheck = true;
             return true;
         }
         $.ajax({ 
@@ -35,12 +38,14 @@ function checkName(edit){
             console.log(response == "Group Name Already Exists");
             //Check the response so we can return the check
             if(response === 'Group Name Already Exists') {
-                console.log("???");
+                nameCheck = true;
+                console.log($('#name_status').val());
                 return true;
             }
 
             else {
                 console.log("False");
+                nameCheck = false;
                 return false;
             }
         }
@@ -52,9 +57,11 @@ function checkName(edit){
         $( '#name_stats').html("");
         if(edit === true){
             console.log("Edit True");
+            nameCheck = false;
             return false;
         }
         else{
+            nameCheck = true;
             return true;
         }
     }
@@ -82,7 +89,7 @@ function checkDescription(edit){
 
 function checkForm(edit) {
     if(edit === false){
-        if(!checkName(edit) && $("#groupName").val() != "") {
+        if(!nameCheck && $("#groupName").val() != "") {
             if(checkDescription(edit)){
                 return true;
             }
@@ -91,13 +98,13 @@ function checkForm(edit) {
             }
         }
         else {
-            alert("Please Enter a group name!");
+            alert("Please Enter a valid group name!");
             return false;
         }
     }
     else {
         console.log("Ok");
-        if(!checkName(edit)) {
+        if(!nameCheck) {
             if(checkDescription(edit)){
                 return true;
             }
@@ -106,6 +113,7 @@ function checkForm(edit) {
             }
         }
         else{
+            alert("Please Enter a valid group name!");
             return false;
         }
 

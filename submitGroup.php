@@ -55,6 +55,7 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         $groupCreated = false;
         
         if ($inserted == 0) {
+            echo "<script> window.history.back(); </script>";
 	    exit;
         } else {
             $groupCreated = true;
