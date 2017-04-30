@@ -95,7 +95,7 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
     echo "<p> Current Group Image: </p> \n";
 
     if($groupData[0]->image_ID == NULL){
-        echo '<img id="groupImage" src="/~jefferys0/web/WebSemesterProject/UPLOADED/archive/profile_default.jpg"' .   
+        echo '<img id="groupImage" src="/~jefferys0/web/WebSemesterProject/defaultIcon.svg"' .   
             'alt= "Default" style="width:304px;height:228px;">';
     }
     else{

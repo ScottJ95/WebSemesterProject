@@ -94,7 +94,7 @@ echo "<p> Email: "
 echo "<p> Profile Picture: </p> \n";
 
     if($userData[0]->image_ID == NULL){
-        echo '<img id="userImage" src="./UPLOADED/archive/profile_default.jpg" alt= "Default" style="width:304px;height:228px;">';
+        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:304px;height:228px;">';
     }
     else{
          echo '<img id="userImage" src="'. $userImage[0]->image_location
