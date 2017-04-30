@@ -52,13 +52,16 @@ function getSessionUsername(){
          url:  'DBFuncs.php',
         data: { functionName:'getSessionVar'},
 
-        success: function (response) {                   
+        success: function (response) {
+                console.log(response);                   
 		document.getElementById("userName").innerHTML=response;
         }
 
     });
 
 }
+
+
 function setSessionVar(){
     $.ajax({
         type: 'POST',
@@ -82,11 +85,22 @@ function joinGroup(){
         window.location.href = "joinGroup.php";
 }
 function logout(){
-//	setSessionVar();
+	setSessionVar();
 	window.location.href = "login.html";
 }
+
 function editProfile(){
-	window.location.href = "editProfile.php";
+         $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getSessionUserID'},
+
+        success: function (response) {
+                window.location.href = "profile.php?userID=" + response;
+
+        }
+
+    });
 }
 function moveToChat(idOfGroup){
 	//Set Session variables
