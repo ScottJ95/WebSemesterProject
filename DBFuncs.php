@@ -424,7 +424,7 @@ function checkUsername()
                     WHERE username = :userName and password = :passWord";
     $stmt = $dbh-> prepare($user_query);
     $stmt->bindParam(':userName', $username);
-    $stmt->bindParam(':passWord', $password);
+    $stmt->bindParam(':passWord', md5($password));
     $stmt->execute();
 	
     if ($stmt -> rowCount() == 0) {
@@ -463,7 +463,7 @@ function changePassword()
     $user_query = "UPDATE students SET password = :Password,change_password = 0 WHERE username = :userName;";
     $stmt = $dbh-> prepare($user_query);
     $stmt->bindParam(':userName', $username);
-    $stmt->bindParam(':Password', $password);
+    $stmt->bindParam(':Password', md5($password));
     $stmt->execute();
     echo "1";
     exit();
@@ -504,7 +504,7 @@ function checkEmail()
                             WHERE email = :Email;";
 	    $stmt = $dbh-> prepare($user_query);
 	    $stmt->bindParam(':Email', $email);
-	    $stmt->bindParam(':Password', $password);
+	    $stmt->bindParam(':Password', md5($password));
 	    $stmt->execute();
 	    echo "1";
 	}
