@@ -100,7 +100,7 @@ function addBelongs($groupName, $studentID)
             //echo "<p> Belongs Added</p>\n";
             return true;
         } else {
-            echo "It looks like something went wrong. Try again".
+            echo "It looks like something went wrong. Try again";
             return false;
         }
     }
