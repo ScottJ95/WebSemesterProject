@@ -255,25 +255,24 @@ function checkBelongs($dbh, $userID, $groupID) {
 function getGroupUserList()
 {
     try {
-	$dbh = ConnectDB();
-	$groupID = $_POST['argument'][0];
+    $dbh = ConnectDB();
+    $groupID = 26;
 
-	$user_query = "select student_ID,fname,lname,username,email from students join belongs using(student_ID) where group_ID = :groupID";
+    $user_query = "SELECT student_ID,fname,lname,username,email FROM students JOIN belongs USING(student_ID) WHERE  group_ID = :groupID";
 
-	$stmt = $dbh->prepare($user_query);
-	$stmt->bindParam(':group_ID', $groupID);
-	$stmt->execute();
-	$userList = $stmt->fetchAll(PDO::FETCH_OBJ);
-	$stmt = null;
-	$users = json_encode($userList);
-	echo $users;
-		
-	}
+    $stmt = $dbh->prepare($user_query);
+    $stmt->bindParam(':groupID', $groupID);
+    $stmt->execute();
+    $userList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $users = json_encode($userList);
+    echo $users;
 
-	catch(PDOException $e) 
-	{
-		die('PDO Error in groupUserList: ' . $e->getMessage());
-	}	
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in groupUserList: ' . $e->getMessage());
+    }
 }
 
 

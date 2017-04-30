@@ -20,12 +20,15 @@ function getSessionUsername(){//function that gets the current users name
 function getNumMembers(){//function adds the number of members to the 
 						// userbar on the side
 	$.ajax({
+
                    type: 'POST',
                    url:  'DBFuncs.php',
                    data: { functionName:'getGroupUserList', argument:groupIDChats},
                    success: function (response) { 
-				   window.alert(response[0]);
-				document.getElementById("numMem").innerHTML=" "+response.length;
+				   var result = JSON.parse(response);
+				   window.alert(result.username);
+				   members(response);
+				document.getElementById("numMem").innerHTML=" "+result.length;
                    }
 
                 });
@@ -62,32 +65,20 @@ function getSource() { //function adds the appropriate source to the calendar
     });
 }
 
-function members() {
-
-    document.getElementById("memberList").innerHTML = "";
-    $.ajax({
-        type: 'POST',
-        url: 'DBFuncs.php',
-        data: {
-            functionName: 'getGroupUserList',
-            argument: groupIDChats
-        },
-
-        success: function(response) {
-            if (response == 0)
-                document.getElementById("memberList").innerHTML += "<li class=\"groupMembers\">None</li>";
-
-            else {
-                var memberList = JSON.parse(response);
-
-                for (i = 0; i < memberList.length; i++) {
-                    print(memberList[i].username);
-                    document.getElementById("memberList").innerHTML += "<li class=\"groupMembers\">" + memberList[i].username + "</li>";
-                }
-            }
-        }
-
-    });
+function members(members) {
+	
+	var memberCollection = JSON.parse(members);
+	if(memberCollection.length == 0)
+	{
+       document.getElementById("memberList").innerHTML += "<li class=\"groupMembers\">None</li>";
+	}
+	else
+	{
+                for (i = 0; i < memberCollection.length; i++) {
+                    document.getElementById("memberList").innerHTML += "<li class=\"groupMembers\">" + memberCollection[i].username + "</li>";
+                }		
+	}
+	
 }
 
 function messages(){
