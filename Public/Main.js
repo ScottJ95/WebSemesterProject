@@ -2,7 +2,7 @@ function start() {
 
     getSessionUsername();
     //ADD USERNAME HERE
-	//document.getElementById("userName").innerHTML="";
+//	document.getElementById("userName").innerHTML="HELP";
         
     document.getElementById("all").click();
 }
