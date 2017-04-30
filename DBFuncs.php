@@ -920,8 +920,7 @@ switch($_POST['functionName']) {
 				break;	
 		case 'getGroupMessageList';		
 				getGroupMessageList();
-				break;	
-}				
+				break;	 				
 }
 
 ?>
