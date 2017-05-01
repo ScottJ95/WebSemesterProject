@@ -266,9 +266,10 @@ function leaveAGroup(){
         $stmt = null;
 
         $query = "DELETE FROM belongs 
-                  WHERE student_ID = :userID";
+                  WHERE student_ID = :userID and group_ID = :groupID";
         $stmt = $dbh->prepare($query);
-        $stmt->bindParam(':userID', $userID);
+	$stmt->bindParam(':userID', $userID);
+	$stmt->bindParam(':groupID', $groupID);
         $stmt->execute();
     }
 

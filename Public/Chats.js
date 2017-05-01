@@ -165,6 +165,19 @@ function logout(){
 	setSessionVar();
 	window.location.href = "login.html";
 }
+
+//This function sets the session variables to null
+function setSessionVar(){
+    $.ajax({
+        type: 'POST',
+        url:  'DBFuncs.php',
+        data: { functionName:'sessionOff'},
+
+        success: function (response) {}
+
+    });
+}
+
 //redirects the user to their personal profil page
 function editProfile(){
     window.location.href = "profile.php?userID=" + userID;
