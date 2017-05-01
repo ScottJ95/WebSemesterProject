@@ -12,6 +12,7 @@ body{
 	height:100vh;
 	width:100vw;
 	background-image:url("backgroundPattern.jpg");
+	color : white;
 }
 
 .container{
@@ -40,7 +41,6 @@ body{
 }
 #userImage{
 	background-color:white;
-	background-image:url('defaultIcon.svg');
 	border: 2px solid black;
 	border-radius:50%;
 	height:200px;
@@ -48,6 +48,7 @@ body{
 	margin:auto;
 	margin-top:20px;
 	margin-bottom:20px;
+	margin-left:20px;
 	background-size:100%;
 }
 

@@ -67,6 +67,49 @@ function checkName(edit){
     }
 }
 
+function checkJoinForm(){
+	var results = false;
+	var groupName = $("#groupName").val();
+	if(groupName) {		
+		$.ajax({
+                  type: 'post',
+                  url:  'DBFuncs.php',
+           	  data: {
+			  functionName:'joinTheGroup',argument:[groupName,$("#groupSubject").val()]
+           	  },
+	
+           	  success: function (response) {
+			  var results = false;
+			  if(response == 0)
+			  {
+				  alert ("Unable to find a group by the name of "+groupName);
+			  	results = false;
+			  }
+			  else if(response == 3)
+			  {
+				alert("You are already in the group "+groupName);
+			  	results = false;
+			  }
+			  else if(response == 1)
+			  {
+				  alert("You have joined "+groupName);
+			  	return true;
+			  }
+
+	   	   }
+ 	       });//End Ajax
+
+
+		    
+            }
+
+	else{
+		alert("Please Enter a valid group name!");
+		results = false;
+	}
+	return results;
+}
+
 function checkDescription(edit){
     var descriptionText = $('#description').val();
     console.log(descriptionText);

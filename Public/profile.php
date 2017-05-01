@@ -47,7 +47,7 @@ if($userData == NULL || $userData[0]->student_ID != $queryID){
         content="application/xhtml+xml; charset=UTF-8" />
   <meta name="Author" content="Scott Jeffery" />
 
-  <link rel="stylesheet" href="tagline.css" />
+  <link rel="stylesheet" href="thread.css" />
   <script type="text/javascript" src="./AjaxFunctions.js"></script>
    <script type="text/javascript"
           src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>

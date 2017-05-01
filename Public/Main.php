@@ -2,10 +2,11 @@
 <?php
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
-
+session_start();
 if(!checkSession()){
     exit;
 }
+
 ?>
 
 
@@ -20,8 +21,26 @@ if(!checkSession()){
 <body onload="start();">
 <div class = "container"> 
 	<div class = "left">
-    		<div class = "userImage" id = "userImage"> </div>
-        	<div id = "userName"> Your Username Here</div>
+		
+<?php
+    require_once('DBFuncs.php');
+    require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+
+    $dbh = ConnectDB();
+    $userID= $_SESSION['userID'];
+    $queryID = $_GET['userID'];
+    $userImage = getUserImage($dbh,$queryID);
+    $userData = getUserByID($dbh,$queryID);
+    if($userData[0]->image_ID == NULL){
+        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:200px;height:200px;">';
+    }
+    else{
+         echo '<img id="userImage" src="'. $userImage[0]->image_location
+             .'"alt="' . $userImage[0]->image_name . '" style="width:200px;height:200px;">';
+    }
+?>
+
+		<div id = "userName"> Your Username Here</div>
         	<button class="navButton" id="home" onclick="main();">Home</button><br>
     		<button class="navButton" id="profile" onclick="editProfile();">Profile</button>
     		<button class="navButton" id="me">SomethingElseHere</button>

@@ -251,6 +251,34 @@ function leaveGroup($dbh, $userID, $groupID){
     }
 
 }
+function leaveAGroup(){
+
+	$userID = $_SESSION['userID'];
+	$groupID = $_POST['argument'];
+    $dbh = ConnectDB();	
+    try{
+        $query = "UPDATE groups 
+                  SET group_numUsers = group_numUsers - 1
+                  WHERE group_ID = :groupID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $stmt = null;
+
+        $query = "DELETE FROM belongs 
+                  WHERE student_ID = :userID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+    }
+
+    catch(PDOException $e){
+        die('PDO Error in leaveGroup(): ' . $e->getMessage());
+    }
+
+}
+
+
 //Check to see if a user belongs in a group
 function checkBelongs($dbh, $userID, $groupID) {
 
@@ -782,8 +810,10 @@ function getUsernameFromID(){
 
 }	
 
-function joinTheGroup($groupName, $subject){
+function joinTheGroup(){
 
+    $groupName = $_POST['argument'][0];
+    $subject = $_POST['argument'][1];	
     if(checkSession()){
         $subject = str_replace(' ','',$subject);
 	$query = "SELECT group_ID, group_name,group_subject,group_numUsers,group_description 
@@ -795,7 +825,7 @@ function joinTheGroup($groupName, $subject){
         $stmt->execute();
 	
 	if ($stmt -> rowCount() == 0) {
-            return 0;
+            echo 0;
     	}
 	else{
 
@@ -811,8 +841,10 @@ function joinTheGroup($groupName, $subject){
            $stmt->execute();
 
 	   if ($stmt -> rowCount() != 0) {
-            return 3;
-           }
+            echo 3;
+	   }
+	   else
+	   {
 	   
 	   $query = "insert into belongs (student_ID,group_ID) values (:StudentID,:GroupID)";
 	   $dbh = ConnectDB();
@@ -828,12 +860,13 @@ function joinTheGroup($groupName, $subject){
            $stmt->bindParam(':GroupID', $groupID);
            $stmt->execute();
 
-	   return 1;
-	}
+	   echo 1;
+	   
+	   }}
     }
     else
     {
-	return  2;	
+	echo  2;	
     }
 }
 
@@ -921,6 +954,9 @@ function deleteGroup(){
 
 }
 
+
+
+
 function getSessionVar(){
 	echo $_SESSION['username'];
 }
@@ -973,6 +1009,18 @@ switch($_POST['functionName']) {
         case 'getCreatorEmail':
                 getCreatorEmail();
                 break;	
+	case 'getSessionUserID':
+		getSessionUserID();
+		break;
+	case 'addMessage':
+		addMessage();
+		break;	
+	case 'getGroupUserList':
+		getGroupUserList();
+		break;	
+	case 'leaveAGroup':
+		leaveAGroup();
+		break;
 		case 'getSessionUserID':
 				getSessionUserID();
 				break;
@@ -990,7 +1038,10 @@ switch($_POST['functionName']) {
             break;
     case 'getUsernameFromID':
             getUsernameFromID();
-            break;			
+	    break;
+    case 'joinTheGroup':
+	    joinTheGroup();
+	    break;	    
 }
 
 ?>
