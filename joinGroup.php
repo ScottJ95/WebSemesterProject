@@ -12,6 +12,7 @@ if(!checkSession()){
 
 ?>
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -21,12 +22,13 @@ if(!checkSession()){
         content="application/xhtml+xml; charset=UTF-8" />
   <meta name="Author" content="Jacob Kershaw" />
 
-  <link rel="stylesheet" href="tagline.css" />
   <script type="text/javascript" src="./AjaxFunctions.js"></script>
    <script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
   <script type="text/javascript" src="./checkGroupForm.js"></script>
 <link href="thread.css" rel="stylesheet" type="text/css" media="screen">   
+
+
 </head>
 
 
@@ -42,7 +44,10 @@ require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 $dbh = ConnectDB();
 
-
+if ($_GET['submitted'] == "Cancel")
+{
+    header("Location: Main.php");
+}
 
 ?>
 
@@ -52,7 +57,7 @@ $dbh = ConnectDB();
 <p> This is a form that lets you join a group. 
 </p>
 
-<form enctype="multipart/form-data" action="" method="post">
+<form enctype="multipart/form-data" action="Main.php" method="post" onsubmit = "return checkJoinForm();">
 <fieldset>
 <legend> Search For A Group </legend>
 <table title="Create Group Input" id= "createGroupTable">
@@ -83,8 +88,9 @@ $dbh = ConnectDB();
     <tr>
         <td>
         </td>
-        <td> <input type="submit"/>
-        </td>
+	<td> <input type="submit"/>
+	<input type="button" name="Cancel" value="Cancel" onClick="window.location='Main.php';" />
+	</td>
 
     </tr>
 
@@ -92,28 +98,6 @@ $dbh = ConnectDB();
     </fieldset>
     </form>
 
-<?php
-    require_once('DBFuncs.php');
-    if(isset($_POST['groupName'])&&$_POST['groupName']!=""){
-        $groupData = joinTheGroup($_POST['groupName'],$_POST['groupSubject']); 
-
-	    if($groupData == 0){
-		echo "<p>Unable to find the group: " . $_POST['groupName'] . "</p>";
-	    }
-	    else if($groupData == 3){
-		echo "<p>Aready in Group: " . $_POST['groupName'] . "</p>";
-	    }
-	    else{
-		echo "<p>Joined</p>";
-			
-	    }
-	
-    }
-    else
-    {
-        echo "<p>Please enter a Group name</p>";
-    }
-?>
 
 
 
