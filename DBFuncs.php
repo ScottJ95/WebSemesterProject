@@ -1003,7 +1003,6 @@ switch($_POST['functionName']) {
         case 'getCreatorEmail':
                 getCreatorEmail();
                 break;	
-<<<<<<< HEAD
 	case 'getSessionUserID':
 		getSessionUserID();
 		break;
@@ -1016,7 +1015,6 @@ switch($_POST['functionName']) {
 	case 'leaveAGroup':
 		leaveAGroup();
 		break;
-=======
 		case 'getSessionUserID':
 				getSessionUserID();
 				break;
@@ -1035,7 +1033,6 @@ switch($_POST['functionName']) {
     case 'getUsernameFromID':
             getUsernameFromID();
             break;			
->>>>>>> 8e4acec67b957501c660c1477d422500c8ef879f
 }
 
 ?>

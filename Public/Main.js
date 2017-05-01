@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 var tab = 0;
-=======
 var userID = null;
 var username = null;
 
->>>>>>> 8e4acec67b957501c660c1477d422500c8ef879f
 function start() {
 
     getSessionUsername();
@@ -42,11 +39,8 @@ function Groups(evt,x){
                     +groupData[i].group_ID+");\"><div class = \"groupButton\">"
                     +"<div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">"+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
                     + groupData[i].group_description+"</div></div>"
-<<<<<<< HEAD
                     +"</a><a onclick=\"leaveGroup("+groupData[i].group_ID+","+"\'"+groupData[i].group_name+"\'"+");\" <div class=\"leaveButton\">Leave</div></a></div>";
-=======
                     +"</a><a onclick=\"\" <div class=\"leaveButton\">Leave</div></a></div>";
->>>>>>> 8e4acec67b957501c660c1477d422500c8ef879f
                 }
 
             }
