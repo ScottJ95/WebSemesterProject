@@ -89,8 +89,9 @@ function setUserImage(){
         data: { functionName:'getUserImageAjax', argument: userID},
 
         success: function (response) {
-            console.log(response);
-            $('#userImage').css("background-image", "url(" + response + ")");
+            if(response){
+                $('#userImage').css("background-image", "url(" + response + ")");
+            }
         }
 
     });
