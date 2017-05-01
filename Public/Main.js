@@ -1,3 +1,4 @@
+var tab = 0;
 function start() {
 
     getSessionUsername();
@@ -7,12 +8,9 @@ function start() {
     document.getElementById("all").click();
 }
 
-function joinGroup(){
-
-}
 
 function Groups(evt,x){
-	
+    tab = x;
     tablinks = document.getElementsByClassName("tabButton");	
     for (i = 0; i < tablinks.length; i++) {
 	    tablinks[i].className = tablinks[i].className.replace(" active", "");
@@ -38,7 +36,7 @@ function Groups(evt,x){
                     +groupData[i].group_ID+");\"><div class = \"groupButton\"><img class = \"groupImage\" alt=\"groupIcon\" src=\""
                     +"\"><div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">"+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
                     + groupData[i].group_description+"</div></div>"
-                    +"</a><a onclick=\"leaveGroup("+groupData[i].group_ID+");\" <div class=\"leaveButton\">Leave</div></a></div>";
+                    +"</a><a onclick=\"leaveGroup("+groupData[i].group_ID+","+"\'"+groupData[i].group_name+"\'"+");\" <div class=\"leaveButton\">Leave</div></a></div>";
                 }
             }
 	}
@@ -88,8 +86,31 @@ function logout(){
 	setSessionVar();
 	window.location.href = "login.html";
 }
-function leaveGroup(idOfGroup){
-	confirm("Hello");	
+function leaveGroup(idOfGroup,groupName){
+	var x = confirm("Are you sure you want to leave "+groupName );	
+	if(x == true)
+	{
+		$.ajax({
+        	type: 'POST',
+         	url:  'DBFuncs.php',
+        	data: { functionName:'leaveAGroup', argument:idOfGroup },
+
+        	success: function (response) {
+        		switch(tab){
+				case 0:
+					document.getElementById("all").click();
+					break;
+				case 1:
+                                        document.getElementById("created").click();
+                                        break;
+				case 2:
+                                        document.getElementById("In").click();
+                                        break;
+			}
+		}
+
+    		});
+	}
 }
 
 function editProfile(){

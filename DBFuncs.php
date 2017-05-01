@@ -226,6 +226,34 @@ function leaveGroup($dbh, $userID, $groupID){
     }
 
 }
+function leaveAGroup(){
+
+	$userID = $_SESSION['userID'];
+	$groupID = $_POST['argument'];
+    $dbh = ConnectDB();	
+    try{
+        $query = "UPDATE groups 
+                  SET group_numUsers = group_numUsers - 1
+                  WHERE group_ID = :groupID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $stmt = null;
+
+        $query = "DELETE FROM belongs 
+                  WHERE student_ID = :userID";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+    }
+
+    catch(PDOException $e){
+        die('PDO Error in leaveGroup(): ' . $e->getMessage());
+    }
+
+}
+
+
 //Check to see if a user belongs in a group
 function checkBelongs($dbh, $userID, $groupID) {
 
@@ -851,6 +879,9 @@ function deleteGroup(){
 
 }
 
+
+
+
 function getSessionVar(){
 	echo $_SESSION['username'];
 }
@@ -903,15 +934,18 @@ switch($_POST['functionName']) {
         case 'getCreatorEmail':
                 getCreatorEmail();
                 break;	
-		case 'getSessionUserID':
-				getSessionUserID();
-				break;
-		case 'addMessage':
-				addMessage();
-				break;	
-		case 'getGroupUserList':
-				getGroupUserList();
-				break;					
+	case 'getSessionUserID':
+		getSessionUserID();
+		break;
+	case 'addMessage':
+		addMessage();
+		break;	
+	case 'getGroupUserList':
+		getGroupUserList();
+		break;	
+	case 'leaveAGroup':
+		leaveAGroup();
+		break;
 }
 
 ?>
