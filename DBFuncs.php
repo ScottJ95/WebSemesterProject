@@ -580,7 +580,25 @@ function getGroupImage($dbh, $groupID)
     {
         die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
     }
+}
 
+function getGroupImageAjax(){
+    try{
+        $dbh = ConnectDB();
+        $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
+        $stmt = $dbh-> prepare($image_query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $stmt = null;
+        return $imageData;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+    }
 
 }
 
@@ -823,7 +841,7 @@ function getGroups()
                 ORDER BY group_name";
 	break;
     case 2:
-	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
+	$query = "SELECT group_name, t1.group_numUsers, t3.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN students t2 ON t1.creator_ID = t2.student_ID 
                 WHERE t2.username = :Username
@@ -940,17 +958,13 @@ switch($_POST['functionName']) {
 				break;	
 		case 'getGroupUserList':
 				getGroupUserList();
-<<<<<<< HEAD
 				break;
-        case 'getUserImageAjax':
-            getUserImageAjax();
-            break;					
-=======
-				break;	
 		case 'getGroupMessageList';		
 				getGroupMessageList();
-				break;	 				
->>>>>>> f736baad5fa766197602746e117bc6cf4cfa6687
+				break;	 	
+    case 'getUserImageAjax':
+            getUserImageAjax();
+            break;			
 }
 
 ?>

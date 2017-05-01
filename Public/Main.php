@@ -1,4 +1,14 @@
 <!doctype html>
+<?php
+require_once('DBFuncs.php');
+require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+
+if(!checkSession()){
+    exit;
+}
+?>
+
+
 <html>
 <head>
 <meta charset="utf-8">
