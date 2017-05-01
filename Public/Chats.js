@@ -1,7 +1,7 @@
 const userNameChats = getSessionUsername();
 const groupIDChats = urlSample = window.location.href.split('=')[1];
 getNumMembers();
-members();
+
 
 function getSessionUsername(){//function that gets the current users name
 	$.ajax({
@@ -23,10 +23,9 @@ function getNumMembers(){//function adds the number of members to the
 
                    type: 'POST',
                    url:  'DBFuncs.php',
-                   data: { functionName:'getGroupUserList', argument:groupIDChats},
+                   data: { functionName:'getGroupUserList', argument: [groupIDChats]},
                    success: function (response) { 
 				   var result = JSON.parse(response);
-				   window.alert(result.username);
 				   members(response);
 				document.getElementById("numMem").innerHTML=" "+result.length;
                    }
@@ -44,8 +43,8 @@ function getEmailFromUserID(user) { //function adds the appropriate source to th
         },
 
         success: function(response) {
-            document.getElementById("calendar").setAttribute("src", "https://calendar.google.com/calendar/embed?src=" + response + "&ctz=America/New_York");
-
+			if(document.getElementById("calendar").getAttribute("src") == undefined)
+				document.getElementById("calendar").setAttribute("src", "https://calendar.google.com/calendar/embed?src=" + response + "&ctz=America/New_York");
         }
     });
 }
@@ -60,7 +59,7 @@ function getSource() { //function adds the appropriate source to the calendar
         },
 
         success: function(response) {
-			var sourceEmail = getEmailFromUserID(response);
+			getEmailFromUserID(response);
         }
     });
 }
@@ -87,11 +86,15 @@ function messages(){
 	$.ajax({
                    type: 'POST',
                    url:  'DBFuncs.php',
-                   data: { functionName:'getGroupMessageList', argument:groupIDChats},
+                   data: { functionName:'getGroupMessageList', argument:[groupIDChats]},
 
                    success: function (response) {
-			   if(response == 0)
-				   window.location.href = "login.html";
+				var messageCollection = JSON.parse(response);
+				window.alert(messageCollection);
+
+			   if(messageCollection.length == 0)
+				   window.alert(messageCollection);
+				   //window.location.href = "login.html";
 			   else
 			   {
                         var messages = JSON.parse(response);
@@ -139,16 +142,15 @@ function getUserID(){//gets current logged in username from Session
 }
 function submitMessage(){
     var message = document.getElementById("inputMessage").value; //get value of message
-	var date = new Date(); //get current date
 	var userID = getUserID();  //get current UserID
 	
 		$.ajax({
    	    type: 'POST',
     	    url:  'DBFuncs.php',
-            data: { functionName:'addMessage',argument:[groupIDChats, userID, date, message] },
+            data: { functionName:'addMessage',argument:[groupIDChats, userID, message] },
                 
             success: function (response) {
-				window.alert("success");
+				document.getElementById("inputMessage").value="";
 				messages();
 			}
 		
