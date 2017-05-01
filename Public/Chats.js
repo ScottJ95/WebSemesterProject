@@ -1,24 +1,27 @@
-const userNameChats = getSessionUsername();
+var userNameChats = -1; //overwritten on page load but needed to be global
+//how we identify what chatroom we are in for most function calls
 const groupIDChats = urlSample = window.location.href.split('=')[1];
-getNumMembers();
-
-
-function getSessionUsername(){//function that gets the current users name
-	$.ajax({
-                   type: 'POST',
-                   url:  'DBFuncs.php',
-                   data: { functionName:'getSessionVar'},
-
-                   success: function (response) {                   
-				return response;
-                   }
-
-                });
-
+var userID = 2;  //overwritten on page load but needed to be global
+getNumMembers();//start page loading events
+messages();//load all messages
+//assign the global variable for the username of the current user
+function getSessionUsername(){
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+         data: { functionName:'getSessionVar'},
+		
+        success: function (response) {
+                console.log(response);                   
+				userNameChats = response;
+        }
+	});
 }
 
-function getNumMembers(){//function adds the number of members to the 
-						// userbar on the side
+//request all members from the database and send that collection
+//to the members function for displaying all of them. 
+//Add the length of the collection to the webpage 
+function getNumMembers(){
 	$.ajax({
 
                    type: 'POST',
@@ -28,12 +31,16 @@ function getNumMembers(){//function adds the number of members to the
 				   var result = JSON.parse(response);
 				   members(response);
 				document.getElementById("numMem").innerHTML=" "+result.length;
+				messages();
                    }
 
                 });
 
 }
-function getEmailFromUserID(user) { //function adds the appropriate source to the calendar 
+//takes a parameter of a userID
+//Sends userID to php call which will return the email address
+//and then assign that variable to the calendar source
+function getEmailFromUserID(user) { 
     $.ajax({
         type: 'POST',
         url: 'DBFuncs.php',
@@ -49,7 +56,10 @@ function getEmailFromUserID(user) { //function adds the appropriate source to th
     });
 }
 
-function getSource() { //function adds the appropriate source to the calendar 
+//uses the global variable groupIDChats and sends that value
+//to dbfuncs that will return the creator of this chats
+//id and calls the getEmailFromUser with that value.
+function getSource() {  
     $.ajax({
         type: 'POST',
         url: 'DBFuncs.php',
@@ -64,6 +74,9 @@ function getSource() { //function adds the appropriate source to the calendar
     });
 }
 
+//takes a collection of members (JSON encoded collection from getNumMembers()
+//JSON.parse the collection so it is readable for this function
+//adds the members into an unordered list on the group info bar
 function members(members) {
 	
 	var memberCollection = JSON.parse(members);
@@ -80,6 +93,7 @@ function members(members) {
 	
 }
 
+//Displays all messages in their own object
 function messages(){
 	
 	document.getElementById("groupContainer").innerHTML="";
@@ -90,60 +104,68 @@ function messages(){
 
                    success: function (response) {
 				var messageCollection = JSON.parse(response);
-				window.alert(messageCollection);
 
-			   if(messageCollection.length == 0)
-				   window.alert(messageCollection);
-				   //window.location.href = "login.html";
-			   else
+			   if(messageCollection.length != 0)
 			   {
                         var messages = JSON.parse(response);
-
                         for(i = 0;i<messages.length;i++)
                         {	
-                                document.getElementById("groupContainer").innerHTML+= "<div class = \"post\">";
-								document.getElementById("groupContainer").innerHTML+= "<div class = \"userContainer\">";
-								document.getElementById("groupContainer").innerHTML+= "<div class=\"userImageChat\">";
-								document.getElementById("groupContainer").setAttribute("backgroundImage","url(\"/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/ FUCKING SAMPLE IMAGE\")");//TODO: ADD FETCH image path METHOD HERE FOR CORRECT DISPLAY
-								document.getElementById("groupContainer").innerHTML+= "</div>";
-								document.getElementById("groupContainer").innerHTML+= "<div class=\"userNameChat\"> FUCK THIS USERNAME </div>";//TODO: ADD FETCH USERNAME METHOD HERE FOR CORRECT DISPLAY
-								document.getElementById("groupContainer").innerHTML+= "</div><br>";
-								document.getElementById("groupContainer").innerHTML+= "<div class = \"messageChat\">FUCK THIS MESSAGE AREA BECAUSE ITS HARDCODED";
-								document.getElementById("groupContainer").innerHTML+= "</div>"
-								document.getElementById("groupContainer").innerHTML+= "</div>";
+                                document.getElementById("groupContainer").innerHTML+= "<div class = \"post\">"
+																					+ "<div class = \"userContainer\">"
+																					+"<div class=\"userImageChat\">"
+																					+ "</div>"
+																					+ "<div class=\"userNameChat\">"+ messages[i].username +"</div>"
+																					+"</div><br>"
+																					+"<div class = \"messageChat\">"+messages[i].message_body
+																					+"</div>"
+																					+"</div>";
                         }
                   }
 		   }
 
                 });
 }
-
+//sets  session values to null and
+//redirects the user to the log in page
 function logout(){
+	setSessionVar();
 	window.location.href = "login.html";
 }
+//redirects the user to their personal profil page
 function editProfile(){
-	window.location.href = "editProfile.php";
+    window.location.href = "profile.php?userID=" + userID;
 }
+//returns the user to the main screen
 function main(){
         window.location.href = "Main.html";
 }
 
-function getUserID(){//gets current logged in username from Session
+//gets the userID from  session
+//assigns it to userID global var
+//calls getSessionUsername
+function getUserID(){
     $.ajax({
         type: 'POST',
          url:  'DBFuncs.php',
         data: { functionName:'getSessionUserID'},
-
-        success: function (response) {                   
-		return response;
+        success: function (response) {
+                console.log(response);                   
+				userID = response;
+				getSessionUsername();
         }
 
     });
+
 }
+
+//Checks if input is empty and if false
+//continues to pass the value, groupID, and groupID to php
+//function that will add it to the database
+//then calls messages to update the display
 function submitMessage(){
     var message = document.getElementById("inputMessage").value; //get value of message
-	var userID = getUserID();  //get current UserID
 	
+	if(message.length != 0){
 		$.ajax({
    	    type: 'POST',
     	    url:  'DBFuncs.php',
@@ -156,6 +178,6 @@ function submitMessage(){
 		
 		
         });
-	
+	}
 }
 
