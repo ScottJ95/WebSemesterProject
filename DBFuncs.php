@@ -160,6 +160,7 @@ function getUserImage($dbh, $userID)
 {
 
     try{
+        $dbh = ConnectDB();
         $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
         $stmt = $dbh-> prepare($image_query);
         $stmt->bindParam(':userID', $userID);
@@ -175,8 +176,30 @@ function getUserImage($dbh, $userID)
         die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
     }
 
+}
+
+function getUserImageAjax(){
+
+ try{
+        $dbh = ConnectDB();
+        $userID = $_POST['argument'][0];
+        $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
+        $stmt = $dbh-> prepare($image_query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+        $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $stmt = null;
+        echo $imageData[0]->image_location;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+    }
 
 }
+
 
 function joinGroup($dbh, $userID, $groupID) {
     try{
@@ -911,7 +934,10 @@ switch($_POST['functionName']) {
 				break;	
 		case 'getGroupUserList':
 				getGroupUserList();
-				break;					
+				break;
+        case 'getUserImageAjax':
+            getUserImageAjax();
+            break;					
 }
 
 ?>

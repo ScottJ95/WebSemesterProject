@@ -1,6 +1,10 @@
+var userID = null;
+var username = null;
+
 function start() {
 
     getSessionUsername();
+    getSessionID();
     //ADD USERNAME HERE
 //	document.getElementById("userName").innerHTML="HELP";
         
@@ -55,11 +59,45 @@ function getSessionUsername(){
         success: function (response) {
                 console.log(response);                   
 		document.getElementById("userName").innerHTML=response;
+                
         }
 
     });
 
 }
+
+function getSessionID(){
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getSessionUserID'},
+
+        success: function (response) {
+               userID = response;
+                console.log(response);
+               setUserImage(); 
+        }
+
+    });
+
+}
+
+function setUserImage(){
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getUserImageAjax', argument: userID},
+
+        success: function (response) {
+            console.log(response);
+            $('#userImage').css("background-image", "url(" + response + ")");
+        }
+
+    });
+
+
+}
+
 
 
 function setSessionVar(){
@@ -93,17 +131,9 @@ function leaveGroup(idOfGroup){
 }
 
 function editProfile(){
-         $.ajax({
-        type: 'POST',
-         url:  'DBFuncs.php',
-        data: { functionName:'getSessionUserID'},
+    window.location.href = "profile.php?userID=" + userID;
 
-        success: function (response) {
-                window.location.href = "profile.php?userID=" + response;
 
-        }
-
-    });
 }
 function moveToChat(idOfGroup){
 	//Set Session variables
