@@ -2,8 +2,11 @@ var userNameChats = -1; //overwritten on page load but needed to be global
 //how we identify what chatroom we are in for most function calls
 const groupIDChats = urlSample = window.location.href.split('=')[1];
 var userID = 2;  //overwritten on page load but needed to be global
+var map = {};
+getIcons();
 getNumMembers();//start page loading events
 messages();//load all messages
+
 //assign the global variable for the username of the current user
 function getSessionUsername(){
     $.ajax({
@@ -37,6 +40,29 @@ function getNumMembers(){
                 });
 
 }
+
+function getIcons()
+{
+	$.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getImageWithID', argument:groupIDChats},
+
+        success: function (response) {
+            if(response){
+		var groupData = JSON.parse(response);
+		for(var i = 0;i<groupData.length;i++)
+		{
+			map[groupData[i].student_ID] = groupData[i].image_location;
+		}
+
+	    }
+
+        }
+
+    });
+}
+
 //takes a parameter of a userID
 //Sends userID to php call which will return the email address
 //and then assign that variable to the calendar source
@@ -110,10 +136,18 @@ function messages(){
                         var messages = JSON.parse(response);
                         for(i = 0;i<messages.length;i++)
                         {	
-                                document.getElementById("groupContainer").innerHTML+= "<div class = \"post\">"
+				var image = null;
+                               if(map[messages[i].student_ID] != null)
+				{
+					image = map[messages[i].student_ID];
+				}
+				else{
+					image = 'defaultIcon.svg';
+				}
+				document.getElementById("groupContainer").innerHTML+= "<div class = \"post\">"
 																					+ "<div class = \"userContainer\">"
-																					+"<div class=\"userImageChat\">"
-																					+ "</div>"
+																					+"<img class=\"userImageChat\" src=\'"+image+"\'>"
+																					+ "</img>"
 																					+ "<div class=\"userNameChat\">"+ messages[i].username +"</div>"
 																					+"</div><br>"
 																					+"<div class = \"messageChat\">"+messages[i].message_body

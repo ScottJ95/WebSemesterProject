@@ -425,7 +425,7 @@ function getGroupMessageList()
     try {
     $dbh = ConnectDB();
     $groupID = $_POST['argument'][0];		
-	$message_query = "select t1.message_body, t2.username from messages t1 inner join students t2 on t1.student_ID = t2.student_ID where group_ID = :groupID";
+	$message_query = "select t1.message_body, t2.username,t2.student_ID from messages t1 inner join students t2 on t1.student_ID = t2.student_ID where group_ID = :groupID";
 	$stmt = $dbh->prepare($message_query);
 
 	$stmt->bindParam(":groupID", $groupID);
@@ -440,6 +440,29 @@ function getGroupMessageList()
     {
         die('PDO Error in getGroupMessages: ' . $e->getMessage());
     }
+
+}
+
+function getImageWithID()
+{
+	try {
+	$dbh = ConnectDB();	
+	$groupID = $_POST['argument'];	
+        $group_query = "select t1.student_ID, t2.image_location from students t1 inner join images t2 on t1.image_ID = t2.image_ID inner join belongs t3 on t3.student_ID = t1.student_ID inner join groups t4 on t4.group_ID = t3.group_ID where t4.group_ID = :groupID";
+        $stmt = $dbh->prepare($group_query);
+
+        $stmt->bindParam(":groupID", $groupID);
+        $stmt->execute();
+
+        $result_array = $stmt->fetchAll(PDO::FETCH_OBJ);
+	$groupData = json_encode($result_array);
+        echo $groupData;
+        }
+
+        catch(PDOException $e)
+        {
+                die('PDO Error in getGroupByID: ' . $e->getMessage());
+        }
 
 }
 
@@ -1042,6 +1065,9 @@ switch($_POST['functionName']) {
     case 'joinTheGroup':
 	    joinTheGroup();
 	    break;	    
+    case 'getImageWithID':
+	    getImageWithID();
+	    break;    
 }
 
 ?>
