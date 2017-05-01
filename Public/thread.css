@@ -38,7 +38,7 @@ body{
 	text-align:center;
 	padding-bottom:10px;
 }
-.userImage{
+#userImage{
 	background-color:white;
 	background-image:url('defaultIcon.svg');
 	border: 2px solid black;
@@ -48,7 +48,7 @@ body{
 	margin:auto;
 	margin-top:20px;
 	margin-bottom:20px;
-        background-size:100%;	
+	background-size:100%;
 }
 
 .navButton{
