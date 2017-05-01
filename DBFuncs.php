@@ -184,7 +184,7 @@ function getUserImageAjax(){
 
  try{
         $dbh = ConnectDB();
-        $userID = $_POST['argument'][0];
+        $userID = $_SESSION['userID'];
         $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
         $stmt = $dbh-> prepare($image_query);
         $stmt->bindParam(':userID', $userID);
@@ -611,7 +611,7 @@ function getGroupImage($dbh, $groupID)
 }
 
 function getGroupImageAjax(){
-    try{
+	try{
         $dbh = ConnectDB();
         $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
         $stmt = $dbh-> prepare($image_query);

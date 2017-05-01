@@ -9,7 +9,8 @@ function start() {
 
     getSessionUsername();
     getSessionID();
-        
+    setUserImage();
+		
     document.getElementById("all").click();
 }
 
@@ -51,6 +52,10 @@ function Groups(evt,x){
     });
 }
 
+function setSessionVarAndImage()
+{
+	
+}
 
 //This function gets the session Username and displays it
 function getSessionUsername(){
@@ -79,7 +84,7 @@ function getSessionID(){
         success: function (response) {
                userID = response;
                 console.log(response);
-              // setUserImage(); 
+               //setUserImage(); 
         }
 
     });
@@ -91,12 +96,15 @@ function setUserImage(){
     $.ajax({
         type: 'POST',
          url:  'DBFuncs.php',
-        data: { functionName:'getUserImageAjax', argument: userID},
+        data: { functionName:'getUserImageAjax'},
 
         success: function (response) {
             if(response){
                 $('#userImage').css("background-image", "url(" + response + ")");
-            }
+            	console.log(response);
+		    //$('#userImage').src = response;
+	    }
+		
         }
 
     });
