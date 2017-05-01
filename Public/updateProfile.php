@@ -96,7 +96,7 @@ try {
         $updateDir = $newDirAbs;
     }
     updateImage($updateDir,$userID, $curruserName);
-    header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/profile.php?userID=' . $userID);
+    header('Location: profile.php?userID=' . $userID);
     exit;
 }
 
