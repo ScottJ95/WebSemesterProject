@@ -1,4 +1,4 @@
-var tab = 0;
+var tab = '0';
 var userID = null;
 var username = null;
 
@@ -138,13 +138,13 @@ function leaveGroup(idOfGroup,groupName){
 
         	success: function (response) {
         		switch(tab){
-				case 0:
+				case '0':
 					document.getElementById("all").click();
 					break;
-				case 1:
+				case '1':
                                         document.getElementById("created").click();
                                         break;
-				case 2:
+				case '2':
                                         document.getElementById("In").click();
                                         break;
 			}
