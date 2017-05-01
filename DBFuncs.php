@@ -53,7 +53,7 @@ function addMessage() {
 		$groupID = $_POST['argument'][0];
 		$userID = $_POST['argument'][1];
 		$body = $_POST['argument'][2];				
-        $query = "INSERT INTO messages (student_ID, group_ID, message_body)
+        $query = "INSERT INTO messages (group_ID, student_ID, message_body)
                   VALUES (:groupID, :userID, :body)";
         $stmt = $dbh->prepare($query);
         $stmt->bindParam(':userID', $userID);
@@ -61,7 +61,7 @@ function addMessage() {
         $stmt->bindParam(':body', $body);
         $stmt->execute();
     }
-
+		
     catch(PDOException $e){
         die('PDO Error in joinGroup(): ' . $e->getMessage());
     }
@@ -397,7 +397,7 @@ function getGroupMessageList()
     try {
     $dbh = ConnectDB();
     $groupID = $_POST['argument'][0];		
-	$message_query = "SELECT * FROM messages WHERE group_ID = :groupID";
+	$message_query = "select t1.message_body, t2.username from messages t1 inner join students t2 on t1.student_ID = t2.student_ID where group_ID = :groupID";
 	$stmt = $dbh->prepare($message_query);
 
 	$stmt->bindParam(":groupID", $groupID);
@@ -761,14 +761,14 @@ function joinGroups()
 
 function getUsernameFromID(){
     try {
-        $dbh = ConnectDB();
-        $studentID = $_POST['argument'][0];        
+		$dbh = ConnectDB();
+		$studentID = $_POST['argument'][0];		
         $userID_query = "SELECT username FROM students WHERE student_ID = :studentID";
         $stmt = $dbh->prepare($userID_query);
-        $stmt->bindParam(":studentID", $studentID);
+		$stmt->bindParam(":studentID", $studentID);
         $stmt->execute();
         $usernameReturn = $stmt->fetchALL(PDO::FETCH_OBJ);
-        $NameofUser = $usernameReturn[0]->username;
+		$NameofUser = $usernameReturn[0]->username;
         echo $NameofUser;
 
     }
@@ -779,7 +779,7 @@ function getUsernameFromID(){
     }
 
 
-}
+}	
 
 function joinTheGroup($groupName, $subject){
 
