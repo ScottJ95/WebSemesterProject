@@ -654,6 +654,8 @@ function getImageByDir($dbh, $dir)
         }
 
 }
+
+//Checks if the username and email enterd are unique and adds them to the DB
 function checkUserRegistration()
 {
     $dbh = ConnectDB();
@@ -663,65 +665,62 @@ function checkUserRegistration()
 
 
     if($username != strip_tags($username) || $email != strip_tags($email)) {
-    // contains HTMLi
-
-    echo "0";
-
-}
-
-else {
-
-    $name_query = "SELECT username FROM students WHERE username = :userName";
-    $stmt = $dbh-> prepare($name_query);
-    $stmt->bindParam(':userName', $username);
-    $stmt->execute();
-
-    if ($stmt -> rowCount() == 0) {
-        $email_query = "SELECT email FROM students WHERE email = :email";      
-        $stmt = $dbh-> prepare($email_query);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-
-	if ($stmt -> rowCount() == 0) {
-            $hash = md5( rand(0,1000) );
-	    $reg_query = "INSERT INTO students (username, password, email, hash_link) 
-                          VALUES(:userName, :password, :email, :hash)";
-	    $stmt = $dbh-> prepare($reg_query);
-	    $stmt->bindParam(':userName', $username);
-	    $stmt->bindParam(':password', md5($password));
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':hash', $hash);
-	    $stmt->execute();
-
-            //send verification email
-            $to      = $email;
-            $subject = 'Signup | Verification';
-            $message = '
-            Thanks for signing up!
-            Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
- 
-            Please click this link to activate your account:
-            http://elvis.rowan.edu/~hudson37/web/WebSemesterProject/verify.php?email='.$email.'&hash='.$hash.'
- 
-            '; // Our message above including the link
-                     
-            $headers = 'From:noreply@yourwebsite.com' . "\r\n"; // Set from headers
-            mail($to, $subject, $message, $headers); // Send our email
-
-            mkdir("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
-            chmod("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
-	    
-            //Registration was successful.
-            echo "3";
-        }
-
-        else {
-	    //If the email already exists;.
-            echo "2";
-        }
+        // contains HTML, dont allow registration.
+        echo "0";
     }
 
-        else{
+    else {
+        $name_query = "SELECT username FROM students WHERE username = :userName";
+        $stmt = $dbh-> prepare($name_query);
+        $stmt->bindParam(':userName', $username);
+        $stmt->execute();
+
+        if ($stmt -> rowCount() == 0) {
+            //Username was unique
+            $email_query = "SELECT email FROM students WHERE email = :email";      
+            $stmt = $dbh-> prepare($email_query);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+
+	    if ($stmt -> rowCount() == 0) {
+                //Email was unique
+                $hash = md5( rand(0,1000) );
+	        $reg_query = "INSERT INTO students (username, password, email, hash_link) 
+                            VALUES(:userName, :password, :email, :hash)";
+	        $stmt = $dbh-> prepare($reg_query);
+	        $stmt->bindParam(':userName', $username);
+	        $stmt->bindParam(':password', md5($password));
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':hash', $hash);
+	        $stmt->execute();
+                //Account added to DB
+
+                //Send verification email
+                $to      = $email;
+                $subject = 'Verify Account';
+                $message = '
+                Thanks for signing up!
+                Your account has been created, please click the following link to active your account:
+                http://elvis.rowan.edu/~hudson37/web/WebSemesterProject/verify.php?email='.$email.'&hash='.$hash.'
+                ';
+                     
+                $headers = 'From:noreply@website.com' . "\r\n"; // Set from headers
+                mail($to, $subject, $message, $headers); // Send our email
+
+                //Create directory for users files
+                mkdir("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
+                chmod("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
+	    
+                //Registration was successful.
+                echo "3";
+            }
+
+            else {
+	        //If the email already exists;.
+                echo "2";
+            }
+        }
+        else {
     	    //If the username already exists.
 	    echo "1";
         }
@@ -729,6 +728,7 @@ else {
     exit();
 }
 
+//Updates for the username formbox on key up wheather the username is avaliable or not.
 function checkUsernameReg()
 {
     $dbh = ConnectDB();
@@ -745,6 +745,7 @@ function checkUsernameReg()
     }
 }
 
+//Updates for the email formbox on key up wheather the email is avaliable or not.
 function checkEmailReg()
 {
     $dbh = ConnectDB();

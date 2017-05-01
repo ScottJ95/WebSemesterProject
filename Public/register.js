@@ -1,3 +1,7 @@
+/*
+ * Ryan Hudson 
+ * Javascript functions for registration
+ */
 function register() {
     var username = document.getElementById("userBox").value;
     var email = document.getElementById("emailBox").value;
@@ -7,6 +11,8 @@ function register() {
     document.getElementById("passMessage").innerHTML = "";
     document.getElementById("passconfMessage").innerHTML = "";
     document.getElementById("accountregMessage").innerHTML= "";
+
+    //Basic checks for empty fields/mismatched passwords
     if(username=="")
     {
     	document.getElementById("userMessage").innerHTML = "Please enter a valid username";
@@ -29,11 +35,13 @@ function register() {
     }
     else
     {
+        //POST to DBFuncs
     	$.ajax({ 
     	    type: 'POST',
     	    url:  'DBFuncs.php',
             data: { functionName:'checkUserRegistration',argument:[username,email,password] },
                 
+            //DBFuncs echos a number based on what happened
             success: function (response) {
                 if(response == 0) {
                     document.getElementById("userMessage").innerHTML="Username or Email field contains illegal characters";
@@ -52,6 +60,7 @@ function register() {
     }
 }
 
+//Called on key up for the username form field on register.html
 function checkUsername()
 {
     var username = document.getElementById("userBox").value;
@@ -72,12 +81,14 @@ function checkUsername()
     }
 }
 
+//Called on key up for the email form field on register.html
 function checkEmail()
 {
     var email = document.getElementById("emailBox").value;
     var googleEmail = /@gmail.com/;
     var rowanEmail = /@students.rowan.edu/;
     if(email != "") {
+        //regex check for gmail or rowan, we restrict to gmail and rowan email for the Google calendar
 	if(googleEmail.test(email) == true || rowanEmail.test(email) == true){
             $.ajax({
                 type: 'POST',
@@ -99,7 +110,7 @@ function checkEmail()
     }
 }
 
-
+//Just returns user to login page
 function cancel(){
     window.location.href = "login.html";
 }

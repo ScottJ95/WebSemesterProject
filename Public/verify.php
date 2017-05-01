@@ -1,9 +1,11 @@
+
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Account Verification</title>
 <link href="register.css" rel="stylesheet" type="text/css">
+<script src="register.js"></script>
 </head>
 
 <body>
@@ -30,7 +32,7 @@
             $stmt->execute();
 
             if($stmt -> rowCount() != 0){
-                // We have a match, activate the account
+                //Match is found for the email and hash, change their verfied to 1
                 $query = "UPDATE students SET verified='1' WHERE email= :email
                 AND hash_link= :hashLink";
                 $stmt = $dbh-> prepare($query);
@@ -41,17 +43,22 @@
                 you can now login.</div>';
             }
             else{
-                // No match -> invalid url or account has already been activated.
+                // No match, invalid url or account has already been activated.
                 echo '<div class="message">The url is either invalid or you 
                 already have activated your account.</div>';
             }
         }
         else{
-            // Invalid approach
+            // Invalid approach, ie user manually goes to verify.php
             echo '<div class="message">Invalid approach, please use the link that
             has been send to your email.</div>';
         }
         ?> 
     </div>
+
+        <div class = "buttonContainer">
+            <button onclick="cancel()" class = "homebuttons"  id = "cancel">Back to Login</button>
+        </div>
+
 </body>
 </html>
