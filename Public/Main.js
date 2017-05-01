@@ -38,8 +38,8 @@ function Groups(evt,x){
                 var groupData = JSON.parse(response);
                 for(i = 0;i<groupData.length;i++){
                     document.getElementById("groupList").innerHTML+="<div class=\"group\"><a onclick=\"moveToChat("
-                    +groupData[i].group_ID+");\"><div class = \"groupButton\"><img class = \"groupImage\" alt=\"groupIcon\" src=\""
-                    +"\"><div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">"+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
+                    +groupData[i].group_ID+");\"><div class = \"groupButton\">"
+                    +"<div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">"+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
                     + groupData[i].group_description+"</div></div>"
                     +"</a><a onclick=\"\" <div class=\"leaveButton\">Leave</div></a></div>";
                 }
