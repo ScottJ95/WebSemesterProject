@@ -759,6 +759,28 @@ function joinGroups()
 
 }
 
+function getUsernameFromID(){
+    try {
+        $dbh = ConnectDB();
+        $studentID = $_POST['argument'][0];        
+        $userID_query = "SELECT username FROM students WHERE student_ID = :studentID";
+        $stmt = $dbh->prepare($userID_query);
+        $stmt->bindParam(":studentID", $studentID);
+        $stmt->execute();
+        $usernameReturn = $stmt->fetchALL(PDO::FETCH_OBJ);
+        $NameofUser = $usernameReturn[0]->username;
+        echo $NameofUser;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in    : ' . $e->getCreator());
+    }
+
+
+}
+
 function joinTheGroup($groupName, $subject){
 
     if(checkSession()){
@@ -964,6 +986,9 @@ switch($_POST['functionName']) {
 				break;	 	
     case 'getUserImageAjax':
             getUserImageAjax();
+            break;
+    case 'getUsernameFromID':
+            getUsernameFromID();
             break;			
 }
 

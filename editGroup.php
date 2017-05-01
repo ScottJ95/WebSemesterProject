@@ -2,7 +2,6 @@
 
 session_start();
 
-//TODO REMOVE THIS
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
