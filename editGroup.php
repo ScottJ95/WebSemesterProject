@@ -2,14 +2,12 @@
 
 session_start();
 
-//TODO REMOVE THIS
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 $dbh = ConnectDB();
 
 if(!checkSession()){
-        header('Location: http://elvis.rowan.edu/~jefferys0/');
         exit;
 }
 

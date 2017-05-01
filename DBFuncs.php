@@ -45,18 +45,19 @@ function getCreatorEmail() {
         die('PDO Error in    : ' . $e->getCreatorEmail());
     }
 
-
 }
 
-function addMessage($groupID, $userID, $date, $body) {
+function addMessage() {
     try{
-		$dbh = ConnectDB();		        
-        $query = "INSERT INTO messages (student_ID, group_ID,message_date, message_body)
-                  VALUES (:groupID, :userID, :date, :body)";
+		$dbh = ConnectDB();	
+		$groupID = $_POST['argument'][0];
+		$userID = $_POST['argument'][1];
+		$body = $_POST['argument'][2];				
+        $query = "INSERT INTO messages (student_ID, group_ID, message_body)
+                  VALUES (:groupID, :userID, :body)";
         $stmt = $dbh->prepare($query);
         $stmt->bindParam(':userID', $userID);
         $stmt->bindParam(':groupID', $groupID);
-		$stmt->bindParam(':date', $date);
         $stmt->bindParam(':body', $body);
         $stmt->execute();
     }
@@ -89,6 +90,7 @@ function getCreator() {
 
 
 }
+
 //Get the ID of student from a messageID,
 //Returns that user's ID
 function getUserIDFromMessageID($message_ID)
@@ -160,6 +162,7 @@ function getUserImage($dbh, $userID)
 {
 
     try{
+        $dbh = ConnectDB();
         $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
         $stmt = $dbh-> prepare($image_query);
         $stmt->bindParam(':userID', $userID);
@@ -175,8 +178,30 @@ function getUserImage($dbh, $userID)
         die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
     }
 
+}
+
+function getUserImageAjax(){
+
+ try{
+        $dbh = ConnectDB();
+        $userID = $_POST['argument'][0];
+        $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
+        $stmt = $dbh-> prepare($image_query);
+        $stmt->bindParam(':userID', $userID);
+        $stmt->execute();
+        $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $stmt = null;
+        echo $imageData[0]->image_location;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+    }
 
 }
+
 
 function joinGroup($dbh, $userID, $groupID) {
     try{
@@ -284,7 +309,7 @@ function getGroupUserList()
 {
     try {
     $dbh = ConnectDB();
-    $groupID = 26;
+    $groupID = $_POST['argument'][0];
 
     $user_query = "SELECT student_ID,fname,lname,username,email FROM students JOIN belongs USING(student_ID) WHERE  group_ID = :groupID";
 
@@ -302,6 +327,7 @@ function getGroupUserList()
         die('PDO Error in groupUserList: ' . $e->getMessage());
     }
 }
+
 
 
 //Get the list of all groups
@@ -394,18 +420,20 @@ function getGroupByID($dbh, $groupID)
 
 
 //Get a group's messages by their ID
-function getGroupMessageList($dbh, $groupID)
+function getGroupMessageList()
 {
     try {
+    $dbh = ConnectDB();
+    $groupID = $_POST['argument'][0];		
 	$message_query = "SELECT * FROM messages WHERE group_ID = :groupID";
 	$stmt = $dbh->prepare($message_query);
 
 	$stmt->bindParam(":groupID", $groupID);
 	$stmt->execute();
 
-	$messageData = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-	return $messageData;
+	$messageData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $messages = json_encode($messageData);
+	echo $messages;
     }
 
     catch(PDOException $e)
@@ -414,6 +442,7 @@ function getGroupMessageList($dbh, $groupID)
     }
 
 }
+
 
 //Get all the groups userID has created
 function getCreatedGroups($dbh, $userID)
@@ -579,7 +608,25 @@ function getGroupImage($dbh, $groupID)
     {
         die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
     }
+}
 
+function getGroupImageAjax(){
+    try{
+        $dbh = ConnectDB();
+        $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
+        $stmt = $dbh-> prepare($image_query);
+        $stmt->bindParam(':groupID', $groupID);
+        $stmt->execute();
+        $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $stmt = null;
+        return $imageData;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+    }
 
 }
 
@@ -740,6 +787,28 @@ function joinGroups()
 
 }
 
+function getUsernameFromID(){
+    try {
+        $dbh = ConnectDB();
+        $studentID = $_POST['argument'][0];        
+        $userID_query = "SELECT username FROM students WHERE student_ID = :studentID";
+        $stmt = $dbh->prepare($userID_query);
+        $stmt->bindParam(":studentID", $studentID);
+        $stmt->execute();
+        $usernameReturn = $stmt->fetchALL(PDO::FETCH_OBJ);
+        $NameofUser = $usernameReturn[0]->username;
+        echo $NameofUser;
+
+    }
+
+    catch(PDOException $e)
+    {
+        die('PDO Error in    : ' . $e->getCreator());
+    }
+
+
+}
+
 function joinTheGroup($groupName, $subject){
 
     if(checkSession()){
@@ -822,7 +891,7 @@ function getGroups()
                 ORDER BY group_name";
 	break;
     case 2:
-	$query = "SELECT group_name, t1.group_numUsers, t1.image_ID,t1.group_description, t1.group_ID 
+	$query = "SELECT group_name, t1.group_numUsers, t3.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN students t2 ON t1.creator_ID = t2.student_ID 
                 WHERE t2.username = :Username
@@ -934,6 +1003,7 @@ switch($_POST['functionName']) {
         case 'getCreatorEmail':
                 getCreatorEmail();
                 break;	
+<<<<<<< HEAD
 	case 'getSessionUserID':
 		getSessionUserID();
 		break;
@@ -946,6 +1016,26 @@ switch($_POST['functionName']) {
 	case 'leaveAGroup':
 		leaveAGroup();
 		break;
+=======
+		case 'getSessionUserID':
+				getSessionUserID();
+				break;
+		case 'addMessage':
+				addMessage();
+				break;	
+		case 'getGroupUserList':
+				getGroupUserList();
+				break;
+		case 'getGroupMessageList';		
+				getGroupMessageList();
+				break;	 	
+    case 'getUserImageAjax':
+            getUserImageAjax();
+            break;
+    case 'getUsernameFromID':
+            getUsernameFromID();
+            break;			
+>>>>>>> 8e4acec67b957501c660c1477d422500c8ef879f
 }
 
 ?>

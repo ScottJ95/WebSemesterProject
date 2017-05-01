@@ -1,4 +1,14 @@
 <!doctype html>
+<?php
+require_once('DBFuncs.php');
+require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
+
+if(!checkSession()){
+    exit;
+}
+?>
+
+
 <html>
 <head>
 <meta charset="utf-8">
@@ -10,7 +20,7 @@
 <body onload="start();">
 <div class = "container"> 
 	<div class = "left">
-    		<div class = "userImage"> </div>
+    		<div class = "userImage" id = "userImage"> </div>
         	<div id = "userName"> Your Username Here</div>
         	<button class="navButton" id="home" onclick="main();">Home</button><br>
     		<button class="navButton" id="profile" onclick="editProfile();">Profile</button>

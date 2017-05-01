@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 var tab = 0;
+=======
+var userID = null;
+var username = null;
+
+>>>>>>> 8e4acec67b957501c660c1477d422500c8ef879f
 function start() {
 
     getSessionUsername();
+    getSessionID();
     //ADD USERNAME HERE
 //	document.getElementById("userName").innerHTML="HELP";
         
@@ -30,18 +37,23 @@ function Groups(evt,x){
 	    else
 	    {
                 var groupData = JSON.parse(response);
-                for(i = 0;i<groupData.length;i++)
-                {
+                for(i = 0;i<groupData.length;i++){
                     document.getElementById("groupList").innerHTML+="<div class=\"group\"><a onclick=\"moveToChat("
-                    +groupData[i].group_ID+");\"><div class = \"groupButton\"><img class = \"groupImage\" alt=\"groupIcon\" src=\""
-                    +"\"><div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">"+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
+                    +groupData[i].group_ID+");\"><div class = \"groupButton\">"
+                    +"<div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">"+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
                     + groupData[i].group_description+"</div></div>"
+<<<<<<< HEAD
                     +"</a><a onclick=\"leaveGroup("+groupData[i].group_ID+","+"\'"+groupData[i].group_name+"\'"+");\" <div class=\"leaveButton\">Leave</div></a></div>";
+=======
+                    +"</a><a onclick=\"\" <div class=\"leaveButton\">Leave</div></a></div>";
+>>>>>>> 8e4acec67b957501c660c1477d422500c8ef879f
                 }
+
             }
 	}
     });
 }
+
 
 
 function getSessionUsername(){
@@ -53,11 +65,46 @@ function getSessionUsername(){
         success: function (response) {
                 console.log(response);                   
 		document.getElementById("userName").innerHTML=response;
+                
         }
 
     });
 
 }
+
+function getSessionID(){
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getSessionUserID'},
+
+        success: function (response) {
+               userID = response;
+                console.log(response);
+               setUserImage(); 
+        }
+
+    });
+
+}
+
+function setUserImage(){
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getUserImageAjax', argument: userID},
+
+        success: function (response) {
+            if(response){
+                $('#userImage').css("background-image", "url(" + response + ")");
+            }
+        }
+
+    });
+
+
+}
+
 
 
 function setSessionVar(){
@@ -114,17 +161,9 @@ function leaveGroup(idOfGroup,groupName){
 }
 
 function editProfile(){
-         $.ajax({
-        type: 'POST',
-         url:  'DBFuncs.php',
-        data: { functionName:'getSessionUserID'},
+    window.location.href = "profile.php?userID=" + userID;
 
-        success: function (response) {
-                window.location.href = "profile.php?userID=" + response;
 
-        }
-
-    });
 }
 function moveToChat(idOfGroup){
 	//Set Session variables

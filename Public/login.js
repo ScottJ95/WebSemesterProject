@@ -26,7 +26,7 @@ function login() {
 				   document.getElementById("popup").innerHTML="Log In";
 
 				  //Set Session var
-				window.location.href = "Main.html";
+				window.location.href = "Main.php";
 			   }
 			   else //Password needs to be changed
 			   {	
