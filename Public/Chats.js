@@ -137,7 +137,7 @@ function editProfile(){
 }
 //returns the user to the main screen
 function main(){
-        window.location.href = "Main.html";
+        window.location.href = "Main.php";
 }
 
 //gets the userID from  session

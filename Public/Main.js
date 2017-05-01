@@ -2,17 +2,20 @@ var tab = '0';
 var userID = null;
 var username = null;
 
+//The start function is called onload
+//It is used to set the Session ID and Username 
+//Aswell as click the first tab and show all groups
 function start() {
 
     getSessionUsername();
     getSessionID();
-    //ADD USERNAME HERE
-//	document.getElementById("userName").innerHTML="HELP";
         
     document.getElementById("all").click();
 }
 
-
+//The Groups function is called when someone changes clicks a tab
+//There are three tabs ALL(x=0), CREATED(x=1), and IN(x=2)
+//This function uses ajax to capture a list of groups that can be clicked on
 function Groups(evt,x){
     tab = x;
     tablinks = document.getElementsByClassName("tabButton");	
@@ -49,7 +52,7 @@ function Groups(evt,x){
 }
 
 
-
+//This function gets the session Username and displays it
 function getSessionUsername(){
     $.ajax({
         type: 'POST',
@@ -66,6 +69,7 @@ function getSessionUsername(){
 
 }
 
+//This function gets the session ID and calls the setUserImage() function
 function getSessionID(){
     $.ajax({
         type: 'POST',
@@ -75,13 +79,14 @@ function getSessionID(){
         success: function (response) {
                userID = response;
                 console.log(response);
-               setUserImage(); 
+              // setUserImage(); 
         }
 
     });
 
 }
 
+//This function gets the user Image and displays it
 function setUserImage(){
     $.ajax({
         type: 'POST',
@@ -100,7 +105,7 @@ function setUserImage(){
 }
 
 
-
+//This function sets the session variables to null
 function setSessionVar(){
     $.ajax({
         type: 'POST',
@@ -112,21 +117,21 @@ function setSessionVar(){
     });
 }
 
-function groupButton(){
-	//Send to Group page
-	//window.location.href = "newpassword.html";
-}
-
+//This function sends you to a page where you can create a group
 function createGroup(){
 	window.location.href = "createGroup.php";
 }
+//This function sends you to a page where you can join a group
 function joinGroup(){
         window.location.href = "joinGroup.php";
 }
+//This function logs you out and sends you to the login page
 function logout(){
 	setSessionVar();
 	window.location.href = "login.html";
 }
+//This function given a Group ID and Name allows you to leave a group
+//Once you leave it will refresh whicheber tab you are on.
 function leaveGroup(idOfGroup,groupName){
 	var x = confirm("Are you sure you want to leave "+groupName );	
 	if(x == true)
@@ -153,13 +158,14 @@ function leaveGroup(idOfGroup,groupName){
     		});
 	}
 }
-
+//This function sends you to a page where you can edit your profile
 function editProfile(){
     window.location.href = "profile.php?userID=" + userID;
 
 
 }
+//This function sends you to a page where your chat is depending on what group
+/////you clicked on
 function moveToChat(idOfGroup){
-	//Set Session variables
 	window.location.href = "Chats.html?groupID="+idOfGroup;
 }

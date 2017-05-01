@@ -44,10 +44,6 @@ require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 $dbh = ConnectDB();
 
-if ($_GET['submitted'] == "Cancel")
-{
-    header("Location: Main.php");
-}
 
 ?>
 
