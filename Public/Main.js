@@ -41,7 +41,7 @@ function Groups(evt,x){
                 for(i = 0;i<groupData.length;i++){
                     document.getElementById("groupList").innerHTML+="<div class=\"group\"><a onclick=\"moveToChat("
                     +groupData[i].group_ID+");\"><div class = \"groupButton\">"
-                    +"<div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">"+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
+                    +"<div class = \"chatName\">"+groupData[i].group_name+"</div><div class=\"chatSize\">Chat size: "+groupData[i].group_numUsers+"</div><div class = \"chatDesc\">"
                     + groupData[i].group_description+"</div></div>"
                     +"</a><a onclick=\"leaveGroup("+groupData[i].group_ID+","+"\'"+groupData[i].group_name+"\'"+");\" <div class=\"leaveButton\">Leave</div></a></div>";
                     +"</a><a onclick=\"\" <div class=\"leaveButton\">Leave</div></a></div>";

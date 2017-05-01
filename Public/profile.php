@@ -78,6 +78,7 @@ else if($userID ==1){
 $userData = getUserByID($dbh,$queryID);
 
 $userImage = getUserImage($dbh,$queryID);
+echo '<div class="left">';
 
 echo '<h1 id = "editHeader"> User Profile: ' .
      $userData[0]->username . "</h1>";
@@ -94,17 +95,17 @@ echo "<p> Email: "
 echo "<p> Profile Picture: </p> \n";
 
     if($userData[0]->image_ID == NULL){
-        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:304px;height:228px;">';
+        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:300px;height:300px;">';
     }
     else{
          echo '<img id="userImage" src="'. $userImage[0]->image_location
-             .'"alt="' . $userImage[0]->image_name . '" style="width:304px;height:228px;">';
+             .'"alt="' . $userImage[0]->image_name . '" style="width:300px;height:300px;">';
     }
 
-
+echo '</div>';
 if($enableEdit){
 
-echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="post" 
+echo '<div id="center"> <form enctype="multipart/form-data" action="updateProfile.php" method="post" 
         onsubmit = "return checkProfile();">
 
 <fieldset>
@@ -180,7 +181,7 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
     </tr>
 
 
-  </table>';
+  </table></div>';
 }
 
 

@@ -921,7 +921,7 @@ function getGroups()
                 ORDER BY group_name";
 	break;
     case 2:
-	$query = "SELECT group_name, t1.group_numUsers, t3.image_ID,t1.group_description, t1.group_ID 
+	$query = "SELECT group_name, t1.group_numUsers, t2.image_ID,t1.group_description, t1.group_ID 
                 FROM groups t1 
                 INNER JOIN students t2 ON t1.creator_ID = t2.student_ID 
                 WHERE t2.username = :Username
