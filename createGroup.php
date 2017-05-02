@@ -19,7 +19,7 @@ $_SESSION['projectTime'] = time();
         content="application/xhtml+xml; charset=UTF-8" />
   <meta name="Author" content="Scott Jeffery" />
 
-  <link rel="stylesheet" href="thread.css" />
+  <link rel="stylesheet" href="createGroup.css" />
   <script type="text/javascript" src="./AjaxFunctions.js"></script>
    <script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
@@ -45,12 +45,13 @@ $dbh = ConnectDB();
 ?>
 
 
-<h1> Create a New Group </h1>
+<div class = "header"> Create a New Group </div>
+<div class = "container">
+<div class = "infoText"> Create a new group here</div>
 
-<p> This is a form that lets you make a new group. 
-</p>
+ <div class = "instruction">This is a form that lets you make a new group. </div>
 
-<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkForm(false);">
+<form enctype="multipart/form-data" action="submitGroup.php" method="post" onsubmit = "return checkForm(false);" id = "form">
 <fieldset>
 <legend> Create A New Group </legend>
 <table title="Create Group Input" id= "createGroupTable">
@@ -98,7 +99,7 @@ $dbh = ConnectDB();
         </td>
         <td> <input type="submit"/>
 	<input type="button" name="Cancel" value="Cancel" onClick="window.location='Main.php';" />
-	</td>
+        </td>
 
     </tr>
 
@@ -106,5 +107,7 @@ $dbh = ConnectDB();
     </fieldset>
     </form>
 
+    
+</div>
 </body>
 </html>

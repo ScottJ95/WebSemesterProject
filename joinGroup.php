@@ -22,13 +22,12 @@ if(!checkSession()){
         content="application/xhtml+xml; charset=UTF-8" />
   <meta name="Author" content="Jacob Kershaw" />
 
+  <link rel="stylesheet" href="joinGroup.css" />
   <script type="text/javascript" src="./AjaxFunctions.js"></script>
    <script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
   <script type="text/javascript" src="./checkGroupForm.js"></script>
-<link href="thread.css" rel="stylesheet" type="text/css" media="screen">   
-
-
+<link href="joinGroup.css" rel="stylesheet" type="text/css" media="screen">   
 </head>
 
 
@@ -48,12 +47,12 @@ $dbh = ConnectDB();
 ?>
 
 
-<h1> Join a Group </h1>
+<div class = "header"> Join a Group </div>
+<div class = "container">
+<div class = "infoText"> Join a group from here</div>
+<div class = "instruction"> This is a form that lets you join a group. </div>
 
-<p> This is a form that lets you join a group. 
-</p>
-
-<form enctype="multipart/form-data" action="Main.php" method="post" onsubmit = "return checkJoinForm();">
+<form enctype="multipart/form-data" action="" method="post">
 <fieldset>
 <legend> Search For A Group </legend>
 <table title="Create Group Input" id= "createGroupTable">
@@ -84,9 +83,9 @@ $dbh = ConnectDB();
     <tr>
         <td>
         </td>
-	<td> <input type="submit"/>
+        <td> <input type="submit"/>
 	<input type="button" name="Cancel" value="Cancel" onClick="window.location='Main.php';" />
-	</td>
+        </td>
 
     </tr>
 
@@ -95,6 +94,7 @@ $dbh = ConnectDB();
     </form>
 
 
+</div>
 
 
 </body>

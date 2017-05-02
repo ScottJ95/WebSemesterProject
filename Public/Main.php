@@ -13,7 +13,7 @@ if(!checkSession()){
 <head>
 <meta charset="utf-8">
 <title>Reddit 2.0</title>
-<link href="thread.css" rel="stylesheet" type="text/css" media="screen">
+<link href="Main.css" rel="stylesheet" type="text/css" media="screen">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="Main.js"></script>
 </head>

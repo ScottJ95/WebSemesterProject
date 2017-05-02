@@ -47,7 +47,7 @@ if($userData == NULL || $userData[0]->student_ID != $queryID){
         content="application/xhtml+xml; charset=UTF-8" />
   <meta name="Author" content="Scott Jeffery" />
 
-  <link rel="stylesheet" href="thread.css" />
+  <link rel="stylesheet" href="profile.css" />
   <script type="text/javascript" src="./AjaxFunctions.js"></script>
    <script type="text/javascript"
           src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
@@ -55,7 +55,8 @@ if($userData == NULL || $userData[0]->student_ID != $queryID){
 </head>
 
 <body>
-
+<div class = "header"> Edit Profile</div>
+<div class = "container">
 <?php
 
 require_once('DBFuncs.php');
@@ -78,34 +79,33 @@ else if($userID ==1){
 $userData = getUserByID($dbh,$queryID);
 
 $userImage = getUserImage($dbh,$queryID);
-echo '<div class="left">';
 
-echo '<h1 id = "editHeader"> User Profile: ' .
-     $userData[0]->username . "</h1>";
-echo "<p> Current Information: </p>\n";
+echo '<div class = "header" id = "editHeader"> User Profile: ' .
+     $userData[0]->username . "</div>";
+echo "<div class = \"infoText\"> Current Information: </div>\n";
 
-echo "<p> Current User Name: "
+echo "<p class = \"userInfo\"> Current User Name: "
         . $userData[0]->username . "</p>\n";
-echo "<p> First Name: "
+echo "<p class = \"userInfo\"> First Name: "
         . $userData[0]->fname . "</p>\n";
-echo "<p> Last Name: "
+echo "<p class = \"userInfo\"> Last Name: "
         . $userData[0]->lname . "</p>\n";
-echo "<p> Email: " 
+echo "<p class = \"userInfo\"> Email: " 
         . $userData[0]->email . "</p>\n";
-echo "<p> Profile Picture: </p> \n";
+echo "<p class = \"userInfo\"> Profile Picture: </p> \n";
 
     if($userData[0]->image_ID == NULL){
-        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:300px;height:300px;">';
+        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:304px;height:228px;">';
     }
     else{
          echo '<img id="userImage" src="'. $userImage[0]->image_location
-             .'"alt="' . $userImage[0]->image_name . '" style="width:300px;height:300px;">';
+             .'"alt="' . $userImage[0]->image_name . '" style="width:304px;height:228px;">';
     }
 
-echo '</div>';
+
 if($enableEdit){
 
-echo '<div id="center"> <form enctype="multipart/form-data" action="updateProfile.php" method="post" 
+echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="post" 
         onsubmit = "return checkProfile();">
 
 <fieldset>
@@ -181,14 +181,14 @@ echo '<div id="center"> <form enctype="multipart/form-data" action="updateProfil
     </tr>
 
 
-  </table></div>';
+  </table>';
 }
 
 
 ?>
 
 
-
+</div>
 </body>
 
 </html>

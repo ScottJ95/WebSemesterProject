@@ -1,0 +1,314 @@
+ @font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+ 
+body{
+	background-color: #151818;	
+	height:100vh;
+	width:100vw;
+	background-image:url("backgroundPattern.jpg");
+}
+
+.container{
+	border-style:solid;
+	border-width:2px;	
+	width:80vw;
+	min-width: 1000px;
+	margin:auto;
+	background-color: #1A1D1B;
+
+}
+
+.left{
+	width:10vw;
+	min-width: 250px;
+	height:700px;
+	float:left;	
+	background-color: #344F4E;
+}
+
+#userName{
+	font-family:Avenir;
+	font-weight:bold;
+	text-align:center;
+	padding-bottom:10px;
+}
+#userImage{
+	background-color:white;
+	background-image:url('defaultIcon.svg');
+	border: 2px solid black;
+	border-radius:50%;
+	height:200px;
+	width:200px;
+	margin:auto;
+	margin-top:20px;
+	margin-bottom:20px;
+	background-size:100%;
+}
+.navButton{
+    background-color: #1A2726;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height:45px;
+    width:200px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+
+.navButton:hover{
+	background-color: #283535;
+    border-radius: 5px;
+    color: white;
+    height:50px;
+    width:200px;
+    text-align: center;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 17px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+.tabButton{
+        width:31%;
+        height:50px;
+        background-color: #1E232A;
+        color: white;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+
+.tabButton:hover{
+        width:31%;
+        height:50px;
+        background-color: #3B4655;
+        color: white;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+
+.groupButton{ 
+	width:80%;
+		min-height: 80px;
+        background-color: #868686;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+		float:left;
+	    border:1px solid #CCC;
+	    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+		overflow: hidden;
+		
+}
+.groupButton:hover{
+        background-color: #AAAAAA;
+}
+.groupButton:active{
+        background-color: #626262;
+		border:1px solid #FFF;
+}
+.leaveButton{
+        width:18%;
+        height:80px;
+        background-color: #868686;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+		float:left;
+	    border:1px solid #CCC;
+	    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+		text-align:center;
+		vertical-align:central;
+		line-height: 80px;
+		font-size:18px;
+		font-weight:bolder;
+}
+.leaveButton:hover{
+        background-color: #AAAAAA;
+}
+.leaveButton:active{
+        background-color: #626262;
+		border:1px solid #FFF;
+}
+.right{
+	min-width:130px;
+	height:700px;
+	float:left;
+	background-color: #B9E5B5;
+}
+
+.style-5::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+.style-5::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+.style-5::-webkit-scrollbar-thumb
+{
+	background-color: #91CDD0;
+	
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+	                   color-stop(.5, rgba(255, 255, 255, .2)),
+					   color-stop(.5, transparent), to(transparent));
+}
+#groupList{
+        border-radius: 0px;
+        border: 2px solid #AAC4C7;
+        padding: 20px;
+        width: 70%;
+        height: 400px;
+        margin:auto;
+		margin-top:20px;
+        margin-bottom:10px;
+		overflow-y:scroll;
+		background-color: #1A1D1B;
+}
+.chatName{
+	font-family: Avenir;
+	font-size:18px;
+	float:left;
+	margin-left:50px; 
+	width:50%;
+	padding-top:5px;
+}
+.chatSize{
+	font-family: "Helvetica Neue";
+	font-size: 16px;
+	float:left;
+	width: 50%;
+	margin-left:50px;
+}
+.chatDesc{
+	font-family: Avenir;
+	font-size: 14px;
+	float:left;
+	width: 50%;
+	margin-left:50px;
+}
+.groupImage{
+	background-color:white;
+	height: 70px;
+	width:70px;	
+	float:left;
+	padding-top:5px;
+
+}
+@media screen and (max-width:1000px), screen and (max-height:800px) {
+.left{
+	width: 250px;
+	height:800px;
+}
+.realcenter{
+	width:700px;
+	height:800px;
+	float:right;
+}
+.right{
+	width: 250px;
+	height:800px;
+}
+
+.container{	
+	width: 700px;
+	height:800px;
+	float:left;
+}
+.tabButton{
+        width:160px;
+        height:50px;
+        background-color: #1E232A;
+        color: white;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+
+.tabButton:hover{
+        width:160px;
+        height:50px;
+        background-color: #3B4655;
+        color: white;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+
+.groupButton{ 
+	width:380px;
+		min-height: 80px;
+        background-color: #868686;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+		float:left;
+	    border:1px solid #CCC;
+	    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+		overflow: hidden;
+		
+}
+.leaveButton{
+        width:120px;
+        height:80px;
+        background-color: #868686;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+		float:left;
+	    border:1px solid #CCC;
+	    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+		text-align:center;
+		vertical-align:central;
+		line-height: 80px;
+		font-size:18px;
+		font-weight:bolder;
+}
+#groupList{
+        width: 600px;
+        height: 400px;
+        margin:auto;
+		margin-top:20px;
+        margin-bottom:10px;
+		overflow-y:scroll;
+		background-color: #1A1D1B;
+}
+.chatName{
+	font-family: Avenir;
+	font-size:18px;
+	float:left;
+	margin-left:50px; 
+	width:300px;
+	padding-top:5px;
+}
+.chatSize{
+	font-family: "Helvetica Neue";
+	font-size: 16px;
+	float:left;
+	width: 300px;
+	margin-left:50px;
+}
+.chatDesc{
+	font-family: Avenir;
+	font-size: 14px;
+	float:left;
+	width: 300px;
+	margin-left:50px;
+}
+.groupImage{
+	background-color:white;
+	height: 70px;
+	width:70px;	
+	float:left;
+	padding-top:5px;
+
+}
+} 

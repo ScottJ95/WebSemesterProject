@@ -1,0 +1,303 @@
+ @font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+ 
+body{
+	background-color: #151818;	
+	height:100vh;
+	width:100vw;
+	background-image:url("backgroundPattern.jpg");
+}
+
+.container{
+	border-style:solid;
+	border-width:2px;	
+	width:80vw;
+	min-width: 1000px;
+	margin:auto;
+	background-color: #1A1D1B;
+
+}
+
+.left{
+	width:10vw;
+	min-width: 250px;
+	height:700px;
+	float:left;	
+	background-color: #344F4E;
+}
+
+#userName{
+	font-family:Avenir;
+	font-weight:bold;
+	text-align:center;
+	padding-bottom:10px;
+}
+#userImage{
+	background-color:white;
+	background-image:url('defaultIcon.svg');
+	border: 2px solid black;
+	border-radius:50%;
+	height:200px;
+	width:200px;
+	margin:auto;
+	margin-top:20px;
+	margin-bottom:20px;
+	background-size:100%;
+}
+
+.navButton{
+    background-color: #1A2726;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height:45px;
+    width:200px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+
+.navButton:hover{
+	background-color: #283535;
+    border-radius: 5px;
+    color: white;
+    height:50px;
+    width:200px;
+    text-align: center;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 17px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+.center{
+	width:50vw;
+	min-width:500px;
+	height:700px;
+	float:left;
+	background-color: #1A2726;
+}
+.right{
+	min-width:130px;
+	height:700px;
+	float:left;
+	background-color: #B9E5B5;
+}
+
+.style-5::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+.style-5::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+.style-5::-webkit-scrollbar-thumb
+{
+	background-color: #91CDD0;
+	
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+	                   color-stop(.5, rgba(255, 255, 255, .2)),
+					   color-stop(.5, transparent), to(transparent));
+}
+.post{
+	/*background-color:lightblue;
+	border-radius: 25px;*/
+	border: 2px solid #1E2939;
+	padding: 10px; 
+	width: 95%;
+	height: 80px; 
+	margin:auto;
+	margin-bottom:5px;
+	margin-top:5px;
+	margin-left:5px;
+	margin-right:5px;
+	background-color: #AAC4C7;
+}
+.userImageChat{
+	background-color:white;
+	background-image:url('defaultIcon.svg');
+	border-radius:20%;
+	border: 2px solid black;
+	width:64px;
+	height:64px;
+	float:left;	
+}
+
+.userNameChat{
+	font-weight:bolder;
+	font-size:16px;
+	height:10px;
+	width:50%;
+	display:block;
+	padding-left:5px;
+	float:left;
+	color: black;
+}
+
+.messageChat{
+	word-wrap: break-word;
+	width:90%;
+	display: block;
+	margin-left:80px;
+	font-size:16px;
+	color: black;
+
+}
+
+.inputMessage{
+	margin-top:25px;
+	background-color:white;
+	word-wrap:break-word;
+	height:200px;
+	width:90%;
+	float:left;
+	margin-left:25px;	
+}
+
+#btnSend{
+	float:right;
+	height:25px;
+	margin-right:80px;
+}
+
+.buttonContainer{
+	width:90%;
+	margin-left:50px;
+	margin-top:15px;
+	float:right;	
+}
+#btnAttach{
+	margin-left:10px;	
+	height:25px;
+	margin-right:50px;
+	float:right;
+}
+.members{
+	background-color:#406148;
+	height:80vh;
+	height:700px;
+	width:250px;
+	float:right;	
+}
+.memberText{
+	font-size:30px;	
+	text-align:center;
+	font-weight:bold;
+	padding-top:20px;
+	font-family:Avenir;
+	color: white;
+}
+.memberCount{
+	font-size:15px;	
+	text-align:left;
+	padding-left:30px;
+	padding-top:20px;
+	font-family:Helvetica Neue;
+	color: white;
+}
+
+.groupMembers{
+	font-size: 15px;
+	text-align:left;
+	padding-left: 30px;	
+	font-family: Georgia;
+	color: white;
+	list-style:none;
+}
+#groupContainer
+{
+	height: 50%;
+	width:90%;
+	margin:auto;
+	margin-bottom: 10px;
+	margin-top:10px;	
+}
+#groupImage{
+	background-color:white;
+	background-image:url('defaultIcon.svg');
+	border: 2px solid black;
+	border-radius:50%;
+	height:200px;
+	width:200px;
+	margin:auto;
+	margin-top:20px;
+	margin-bottom:20px;
+	margin-left:25px;
+	background-size:100%;
+}
+#calendar{
+	width:1400px; 
+	height:1050px;
+	display:block; 
+	margin:auto;
+}
+
+@media screen and (max-width:1000px), screen and (max-height:800px) {
+.left{
+	width: 250px;
+	height:400px;
+}
+.center{
+	width:500px;
+	height:400px;
+}
+.right{
+	width: 250px;
+	height:400px;
+}
+.members{
+	height:400px;
+	width:250px;
+}
+#groupContainer{
+	margin:auto;
+	width:500px;
+	height:200px;
+}
+.userNameChat{
+	width:50%;
+}
+.messageChat{
+	width:90%;
+	margin-left:80px;
+}
+
+.inputMessage{
+	background-color:white;
+	word-wrap:break-word;
+	height:120px;
+	width:450px;
+	float:left;	
+}
+#userImage{
+	height:100px;
+	width:100px;
+}
+#groupImage{
+	height:100px;
+	width:100px;
+	margin-left:75px;
+}
+.container{	
+	width: 1000px;
+	float:left;
+}
+#calendar{
+	width:1000px; 
+	height:750px;
+	float:left;
+}
+} 

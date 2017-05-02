@@ -5,7 +5,7 @@
  
  .header{
 		font-family: Helvetice Neue;
-		font-size: 150px;
+		font-size: 120px;
 		color:white;
 		text-align: center;
 		padding-top:50px;
@@ -27,6 +27,7 @@ body{
 
 .container{
 	width: 50vw;
+	min-width:600px;
 	height: 900px;
 	margin: auto;
 	background-color: #1A1D1B;
@@ -40,7 +41,7 @@ body{
 }
 
 .infoText{
-	font-size:50px;
+	font-size:40px;
 	width:100%;
 	height:150px;
 	line-height:150px;
@@ -109,6 +110,21 @@ body{
 	width:50vw;
 	font-size:24px;
 	text-align:center;
+}
+legend, fieldset{
+	color:white;
+	font-family: Avenir;
+	font-size:24px;
+	margin-top:50px;	
+	width:300px;
+	margin:auto;
+}
+
+th,#description_charCount{
+	font-size:18px;	
+}
+form{
+	margin-top:50px;	
 }
 @media screen and (max-width:1000px), screen and (max-height:800px) {
  .header{
