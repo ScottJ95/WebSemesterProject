@@ -39,18 +39,18 @@
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':hashLink', $hash);
                 $stmt->execute();
-                echo '<div class="message">Your account has been activated,
+                echo '<div class="validate">Your account has been activated,
                 you can now login.</div>';
             }
             else{
                 // No match, invalid url or account has already been activated.
-                echo '<div class="message">The url is either invalid or you 
+                echo '<div class="validate">The url is either invalid or you 
                 already have activated your account.</div>';
             }
         }
         else{
             // Invalid approach, ie user manually goes to verify.php
-            echo '<div class="message">Invalid approach, please use the link that
+            echo '<div class="validate">Invalid approach, please use the link that
             has been send to your email.</div>';
         }
         ?> 
