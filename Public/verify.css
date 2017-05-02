@@ -1,0 +1,156 @@
+/* CSS For the landing page
+**	author: Nick Faccenda
+*/
+ @font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+ 
+ .header{
+		font-family: Helvetice Neue;
+		font-size: 150px;
+		color:white;
+		text-align: center;
+		padding-top:50px;
+		padding-bottom:50px;	
+		background-color: rgba(045, 050, 058, .8);
+ }
+#popup, .validate{
+	margin-top:50px;
+	color:red;
+	font-size:18px;
+	text-align:center;
+}
+body{
+	background-color: #151818;	
+	height:100vh;
+	width:100vw;
+	background-image:url("backgroundPattern.jpg");
+}
+
+.container{
+	width: 50vw;
+	height: 900px;
+	margin: auto;
+	background-color: #1A1D1B;
+}
+.textField{
+	width:50vw;	
+}
+.textBoxField{
+	width:400px;
+	margin:auto;	
+}
+
+.infoText{
+	font-size:50px;
+	width:100%;
+	height:150px;
+	line-height:150px;
+	margin:auto;
+	margin-top:100px;
+	text-align:center;
+	margin-bottom:20px;
+	font-family: avenir;
+	color:white;
+	background: #344F4E; 
+}
+
+.inputBox{
+	width:400px;
+	height:45px;
+	margin:auto;
+	margin-top:50px;
+    font-family: "avenir", lucida grande, tahoma, verdana, sans-serif;
+	padding-left:10px;
+    font-size: 16px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+}
+
+.buttonContainer{
+	display:block;
+	width:300px;
+	margin:auto;
+}
+
+.homebuttons{
+    background-color: #283535;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height:45px;
+    width:200px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+	margin:auto;
+	margin-top: 20px;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+
+.homebuttons:hover{
+	background-color: #344F4E;
+    border-radius: 5px;
+    color: white;
+    height:50px;
+    width:200px;
+    text-align: center;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 17px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+.instruction{
+	color:white;
+	width:50vw;
+	font-size:24px;
+	text-align:center;
+}
+@media screen and (max-width:1000px), screen and (max-height:800px) {
+ .header{
+     padding-top:20px;
+	 width:1000px;
+	 height:300px;
+ }
+ .infoText{
+	height:100px;
+	line-height:100px;
+	margin-top:0px;
+
+}
+.container{
+	width: 1000px;
+	height: 650px;
+	margin: auto;
+	background-color: #1A1D1B;
+	float:left;
+}
+.instruction{
+	color:white;
+	width:1000px;
+	font-size:24px;
+	text-align:center;
+}
+#popup, .validate{
+	margin-top:20px;
+	color:red;
+	width:1000px;
+}
+.textField{
+	width:1000px;	
+}
+.inputBox{
+	width:400px;
+	height:45px;
+	margin:auto;
+	margin-top:20px;
+    font-family: "avenir", lucida grande, tahoma, verdana, sans-serif;
+	padding-left:10px;
+    font-size: 16px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+}
+}

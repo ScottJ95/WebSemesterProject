@@ -4,14 +4,14 @@
 <head>
 <meta charset="utf-8">
 <title>Account Verification</title>
-<link href="register.css" rel="stylesheet" type="text/css">
+<link href="verify.css" rel="stylesheet" type="text/css">
 <script src="register.js"></script>
 </head>
 
 <body>
 <div class = "header"> Account Verification</div>
      
-    <div id="wrap">
+    <div id="container">
         <?php
             require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
             $dbh = ConnectDB();
@@ -53,12 +53,12 @@
             echo '<div class="validate">Invalid approach, please use the link that
             has been send to your email.</div>';
         }
-        ?> 
-    </div>
+        ?>
 
         <div class = "buttonContainer">
             <button onclick="cancel()" class = "homebuttons"  id = "cancel">Back to Login</button>
         </div>
-
+ 
+    </div>
 </body>
 </html>
