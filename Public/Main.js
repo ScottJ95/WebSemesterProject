@@ -34,7 +34,7 @@ function Groups(evt,x){
 
         success: function (response) {
 	    if(response == 0)
-	        window.location.href = "login.html";
+	        window.location.href = "login.php";
 	    else
 	    {
                 var groupData = JSON.parse(response);
@@ -136,7 +136,7 @@ function joinGroup(){
 //This function logs you out and sends you to the login page
 function logout(){
 	setSessionVar();
-	window.location.href = "login.html";
+	window.location.href = "login.php";
 }
 //This function given a Group ID and Name allows you to leave a group
 //Once you leave it will refresh whicheber tab you are on.
