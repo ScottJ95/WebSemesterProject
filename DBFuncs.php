@@ -28,7 +28,8 @@ function getCreatorEmail() {
     try {
 		$dbh = ConnectDB();
 		$studentID = $_POST['argument'][0];
-        $group_query = "SELECT email FROM students WHERE student_ID = :studentID"; // get creator ID
+        $group_query = "SELECT email FROM students WHERE student_ID = :studentID"; 
+        // get creator ID
         $stmt = $dbh->prepare($group_query);
 		$stmt->bindParam(":studentID", $studentID);
         $stmt->execute();
@@ -49,10 +50,10 @@ function getCreatorEmail() {
 
 function addMessage() {
     try{
-		$dbh = ConnectDB();	
-		$groupID = $_POST['argument'][0];
-		$userID = $_POST['argument'][1];
-		$body = $_POST['argument'][2];				
+	$dbh = ConnectDB();	
+	$groupID = $_POST['argument'][0];
+	$userID = $_POST['argument'][1];
+	$body = $_POST['argument'][2];				
         $query = "INSERT INTO messages (group_ID, student_ID, message_body)
                   VALUES (:groupID, :userID, :body)";
         $stmt = $dbh->prepare($query);
@@ -71,8 +72,8 @@ function addMessage() {
 function getCreator() {
 	
     try {
-		$dbh = ConnectDB();
-		$groupID = $_POST['argument'][0];		
+	$dbh = ConnectDB();
+	$groupID = $_POST['argument'][0];		
         $group_query = "SELECT creator_ID FROM groups WHERE group_ID = :groupID";
         $stmt = $dbh->prepare($group_query);
 		$stmt->bindParam(":groupID", $groupID);
@@ -141,7 +142,9 @@ function getEmailCurrentUser($dbh, $userID)
 function getUserByID($dbh, $userID)
 {
     try {
-	$user_query = "SELECT student_ID,fname,lname,username,email,image_ID FROM students WHERE student_id = :user_ID";
+	$user_query = "SELECT student_ID,fname,lname,username,email,image_ID 
+                      FROM students 
+                      WHERE student_id = :user_ID";
 	$stmt = $dbh-> prepare($user_query);
 
 	$stmt->bindParam(':user_ID', $userID);
@@ -163,7 +166,9 @@ function getUserImage($dbh, $userID)
 
     try{
         $dbh = ConnectDB();
-        $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
+        $image_query = "SELECT * FROM images 
+                        JOIN students USING(image_ID) 
+                        WHERE student_ID = :userID";
         $stmt = $dbh-> prepare($image_query);
         $stmt->bindParam(':userID', $userID);
         $stmt->execute();
@@ -185,7 +190,9 @@ function getUserImageAjax(){
  try{
         $dbh = ConnectDB();
         $userID = $_SESSION['userID'];
-        $image_query = "SELECT * FROM images join students using(image_ID) where student_ID = :userID";
+        $image_query = "SELECT * FROM images 
+                        JOIN students USING(image_ID) 
+                        WHERE student_ID = :userID";
         $stmt = $dbh-> prepare($image_query);
         $stmt->bindParam(':userID', $userID);
         $stmt->execute();
@@ -312,7 +319,9 @@ function getGroupUserList()
     $dbh = ConnectDB();
     $groupID = $_POST['argument'][0];
 
-    $user_query = "SELECT student_ID,fname,lname,username,email FROM students JOIN belongs USING(student_ID) WHERE  group_ID = :groupID";
+    $user_query = "SELECT student_ID,fname,lname,username,email FROM students 
+                  JOIN belongs USING(student_ID) 
+                  WHERE group_ID = :groupID";
 
     $stmt = $dbh->prepare($user_query);
     $stmt->bindParam(':groupID', $groupID);
@@ -377,7 +386,8 @@ function getMatchingGroupName($dbh, $groupName)
 function getMatchingGroupNameSubject($dbh, $groupName, $subject)
 {
     try {
-	$group_query = "SELECT * FROM groups WHERE group_name = :groupName AND group_subject = :subject";
+	$group_query = "SELECT * FROM groups 
+                        WHERE group_name = :groupName AND group_subject = :subject";
 	$stmt = $dbh->prepare($group_query);
 
 	$stmt->bindParam(":groupName", $groupName);
@@ -426,7 +436,10 @@ function getGroupMessageList()
     try {
     $dbh = ConnectDB();
     $groupID = $_POST['argument'][0];		
-	$message_query = "select t1.message_body, t2.username,t2.student_ID from messages t1 inner join students t2 on t1.student_ID = t2.student_ID where group_ID = :groupID";
+	$message_query = "SELECT t1.message_body, t2.username,t2.student_ID 
+                          FROM messages t1 
+                          INNER JOIN students t2 ON t1.student_ID = t2.student_ID 
+                          WHERE group_ID = :groupID";
 	$stmt = $dbh->prepare($message_query);
 
 	$stmt->bindParam(":groupID", $groupID);
@@ -449,7 +462,11 @@ function getImageWithID()
 	try {
 	$dbh = ConnectDB();	
 	$groupID = $_POST['argument'];	
-        $group_query = "select t1.student_ID, t2.image_location from students t1 inner join images t2 on t1.image_ID = t2.image_ID inner join belongs t3 on t3.student_ID = t1.student_ID inner join groups t4 on t4.group_ID = t3.group_ID where t4.group_ID = :groupID";
+        $group_query = "SELECT t1.student_ID, t2.image_location FROM students t1 
+                        INNER JOIN images t2 ON t1.image_ID = t2.image_ID 
+                        INNER JOIN belongs t3 ON t3.student_ID = t1.student_ID 
+                        INNER JOIN groups t4 ON t4.group_ID = t3.group_ID 
+                        WHERE t4.group_ID = :groupID";
         $stmt = $dbh->prepare($group_query);
 
         $stmt->bindParam(":groupID", $groupID);
@@ -494,7 +511,8 @@ function getCreatedGroups($dbh, $userID)
 function checkCreator($dbh, $userID, $groupID) {
 	
     try {
-        $group_query = "SELECT * FROM groups WHERE creator_ID = :userID AND group_ID = :groupID";
+        $group_query = "SELECT * FROM groups 
+                        WHERE creator_ID = :userID AND group_ID = :groupID";
 
         $stmt = $dbh->prepare($group_query);
 	$stmt->bindParam(":userID", $userID);
@@ -562,7 +580,8 @@ function changePassword()
     $dbh = ConnectDB();
     $username = $_SESSION['username'];
     $password = $_POST['argument'];
-    $user_query = "UPDATE students SET password = :Password,change_password = 0 WHERE username = :userName;";
+    $user_query = "UPDATE students SET password = :Password,change_password = 0 
+                    WHERE username = :userName;";
     $stmt = $dbh-> prepare($user_query);
     $stmt->bindParam(':userName', $username);
     $stmt->bindParam(':Password', md5($password));
@@ -586,7 +605,8 @@ function checkEmail()
     else{	
 	$user_query = "SELECT change_password_time 
                     FROM students 
-                    WHERE email = :Email and TIMESTAMPDIFF(MINUTE, change_password_time, now()) > 5;";
+                    WHERE email = :Email 
+                    AND TIMESTAMPDIFF(MINUTE, change_password_time, now()) > 5;";
         $stmt = $dbh-> prepare($user_query);
         $stmt->bindParam(':Email', $email);
         $stmt->execute();
@@ -618,7 +638,8 @@ function getGroupImage($dbh, $groupID)
 {
 
     try{
-        $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
+        $image_query = "SELECT * FROM images 
+                        JOIN groups USING(image_ID) WHERE group_ID = :groupID";
         $stmt = $dbh-> prepare($image_query);
         $stmt->bindParam(':groupID', $groupID);
         $stmt->execute();
@@ -637,7 +658,9 @@ function getGroupImage($dbh, $groupID)
 function getGroupImageAjax(){
 	try{
         $dbh = ConnectDB();
-        $image_query = "SELECT * FROM images join groups using(image_ID) where group_ID = :groupID";
+        $image_query = "SELECT * FROM images 
+                        JOIN groups USING(image_ID) 
+                        WHERE group_ID = :groupID";
         $stmt = $dbh-> prepare($image_query);
         $stmt->bindParam(':groupID', $groupID);
         $stmt->execute();
@@ -658,24 +681,23 @@ function getGroupImageAjax(){
 
 function getImageByDir($dbh, $dir) 
 {
+    try{
+        $image_query = "SELECT image_ID FROM images where image_location = :dir";
+        $stmt = $dbh-> prepare($image_query);
 
-	try{
-            $image_query = "SELECT image_ID FROM images where image_location = :dir";
-            $stmt = $dbh-> prepare($image_query);
+        $stmt->bindParam(':dir', $dir);
+        $stmt->execute();
+        $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $stmt = null;
 
-            $stmt->bindParam(':dir', $dir);
-            $stmt->execute();
-            $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
-            $stmt = null;
+        return $imageData;
 
-            return $imageData;
+    }
 
-        }
-
-        catch(PDOException $e)
-        {
-            die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
-        }
+    catch(PDOException $e)
+    {
+        die('PDO Error in getUserInfoThroughEmail(): ' . $e->getMessage());
+    }
 
 }
 
@@ -792,7 +814,7 @@ function joinGroups()
 	$groupName = $_POST['argument'][0];
 	$subject = $_POST['argument'][1];
 
-	$query = "SELECT group_ID, group_name,group_subject,group_numUsers,group_description 
+	$query = "SELECT group_ID,group_name,group_subject,group_numUsers,group_description 
                 FROM groups 
                 WHERE group_name = :GroupName AND group_subject = :Subject";
 	$dbh = ConnectDB();
@@ -814,9 +836,10 @@ function joinGroups()
 
 function getUsernameFromID(){
     try {
-		$dbh = ConnectDB();
-		$studentID = $_POST['argument'][0];		
-        $userID_query = "SELECT username FROM students WHERE student_ID = :studentID";
+	$dbh = ConnectDB();
+	$studentID = $_POST['argument'][0];		
+        $userID_query = "SELECT username FROM students 
+                        WHERE student_ID = :studentID";
         $stmt = $dbh->prepare($userID_query);
 		$stmt->bindParam(":studentID", $studentID);
         $stmt->execute();
@@ -857,7 +880,8 @@ function joinTheGroup(){
 	   $groupID = $result_array[0] -> group_ID;
 	   $studentID = $_SESSION['userID'];
 	   
-	   $query = "select * from belongs where student_ID = :StudentID and group_ID = :GroupID";
+	   $query = "SELECT * FROM belongs 
+                    WHERE student_ID = :StudentID AND group_ID = :GroupID";
            $dbh = ConnectDB();
            $stmt = $dbh-> prepare($query);
            $stmt->bindParam(':GroupID', $groupID);
@@ -870,7 +894,8 @@ function joinTheGroup(){
 	   else
 	   {
 	   
-	   $query = "insert into belongs (student_ID,group_ID) values (:StudentID,:GroupID)";
+	   $query = "INSERT INTO belongs (student_ID,group_ID) 
+                    VALUES (:StudentID,:GroupID)";
 	   $dbh = ConnectDB();
            $stmt = $dbh-> prepare($query);
 	   $stmt->bindParam(':GroupID', $groupID);
@@ -878,7 +903,8 @@ function joinTheGroup(){
 	   $stmt->execute();
 
 
-	$query = "update groups set group_numUsers = group_numUsers+'1' where group_ID = :GroupID";
+	    $query = "UPDATE groups SET group_numUsers = group_numUsers+'1' 
+                      WHERE group_ID = :GroupID";
            $dbh = ConnectDB();
            $stmt = $dbh-> prepare($query);
            $stmt->bindParam(':GroupID', $groupID);
@@ -886,7 +912,8 @@ function joinTheGroup(){
 
 	   echo 1;
 	   
-	   }}
+	    }
+        }
     }
     else
     {
@@ -994,81 +1021,81 @@ function sessionOff(){
 
 session_start();
 switch($_POST['functionName']) {
-	case 'checkEmail':
-		checkEmail();
-		break;
-	case 'checkUsername':
-		checkUsername();
-		break;			
-	case 'changePassword':
-		changePassword();
-		break;
-	case 'getGroups':
-		getGroups();
-		break;
-	case 'checkUserRegistration':
-		checkUserRegistration();
-		break;
-	case 'checkUsernameReg':
-		checkUsernameReg();
-		break;
-        case 'checkEmailReg':
-                checkEmailReg();
-                break;
-	case 'getSessionVar':
-		getSessionVar();
-		break;
-	case 'sessionOff':
-		sessionOff();
-		break;
-	case 'joinGroups':
-		joinGroups();
-		break;
-        case 'deleteGroup':
-                deleteGroup();
-                break;
-        case 'getCreator':
-                getCreator();
-                break;
-        case 'getCreatorEmail':
-                getCreatorEmail();
-                break;	
-	case 'getSessionUserID':
-		getSessionUserID();
-		break;
-	case 'addMessage':
-		addMessage();
-		break;	
-	case 'getGroupUserList':
-		getGroupUserList();
-		break;	
-	case 'leaveAGroup':
-		leaveAGroup();
-		break;
-		case 'getSessionUserID':
-				getSessionUserID();
-				break;
-		case 'addMessage':
-				addMessage();
-				break;	
-		case 'getGroupUserList':
-				getGroupUserList();
-				break;
-		case 'getGroupMessageList';		
-				getGroupMessageList();
-				break;	 	
+    case 'checkEmail':
+	checkEmail();
+	break;
+    case 'checkUsername':
+	checkUsername();
+	break;			
+    case 'changePassword':
+	changePassword();
+	break;
+    case 'getGroups':
+	getGroups();
+	break;
+    case 'checkUserRegistration':
+	checkUserRegistration();
+	break;
+    case 'checkUsernameReg':
+	checkUsernameReg();
+	break;
+    case 'checkEmailReg':
+        checkEmailReg();
+        break;
+    case 'getSessionVar':
+	getSessionVar();
+	break;
+    case 'sessionOff':
+	sessionOff();
+	break;
+    case 'joinGroups':
+	joinGroups();
+	break;
+    case 'deleteGroup':
+        deleteGroup();
+        break;
+    case 'getCreator':
+        getCreator();
+        break;
+    case 'getCreatorEmail':
+        getCreatorEmail();
+        break;	
+    case 'getSessionUserID':
+	getSessionUserID();
+	break;
+    case 'addMessage':
+	addMessage();
+	break;	
+    case 'getGroupUserList':
+	getGroupUserList();
+	break;	
+    case 'leaveAGroup':
+	leaveAGroup();
+	break;
+    case 'getSessionUserID':
+	getSessionUserID();
+	break;
+    case 'addMessage':
+	addMessage();
+	break;	
+    case 'getGroupUserList':
+	getGroupUserList();
+	break;
+    case 'getGroupMessageList';		
+	getGroupMessageList();
+	break;	 	
     case 'getUserImageAjax':
-            getUserImageAjax();
-            break;
+        getUserImageAjax();
+        break;
     case 'getUsernameFromID':
-            getUsernameFromID();
-	    break;
+        getUsernameFromID();
+	break;
     case 'joinTheGroup':
-	    joinTheGroup();
-	    break;	    
+	joinTheGroup();
+	break;	    
     case 'getImageWithID':
-	    getImageWithID();
-	    break;    
+	getImageWithID();
+	break;    
 }
 
 ?>
