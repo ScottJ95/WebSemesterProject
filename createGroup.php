@@ -3,7 +3,6 @@ session_start();
 require_once('DBFuncs.php');
 
 if(!checkSession()){
-        header('Location: http://elvis.rowan.edu/~jefferys0/');
         exit;
 }
 

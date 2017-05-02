@@ -16,7 +16,7 @@ $_SESSION['projectTime'] = time();
 if(!isset($_GET['groupID'])) {
 	echo '<script type="text/javascript">'; 
 	echo 'alert("Group not Specified");'; 
-	echo 'window.location.href = "http://elvis.rowan.edu/~jefferys0/";';
+	echo 'window.history.back();';
 	echo '</script>';
 	exit;
 }
@@ -26,7 +26,7 @@ $groupData = getGroupbyID($dbh,$_GET['groupID']);
 if($groupData == NULL){
 	echo '<script type="text/javascript">';
         echo 'alert("Group does not exist");';
-        echo 'window.location.href = "http://elvis.rowan.edu/~jefferys0/";';
+        echo 'window.history.back();';
         echo '</script>';
         exit;
 }
@@ -38,7 +38,7 @@ if($_SESSION['userID'] == 1){
 else if(!checkCreator($dbh, $_SESSION['userID'], $_GET['groupID'])){
 	echo '<script type="text/javascript">';
         echo 'alert("You are not the creator of this group");';
-        echo 'window.location.href = "http://elvis.rowan.edu/~jefferys0/";';
+        echo 'window.history.back;';
         echo '</script>';
 	exit;
 }

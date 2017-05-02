@@ -13,7 +13,7 @@ function checkSession(){
 	}
     else
         {
-            //TODO: CHANGE TO INDEX.HTML
+            //TODO: CHANGE TO INDEX.PHP
 	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/login.html'); 
            return false;
 	}	
