@@ -175,5 +175,5 @@ function editProfile(){
 //This function sends you to a page where your chat is depending on what group
 /////you clicked on
 function moveToChat(idOfGroup){
-	window.location.href = "Chats.html?groupID="+idOfGroup;
+	window.location.href = "Chats.php?groupID="+idOfGroup;
 }

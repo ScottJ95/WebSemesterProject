@@ -99,7 +99,14 @@ function getSource() {
         }
     });
 }
+//Hides sending message part if user does not belong to the group
+function groupInput(members){
+	if(members.includes(userNameChats) == false){
+			document.getElementById("newMessage").style.display='none';
+			document.getElementsByClassName("buttonContainer").style.visibility='hidden';
 
+	}
+}
 //takes a collection of members (JSON encoded collection from getNumMembers()
 //JSON.parse the collection so it is readable for this function
 //adds the members into an unordered list on the group info bar
@@ -122,7 +129,6 @@ function members(members) {
 //Displays all messages in their own object
 function messages(){
 	
-	document.getElementById("groupContainer").innerHTML="";
 	$.ajax({
                    type: 'POST',
                    url:  'DBFuncs.php',

@@ -79,7 +79,7 @@ body{
   	transition-timing-function: ease;
 }
 .center{
-	width:50vw;
+	width:40vw;
 	min-width:500px;
 	height:700px;
 	float:left;
