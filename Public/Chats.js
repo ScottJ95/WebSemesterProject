@@ -136,7 +136,12 @@ function messages(){
                    data: { functionName:'getGroupMessageList', argument:[groupIDChats]},
 
                    success: function (response) {
+<<<<<<< HEAD
 			var messageCollection = JSON.parse(response);
+=======
+				var messageCollection = JSON.parse(response);
+				document.getElementById("groupContainer").innerHTML = "";
+>>>>>>> 890bec1a245218d3ef06b4bd1a35547a08d58585
 
 			if(messageCollection.length != 0)
 			{
@@ -230,6 +235,7 @@ function submitMessage(){
                 
             success: function (response) {
 				document.getElementById("inputMessage").value="";
+				messages();
 			}
 		
 		
