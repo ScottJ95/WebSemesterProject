@@ -137,6 +137,7 @@ function messages(){
 
                    success: function (response) {
 				var messageCollection = JSON.parse(response);
+				document.getElementById("groupContainer").innerHTML = "";
 
 			   if(messageCollection.length != 0)
 			   {
@@ -230,6 +231,7 @@ function submitMessage(){
                 
             success: function (response) {
 				document.getElementById("inputMessage").value="";
+				messages();
 			}
 		
 		
