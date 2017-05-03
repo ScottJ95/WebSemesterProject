@@ -1,0 +1,469 @@
+/* chat-css.css 
+ *
+ * Nick Faccenda, Scott Jeffery, Ryan Hidson, Jake Kershaw
+ *     
+ * template.css v1.0  05/02/2017
+ */
+
+ @font-face { font-family: Avenir; src: url('AvenirNextLTPro-Regular.otf'); } 
+  .header{
+		font-family: Helvetice Neue;
+		font-size: 150px;
+		color:white;
+		text-align: center;
+		background-color: rgba(045, 050, 058, .8);
+ }
+body{
+	background-color: #151818;	
+	height:100vh;
+	width:100vw;
+	background-image:url("backgroundPattern.jpg");
+	color : white;
+}
+
+.container{
+
+	width:80vw;
+	min-width: 1000px;
+	margin:auto;
+
+}
+
+.left{
+	width: 350px;
+	height:700px;
+	float:left;	
+	background-color: #344F4E;
+}
+
+#userName{
+	font-family:Avenir;
+	font-weight:bold;
+	text-align:center;
+	padding-bottom:10px;
+}
+p{
+	margin-left:20px;
+}
+#userImage{
+	background-color:white;
+	background-image:url("defaultIcon.svg");
+	border: 2px solid black;
+	border-radius:50%;
+	margin:auto;
+	margin-top:20px;
+	margin-bottom:20px;
+	background-size:100%;
+}
+
+.navButton{
+    background-color: #1A2726;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height:45px;
+    width:200px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+
+.navButton:hover{
+	background-color: #283535;
+    border-radius: 5px;
+    color: white;
+    height:50px;
+    width:200px;
+    text-align: center;
+	margin:auto;
+	margin-top: 10px;
+    font-family: Helvetica Neue;
+    font-size: 17px;
+  	transition-property: all;
+ 	transition-duration: .6s;
+  	transition-timing-function: ease;
+}
+
+
+.tabButton{
+        width:31%;
+        height:50px;
+        background-color: #1E232A;
+        color: white;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+
+.tabButton:hover{
+        width:31%;
+        height:50px;
+        background-color: #3B4655;
+        color: white;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+}
+
+.groupButton{ 
+	width:80%;
+		min-height: 80px;
+        background-color: #868686;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+        font-weight:bold;
+		float:left;
+	    border:1px solid #CCC;
+	    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+		overflow: hidden;
+		
+}
+.groupButton:hover{
+        background-color: #AAAAAA;
+}
+.groupButton:active{
+        background-color: #626262;
+		border:1px solid #FFF;
+}
+.leaveButton{
+        width:18%;
+        height:80px;
+        background-color: #868686;
+        color: #111111;
+        font: Arial Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+		float:left;
+	    border:1px solid #CCC;
+	    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+		text-align:center;
+		vertical-align:central;
+		line-height: 80px;
+		font-size:18px;
+		font-weight:bolder;
+}
+.leaveButton:hover{
+        background-color: #AAAAAA;
+}
+.leaveButton:active{
+        background-color: #626262;
+		border:1px solid #FFF;
+}
+
+.center{
+	width:50vw;
+	min-width:650px;
+	height:700px;
+	float:left;
+	background-color: #1A2726;
+}
+
+.realcenter{
+	width: 50vw;
+    min-width:250px;
+    height:700px;
+    float:left;
+    background-color: #1A2726;
+}
+
+.right{
+	min-width:130px;
+	height:700px;
+	float:left;
+	background-color: #B9E5B5;
+}
+
+.style-5::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+.style-5::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+.style-5::-webkit-scrollbar-thumb
+{
+	background-color: #91CDD0;
+	
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+	                   color-stop(.5, rgba(255, 255, 255, .2)),
+					   color-stop(.5, transparent), to(transparent));
+}
+
+
+#groupContainer
+{
+	height: 50%;
+	width:90%;
+	margin:auto;
+	margin-bottom: 10px;
+	margin-top:10px;	
+}
+
+a:link, a:visited, a:hover, a:active{
+	color:black;
+	text-decoration:none;	
+}
+
+.post{
+	/*background-color:lightblue;
+	border-radius: 25px;*/
+	border: 2px solid #1E2939;
+	padding: 10px; 
+	width: 95%;
+	height: 80px; 
+	margin:auto;
+	margin-bottom:5px;
+	margin-top:5px;
+	margin-left:5px;
+	margin-right:5px;
+	background-color: #AAC4C7;
+}
+
+
+#groupList{
+        border-radius: 0px;
+        border: 2px solid #AAC4C7;
+        padding: 20px;
+        width: 90%;
+        height: 400px;
+        margin:auto;
+		margin-top:20px;
+        margin-bottom:10px;
+		overflow-y:scroll;
+		background-color: #1A1D1B;
+}
+
+
+.userImageChat{
+	background-color:white;
+	background-image:url('defaultIcon.svg');
+	border-radius:20%;
+	border: 2px solid black;
+	width:64px;
+	height:64px;
+	float:left;	
+}
+
+.userNameChat{
+	font-weight:bolder;
+	font-size:16px;
+	height:10px;
+	width:50%;
+	display:block;
+	padding-left:5px;
+	float:left;
+	color: black;
+}
+
+.messageChat{
+	word-wrap: break-word;
+	width:90%;
+	display: block;
+	margin-left:80px;
+	font-size:16px;
+	color: black;
+
+}
+
+.inputMessage{
+	margin-top:25px;
+	background-color:white;
+	word-wrap:break-word;
+	height:200px;
+	width:90%;
+	float:left;
+	margin-left:25px;	
+}
+
+#btnSend{
+	float:right;
+	height:25px;
+	margin-right:80px;
+}
+
+.buttonContainer{
+	width:90%;
+	margin-left:50px;
+	margin-top:15px;
+	float:right;	
+}
+#btnAttach{
+	margin-left:10px;	
+	height:25px;
+	margin-right:50px;
+	float:right;
+}
+
+.user{
+	width:70%;
+	background-color:#B5BFDB;	
+	font-weight:bold;
+	margin-top:10px;
+	margin-left: 30px;
+}
+
+div.tab {
+    overflow: hidden;
+    border: 1px solid #000;
+    background-color: #727272;
+    margin-top: 5px;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: #ffffff;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #777777;
+    color: #ffffff;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #595959;
+    color: #ffffff;
+}
+
+/* Style the tab content */
+.tabcontent {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.members{
+	background-color:#406148;
+	height:80vh;
+	height:700px;
+	width:250px;
+	float:right;	
+}
+.memberText{
+	font-size:30px;	
+	text-align:center;
+	font-weight:bold;
+	padding-top:20px;
+	font-family:Avenir;
+	color: white;
+}
+.memberCount{
+	font-size:15px;	
+	text-align:left;
+	padding-left:30px;
+	padding-top:20px;
+	font-family:Helvetica Neue;
+	color: white;
+}
+
+.memberList{
+	font-size: 15px;
+	text-align:left;
+	padding-left: 30px;	
+	font-family: Georgia;
+	color: white;
+}
+.calendarSpace{
+	margin:auto;	
+	scrolling:no;
+}
+
+.btn{
+ background-color: #3B4655;
+ color:white;
+ width:100px; 
+}
+
+.chatName{
+	font-family: Avenir;
+	font-size:18px;
+	float:left;
+	margin-left:50px; 
+	width:50%;
+	padding-top:5px;
+}
+.chatSize{
+	font-family: "Helvetica Neue";
+	font-size: 16px;
+	float:left;
+	width: 50%;
+	margin-left:50px;
+}
+.chatDesc{
+	font-family: Avenir;
+	font-size: 14px;
+	float:left;
+	width: 50%;
+	margin-left:50px;
+}
+.groupImage{
+	background-color:white;
+	height: 70px;
+	width:70px;	
+	float:left;
+	padding-top:5px;
+
+}
+.group{
+	width:100%;	
+	margin-top:10px;
+	overflow: hidden;
+}
+
+@media screen and (max-width:1000px), screen and (max-height:800px) {
+ .header{
+     padding-top:20px;
+	 width:1000px;
+ }
+ .infoText{
+	height:100px;
+	line-height:100px;
+	margin-top:0px;
+}
+
+.container{
+	width: 1050px;
+	height: 800px;
+	margin: auto;
+	float:left;
+}
+.instruction{
+	color:white;
+	width:1000px;
+	font-size:24px;
+	text-align:center;
+}
+#popup, .validate{
+	margin-top:20px;
+	color:red;
+	width:1000px;
+}
+.textField{
+	width:1000px;	
+}
+.inputBox{
+	width:400px;
+	height:45px;
+	margin:auto;
+	margin-top:20px;
+    font-family: "avenir", lucida grande, tahoma, verdana, sans-serif;
+	padding-left:10px;
+    font-size: 16px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+}
+}

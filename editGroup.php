@@ -54,7 +54,7 @@ else if(!checkCreator($dbh, $_SESSION['userID'], $_GET['groupID'])){
         content="application/xhtml+xml; charset=UTF-8" />
   <meta name="Author" content="Scott Jeffery" />
 
-  <link rel="stylesheet" href="tagline.css" />
+  <link rel="stylesheet" href="profile.css" />
   <script type="text/javascript" src="./AjaxFunctions.js"></script>
    <script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
@@ -79,7 +79,9 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
     $groupData = getGroupByID($dbh, $_GET['groupID']);
     $groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
 
-    echo '<h1 id = "editHeader"> Edit Group ' . $groupData[0]->group_name . '</h1>';
+    echo '<h1 class = "header" id = "header"> Edit Group ' . $groupData[0]->group_name . '</h1>';
+	echo '<div class = "container">';
+	echo '<div class="left">';
     echo "<p> Current Information: </p>\n";
     echo "<p> Current Group Name: " 
 	. $groupData[0]->group_name . "</p>\n";
@@ -100,15 +102,16 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
          echo '<img id="groupImage" src="'. $groupImage[0]->image_location .
 	     '"alt="' . $groupImage[0]->image_name . '" style="width:304px;height:228px;">';
     }
+	echo '</div>';
 }
 else{
     echo "<p> How did you get here? -LevelLord </p>\n";
 }
 ?>
-
+<div class = "center" id="center">
 <form enctype="multipart/form-data" action = "updateGroup.php" method="post" onsubmit = "return checkForm(true);">
 
-<fieldset>
+<fieldset style=" margin:auto; margin-top:300px; width:500px">
 <legend> Edit Your Group Info </legend>
 
 <table title = "Edit Group Input" id="editGroupTable">
@@ -172,7 +175,7 @@ else{
     </table>
     </fieldset>
 	</form>
-
+</div>
  
 
 </body>
