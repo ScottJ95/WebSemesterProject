@@ -13,7 +13,7 @@ function checkSession(){
 	}
     else
         {
-	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/index.php'); 
+	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/login.php'); 
            return false;
 	}	
 
@@ -52,7 +52,9 @@ function addMessage() {
 	$dbh = ConnectDB();	
 	$groupID = $_POST['argument'][0];
 	$userID = $_POST['argument'][1];
-	$body = $_POST['argument'][2];				
+	$body = $_POST['argument'][2];
+	$body = strip_tags($body);
+        $body = htmlspecialchars($body,ENT_QUOTES);	
         $query = "INSERT INTO messages (group_ID, student_ID, message_body)
                   VALUES (:groupID, :userID, :body)";
         $stmt = $dbh->prepare($query);
