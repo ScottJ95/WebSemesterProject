@@ -181,7 +181,7 @@ function findGroups()
 
            success: function (response) {
             if(response == 0) {
-                window.location.href = "login.html";
+                window.location.href = "index.php";
 		return false;    
             }
 
