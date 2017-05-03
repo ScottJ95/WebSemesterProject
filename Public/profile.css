@@ -22,12 +22,10 @@ body{
 }
 
 .container{
-	border-style:solid;
-	border-width:2px;	
+
 	width:80vw;
 	min-width: 1000px;
 	margin:auto;
-	background-color: #1A1D1B;
 
 }
 
@@ -442,7 +440,6 @@ div.tab button.active {
 	width: 1050px;
 	height: 800px;
 	margin: auto;
-	background-color: #1A1D1B;
 	float:left;
 }
 .instruction{

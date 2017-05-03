@@ -3,6 +3,7 @@ var userNameChats = -1; //overwritten on page load but needed to be global
 const groupIDChats = urlSample = window.location.href.split('=')[1];
 var userID = 2;  //overwritten on page load but needed to be global
 var map = {};
+setUserImage();
 getIcons();
 getNumMembers();//start page loading events
 messages();//load all messages
@@ -34,7 +35,6 @@ function getNumMembers(){
 				   var result = JSON.parse(response);
 				   members(response);
 				document.getElementById("numMem").innerHTML=" "+result.length;
-				messages();
                    }
 
                 });
@@ -169,7 +169,7 @@ function messages(){
 //redirects the user to the log in page
 function logout(){
 	setSessionVar();
-	window.location.href = "login.php";
+	window.location.href = "login.html";
 }
 
 //This function sets the session variables to null
@@ -183,7 +183,10 @@ function setSessionVar(){
 
     });
 }
-
+//redirects the user to their personal profil page
+function editGroup(){
+    window.location.href = "editGroup.php?groupID=" + groupIDChats;
+}
 //redirects the user to their personal profil page
 function editProfile(){
     window.location.href = "profile.php?userID=" + userID;
@@ -234,3 +237,23 @@ function submitMessage(){
 	}
 }
 
+//This function gets the user Image and displays it
+function setUserImage(){
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getUserImageAjax'},
+
+        success: function (response) {
+            if(response){
+                $('#userImage').css("background-image", "url(" + response + ")");
+            	console.log(response);
+		    //$('#userImage').src = response;
+	    }
+		
+        }
+
+    });
+
+
+}
