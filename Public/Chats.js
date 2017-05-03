@@ -136,13 +136,13 @@ function messages(){
                    data: { functionName:'getGroupMessageList', argument:[groupIDChats]},
 
                    success: function (response) {
-				var messageCollection = JSON.parse(response);
+			var messageCollection = JSON.parse(response);
 
-			   if(messageCollection.length != 0)
-			   {
-                        var messages = JSON.parse(response);
-                        for(i = 0;i<messages.length;i++)
-                        {	
+			if(messageCollection.length != 0)
+			{
+                            var messages = JSON.parse(response);
+                            for(i = 0;i<messages.length;i++)
+                            {	
 				var image = null;
                                if(map[messages[i].student_ID] != null)
 				{
@@ -152,16 +152,16 @@ function messages(){
 					image = 'defaultIcon.svg';
 				}
 				document.getElementById("groupContainer").innerHTML+= "<div class = \"post\">"
-																					+ "<div class = \"userContainer\">"
-																					+"<img class=\"userImageChat\" src=\'"+image+"\'>"
-																					+ "</img>"
-																					+ "<div class=\"userNameChat\">"+ messages[i].username +"</div>"
-																					+"</div><br>"
-																					+"<div class = \"messageChat\">"+messages[i].message_body
-																					+"</div>"
-																					+"</div>";
+			        + "<div class = \"userContainer\">"
+				+"<img class=\"userImageChat\" src=\'"+image+"\'>"
+			        + "</img>"
+			        + "<div class=\"userNameChat\">"+ messages[i].username +"</div>"
+			        +"</div><br>"
+				+"<div class = \"messageChat\">"+messages[i].message_body
+			        +"</div>"
+			        +"</div>";
+                            }
                         }
-                  }
 		   }
 
                 });
@@ -246,7 +246,7 @@ function setUserImage(){
 
         success: function (response) {
             if(response){
-                $('#userImage').css("background-image", "url(" + response + ")");
+                $('#userImage').css('background-image', 'url(' + response + ')');
             	console.log(response);
 		    //$('#userImage').src = response;
 	    }
@@ -260,7 +260,6 @@ function setUserImage(){
 
 //This function gets the group Image and displays it
 function setGroupImage(){
-    console.log("Hi");
     $.ajax({
         type: 'POST',
          url:  'DBFuncs.php',
@@ -268,10 +267,10 @@ function setGroupImage(){
 
         success: function (response) {
             if(response){
-                $('#groupImage').css("background-image", "url(" + response + ")");
+                $('#groupImage').css('background-image', 'url(' + response + ')');
                 console.log(response);
             //$('#userImage').src = response;
-        }
+            }
         
         }
 

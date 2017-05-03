@@ -52,7 +52,6 @@ $dbh = ConnectDB();
 <div class = "infoText"> Join a group from here</div>
 <div class = "instruction"> This is a form that lets you join a group. </div>
 
-<form enctype="multipart/form-data" action="" method="post">
 <fieldset>
 <legend> Search For A Group </legend>
 <table title="Create Group Input" id= "createGroupTable">
@@ -83,7 +82,7 @@ $dbh = ConnectDB();
     <tr>
         <td>
         </td>
-        <td> <input type="submit"/>
+        <td> <input type="button" name="Submit" value="Submit" onClick="checkJoinForm();">
 	<input type="button" name="Cancel" value="Cancel" onClick="window.location='Main.php';" />
         </td>
 
@@ -91,7 +90,6 @@ $dbh = ConnectDB();
 
     </table>
     </fieldset>
-    </form>
 
 
 </div>
