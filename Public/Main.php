@@ -26,7 +26,6 @@ if(!checkSession()){
 		<div id = "userName"> Your Username Here</div>
         	<button class="navButton" id="home" onclick="main();">Home</button><br>
     		<button class="navButton" id="profile" onclick="editProfile();">Profile</button>
-    		<button class="navButton" id="me">SomethingElseHere</button>
     		<button class="navButton" id="signOut" onclick="logout();">Log Out</button>
 
     	</div>
