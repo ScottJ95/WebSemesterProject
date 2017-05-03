@@ -730,11 +730,12 @@ function checkUserRegistration()
 	    if ($stmt -> rowCount() == 0) {
                 //Email was unique
                 $hash = md5( rand(0,1000) );
+                $password = md5($password);
 	        $reg_query = "INSERT INTO students (username, password, email, hash_link) 
                             VALUES(:userName, :password, :email, :hash)";
 	        $stmt = $dbh-> prepare($reg_query);
 	        $stmt->bindParam(':userName', $username);
-	        $stmt->bindParam(':password', md5($password));
+	        $stmt->bindParam(':password', $password));
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':hash', $hash);
 	        $stmt->execute();
@@ -753,8 +754,8 @@ function checkUserRegistration()
                 mail($to, $subject, $message, $headers); // Send our email
 
                 //Create directory for users files
-                mkdir("/home/jefferys0/public_html/web/WebSemesterProject/uploaded/archive/users/". $username, 0777);
-                chmod("/home/jefferys0/public_html/web/WebSemesterProject/uploaded/archive/users/". $username, 0777);
+                mkdir("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
+                chmod("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
 	    
                 //Registration was successful.
                 echo "3";

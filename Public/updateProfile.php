@@ -30,6 +30,7 @@ if(isset($_POST['userBox']) && !empty($_POST['userBox'])) {
     $newuserName = strip_tags($newuserName);
     //echo "<p> Update Dir is True? </p?";
     $updateDirCheck = true;
+    $newuserName = strtolower($newuserName);
     $_SESSION['username'] = $newuserName;
 }
 
@@ -92,6 +93,7 @@ try {
         $newDirQ = "/~jefferys0/web/WebSemesterProject/UPLOADED/archive/users/" .$newuserName;
         $newDirAbs = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/" .$newuserName;
         $curruserName = $newuserName;
+        $curruserName = strtolower($curruserName);
         updateUserDir($oldDir,$newDirQ,$newDirAbs,$userID);
         $updateDir = $newDirAbs;
     }
