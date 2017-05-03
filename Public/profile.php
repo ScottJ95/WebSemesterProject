@@ -1,21 +1,14 @@
 <?php
-
 session_start();
-
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
-
 $dbh = ConnectDB();
-
 if(!checkSession()){
         exit;
 }
-
 $_SESSION['projectTime'] = time();
-
 $userID= $_SESSION['userID'];
 $queryID = $_GET['userID'];
-
 if(!isset($_GET['userID'])){
     echo "Hi";
     echo '<script type="text/javascript">';
@@ -24,9 +17,7 @@ if(!isset($_GET['userID'])){
     echo '</script>';
     exit;
 }
-
 $userData = getUserByID($dbh,$queryID);
-
 if($userData == NULL || $userData[0]->student_ID != $queryID){
     echo '<script type="text/javascript">';
     echo 'alert("Either the profile does not exist or something went wrong");';
@@ -34,8 +25,6 @@ if($userData == NULL || $userData[0]->student_ID != $queryID){
     echo '</script>';
     exit;
 }
-
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -55,62 +44,50 @@ if($userData == NULL || $userData[0]->student_ID != $queryID){
 </head>
 
 <body>
-<div class = "header"> Edit Profile</div>
-<div class = "container">
-<?php
 
+<?php
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
-
 $dbh = ConnectDB();
-
 $userID= $_SESSION['userID'];
 $queryID = $_GET['userID'];
 $enableEdit = true;
-
 if($userID != $queryID){
   $enableEdit = false;
 }
-
 else if($userID ==1){
     $enableEdit = true;
 }
-
 $userData = getUserByID($dbh,$queryID);
-
 $userImage = getUserImage($dbh,$queryID);
+echo '<h1 class = "header" id = "header"> User Profile: ' .
+     $userData[0]->username . "</h1>";
+echo '<div class = "container">';
+echo '<div class="left">';
 
-echo '<div class = "header" id = "editHeader"> User Profile: ' .
-     $userData[0]->username . "</div>";
-echo "<div class = \"infoText\"> Current Information: </div>\n";
-
-echo "<p class = \"userInfo\"> Current User Name: "
+echo "<p> Current Information: </p>\n";
+echo "<p> Current User Name: "
         . $userData[0]->username . "</p>\n";
-echo "<p class = \"userInfo\"> First Name: "
+echo "<p> First Name: "
         . $userData[0]->fname . "</p>\n";
-echo "<p class = \"userInfo\"> Last Name: "
+echo "<p> Last Name: "
         . $userData[0]->lname . "</p>\n";
-echo "<p class = \"userInfo\"> Email: " 
+echo "<p> Email: " 
         . $userData[0]->email . "</p>\n";
-echo "<p class = \"userInfo\"> Profile Picture: </p> \n";
-
+echo "<p> Profile Picture: </p> \n";
     if($userData[0]->image_ID == NULL){
-        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:304px;height:228px;">';
+        echo '<img id="userImage" src="./defaultIcon.svg" alt= "Default" style="width:300px;height:300px;">';
     }
     else{
          echo '<img id="userImage" src="'. $userImage[0]->image_location
-             .'"alt="' . $userImage[0]->image_name . '" style="width:304px;height:228px;">';
+             .'"alt="' . $userImage[0]->image_name . '" style="width:300px;height:300px;">';
     }
-
-
+echo '</div>';
 if($enableEdit){
-
-echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="post" 
+echo '<div class = "center" id="center"> <form enctype="multipart/form-data" action="updateProfile.php" method="post" 
         onsubmit = "return checkProfile();">
-
-<fieldset>
+<fieldset style=" margin:auto; margin-top:300px; width:500px">
 <legend> Edit Your Profile Info </legend>
-
 <table title = "Edit Profile" id="editProfileTable">
     <tr>
         <th>User Name:
@@ -120,7 +97,6 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
             </td>
         <span id="userMessage"></span>
       </tr>
-
       <tr>
         <th>First Name:
         </th>
@@ -128,7 +104,6 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
                 id="fnameBox"/>
             </td>
       </tr>
-
       <tr>
         <th>Last Name:
         </th>
@@ -136,7 +111,6 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
                 id="lnameBox"/>
             </td>
       </tr>
-
       <tr>
         <th> Email:  
         </th>
@@ -145,7 +119,6 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
         </td>
         <span id="emailMessage"></span>
       </tr>
-
       <tr>
         <th>Change Password:
         </th>
@@ -154,7 +127,6 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
             </td>
             <span id="passMessage"></span>
         </tr>
-
       <tr>
         <th> Confirm Change Password:
         </th>
@@ -164,32 +136,24 @@ echo ' <form enctype="multipart/form-data" action="updateProfile.php" method="po
             <span id="passconfMessage"></span>
         </td>
       </tr>
-
       <tr>
         <th>Profile Photo:
         </th>
         <td> <input type = "file" name="profileImage" accept = "image/jpg, image/jpeg, image/bmp, image/png"/>
         </td>
     </tr>
-
     <tr>
         <td>
         </td>
         <td> <input type="submit"/>
         </td>
-
     </tr>
-
-
-  </table>';
+  </table></div></div>';
 }
-
-
 ?>
 
 
-</div>
+
 </body>
 
 </html>
-

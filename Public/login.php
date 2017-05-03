@@ -1,13 +1,19 @@
-<!doctype html>
 <?php
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
-if(checkSession()){
-    header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/main.php'); 
+
+if(isset($_SESSION['userID'])){
+    header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/main.php');
+    exit;
 }
 
 ?>
 
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
 <head>
 <meta charset="utf-8">
