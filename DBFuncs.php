@@ -13,7 +13,7 @@ function checkSession(){
 	}
     else
         {
-	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/login.php'); 
+	   header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/index.php'); 
            return false;
 	}	
 
