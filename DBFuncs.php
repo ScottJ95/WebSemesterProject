@@ -560,13 +560,13 @@ function checkUsername()
 	$stmt->execute();
 
 	if ($stmt -> rowCount() == 0) {
-		$_SESSION['username'] = $username;
+		$_SESSION['username'] = strtolower($username);
 		$_SESSION['userID'] = $studentData[0] -> student_id;
                 echo "1";
 	}
 	else
 	{
-		$_SESSION['username'] = $username;
+		$_SESSION['username'] = strtolower($username);
 		$_SESSION['userID'] = $studentData[0] -> student_id;
             echo "2";
 	}

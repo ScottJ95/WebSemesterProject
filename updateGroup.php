@@ -24,6 +24,7 @@ if(isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$newGroupName = $_POST['groupName'];
 	$newGroupName = strip_tags($newGroupName);
         //echo "<p> Update Dir is True? </p>";
+        $newGroupName = strtolower($newGroupName);
 	$updateDirCheck = true;
 }
 

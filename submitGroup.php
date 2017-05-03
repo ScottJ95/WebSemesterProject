@@ -32,6 +32,7 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         $stmt  = $dbh->prepare($query);
         
 	$groupName = $_POST['groupName'];
+        $groupName = strtolower($groupName);
 	$groupName = strip_tags($groupName);
         //echo $groupName;
         $groupSubject = $_POST['groupSubject'];

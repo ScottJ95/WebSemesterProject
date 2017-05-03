@@ -1,5 +1,5 @@
-var userNameCheck = false;
-var emailCheck = false;
+var userNameCheck = true;
+var emailCheck = true;
 
 function checkProfile() { 
     var password = document.getElementById("passwordBox").value;
@@ -8,6 +8,7 @@ function checkProfile() {
     document.getElementById("passconfMessage").innerHTML = "";
     console.log("Here");
     console.log(userNameCheck);
+    console.log(emailCheck);
     if(userNameCheck == true && emailCheck == true ){
         console.log("Pass"); 
         if(password != confirmPassword)
@@ -64,6 +65,7 @@ function checkEmail()
     console.log(email);
     var googleEmail = /@gmail.com/;
     var rowanEmail = /@students.rowan.edu/;
+    console.log("Email" + email);
     if(email != "") {
 	if(googleEmail.test(email) == true || rowanEmail.test(email) == true){
             $.ajax({

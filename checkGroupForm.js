@@ -1,7 +1,6 @@
 //Check the current group name. This is an AJAX call. 
 //I found this source code online at: 
 //http://talkerscode.com/webtricks/check%20username%20and%20email%20availability%20from%20database%20using%20ajax.php
-//TODO: Have this be in a seperate file?
 //
 var nameCheck = true;
 function checkName(edit){
