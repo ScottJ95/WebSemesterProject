@@ -704,7 +704,7 @@ function getImageByDir($dbh, $dir)
 function checkUserRegistration()
 {
     $dbh = ConnectDB();
-    $username = $_POST['argument'][0];
+    $username = strtolower($_POST['argument'][0]);
     $email = $_POST['argument'][1];
     $password = $_POST['argument'][2];
 
@@ -753,8 +753,8 @@ function checkUserRegistration()
                 mail($to, $subject, $message, $headers); // Send our email
 
                 //Create directory for users files
-                mkdir("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
-                chmod("/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/users/". $username, 0777);
+                mkdir("/home/jefferys0/public_html/web/WebSemesterProject/uploaded/archive/users/". $username, 0777);
+                chmod("/home/jefferys0/public_html/web/WebSemesterProject/uploaded/archive/users/". $username, 0777);
 	    
                 //Registration was successful.
                 echo "3";
