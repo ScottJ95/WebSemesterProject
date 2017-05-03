@@ -229,7 +229,6 @@ function submitMessage(){
                 
             success: function (response) {
 				document.getElementById("inputMessage").value="";
-				messages();
 			}
 		
 		
