@@ -4,6 +4,7 @@ const groupIDChats = urlSample = window.location.href.split('=')[1];
 var userID = 2;  //overwritten on page load but needed to be global
 var map = {};
 setUserImage();
+setGroupImage();
 getIcons();
 getNumMembers();//start page loading events
 messages();//load all messages
@@ -229,7 +230,6 @@ function submitMessage(){
                 
             success: function (response) {
 				document.getElementById("inputMessage").value="";
-				messages();
 			}
 		
 		
@@ -251,6 +251,28 @@ function setUserImage(){
 		    //$('#userImage').src = response;
 	    }
 		
+        }
+
+    });
+
+
+}
+
+//This function gets the group Image and displays it
+function setGroupImage(){
+    console.log("Hi");
+    $.ajax({
+        type: 'POST',
+         url:  'DBFuncs.php',
+        data: { functionName:'getGroupImageAjax', argument: [groupIDChats]},
+
+        success: function (response) {
+            if(response){
+                $('#groupImage').css("background-image", "url(" + response + ")");
+                console.log(response);
+            //$('#userImage').src = response;
+        }
+        
         }
 
     });

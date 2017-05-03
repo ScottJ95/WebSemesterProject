@@ -656,6 +656,7 @@ function getGroupImage($dbh, $groupID)
 
 function getGroupImageAjax(){
 	try{
+        $groupID = $_POST['argument'][0];
         $dbh = ConnectDB();
         $image_query = "SELECT * FROM images 
                         JOIN groups USING(image_ID) 
@@ -665,7 +666,8 @@ function getGroupImageAjax(){
         $stmt->execute();
         $imageData = $stmt->fetchAll(PDO::FETCH_OBJ);
         $stmt = null;
-        return $imageData;
+        $imagePath = $imageData[0]->image_location;
+        echo $imagePath;
 
     }
 
@@ -1095,7 +1097,10 @@ switch($_POST['functionName']) {
 	break;	    
     case 'getImageWithID':
 	getImageWithID();
-	break;    
+	break; 
+    case 'getGroupImageAjax':
+        getGroupImageAjax();
+        break;   
 }
 
 ?>

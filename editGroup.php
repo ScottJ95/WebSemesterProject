@@ -63,6 +63,15 @@ else if(!checkCreator($dbh, $_SESSION['userID'], $_GET['groupID'])){
 
 <body>
 
+<script type="text/javascript">
+function main(){
+       var groupURL = urlSample = window.location.href.split('?')[1];
+       window.location.href = "Chats.php?"+groupURL; 
+}
+
+
+</script>
+
 <?php
 
 require_once('DBFuncs.php');
@@ -80,8 +89,9 @@ if(isset($_SESSION['userID']) && isset($_GET['groupID']))
     $groupImage = getGroupImage($dbh, $groupData[0]->group_ID);
 
     echo '<h1 class = "header" id = "header"> Edit Group ' . $groupData[0]->group_name . '</h1>';
-	echo '<div class = "container">';
-	echo '<div class="left">';
+    echo '<div class = "container">';
+    echo '<div class="left">';
+    echo '<button class="navButton" id="home" onclick="main();">Return</button>';
     echo "<p> Current Information: </p>\n";
     echo "<p> Current Group Name: " 
 	. $groupData[0]->group_name . "</p>\n";

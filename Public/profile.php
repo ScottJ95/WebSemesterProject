@@ -45,6 +45,14 @@ if($userData == NULL || $userData[0]->student_ID != $queryID){
 
 <body>
 
+
+<script type="text/javascript"> 
+function main(){
+        window.location.href = "Main.php";
+}
+
+</script>
+
 <?php
 require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
@@ -64,7 +72,7 @@ echo '<h1 class = "header" id = "header"> User Profile: ' .
      $userData[0]->username . "</h1>";
 echo '<div class = "container">';
 echo '<div class="left">';
-
+echo '<button class="navButton" id="home" onclick="main();">Home</button>';
 echo "<p> Current Information: </p>\n";
 echo "<p> Current User Name: "
         . $userData[0]->username . "</p>\n";
@@ -84,7 +92,8 @@ echo "<p> Profile Picture: </p> \n";
     }
 echo '</div>';
 if($enableEdit){
-echo '<div class = "center" id="center"> <form enctype="multipart/form-data" action="updateProfile.php" method="post" 
+echo '<div class = "center" id="center">
+<form enctype="multipart/form-data" action="updateProfile.php" method="post" 
         onsubmit = "return checkProfile();">
 <fieldset style=" margin:auto; margin-top:300px; width:500px">
 <legend> Edit Your Profile Info </legend>
