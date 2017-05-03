@@ -58,7 +58,7 @@ else if(!checkCreator($dbh, $_SESSION['userID'], $_GET['groupID'])){
   <script type="text/javascript" src="./AjaxFunctions.js"></script>
    <script type="text/javascript"
 	  src="http://code.jquery.com/jquery-1.9.0.min.js"> </script>
-   <script type="text/javascript" src= "./checkGroupForm.js"></script>
+   <script type="text/javascript" src= "./checkGroupEdit.js"></script>
 </head>
 
 <body>

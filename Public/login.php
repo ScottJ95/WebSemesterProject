@@ -3,7 +3,7 @@ require_once('DBFuncs.php');
 require_once('/home/jefferys0/source_html/web/WebSemesterProject/Connect.php');
 
 if(isset($_SESSION['userID'])){
-    header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/main.php');
+    header('Location: http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/Main.php');
     exit;
 }
 

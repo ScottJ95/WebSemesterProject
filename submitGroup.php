@@ -32,7 +32,6 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
         $stmt  = $dbh->prepare($query);
         
 	$groupName = $_POST['groupName'];
-        $groupName = strtolower($groupName);
 	$groupName = strip_tags($groupName);
         //echo $groupName;
         $groupSubject = $_POST['groupSubject'];
@@ -62,10 +61,16 @@ if (isset($_POST['groupName']) && !empty($_POST['groupName'])) {
             $groupCreated = true;
             if (addBelongs($groupName, $creatorID)) {
 	        if(uploadGroupImage($groupName)){
-                    redirectSuccess(true);
+                   echo '<script type="text/javascript">';
+                   echo 'alert("Group created and image uploaded!");';
+                   echo 'window.location.href= "http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/Main.php"';
+                   echo '</script>'; 
 		}
 		else{
-                    redirectSuccess(false);
+                   echo '<script type="text/javascript">';
+                   echo 'alert("Group created!");';
+                   echo 'window.location.href= "http://elvis.rowan.edu/~jefferys0/web/WebSemesterProject/Main.php"';
+                   echo '</script>';
 		}
             }
             
@@ -115,7 +120,8 @@ function addBelongs($groupName, $studentID)
 //Use this again for profile images
 function uploadGroupImage($groupName)
 {
-
+    
+    $groupName = strtolower($groupName);
     if ($_FILES['groupImage']['error'] == 0) {
         
         if (file_exists("./UPLOADED/archive/" . $groupName)) {

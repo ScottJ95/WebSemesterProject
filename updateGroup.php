@@ -14,6 +14,7 @@ $dbh = ConnectDB();
 $groupID = $_SESSION['groupIDEdit'];
 //echo $groupID;
 $oldGroupName = $_SESSION['groupNameEdit'];
+$oldGroupName = strtolower($oldGroupName);
 $newGroupName = NULL;
 $newGroupDesc = NULL;
 $newGroupSubject = NULL;
@@ -24,7 +25,6 @@ if(isset($_POST['groupName']) && !empty($_POST['groupName'])) {
 	$newGroupName = $_POST['groupName'];
 	$newGroupName = strip_tags($newGroupName);
         //echo "<p> Update Dir is True? </p>";
-        $newGroupName = strtolower($newGroupName);
 	$updateDirCheck = true;
 }
 
@@ -54,16 +54,13 @@ try {
     $stmt->execute();
     $updated = $stmt->rowCount();
    // echo $updated;
-    if ($updated === 0){
-        echo "<script> window.history.back(); </script>";
-        exit;
-    }
     $stmt = null;
     
     $currGroupName = $oldGroupName;
     $oldDir = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" .$oldGroupName;
     $updateDir = $oldDir;
     if($updateDirCheck == true){
+        $newGroupName = strtolower($newGroupName);
         $newDirQ = "/~jefferys0/web/WebSemesterProject/UPLOADED/archive/" .$newGroupName;
         $newDirAbs = "/home/jefferys0/public_html/web/WebSemesterProject/UPLOADED/archive/" .$newGroupName;
         $currGroupName = $newGroupName;
