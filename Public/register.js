@@ -112,5 +112,5 @@ function checkEmail()
 
 //Just returns user to login page
 function cancel(){
-    window.location.href = "login.php";
+    window.location.href = "index.php";
 }

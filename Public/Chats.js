@@ -170,7 +170,7 @@ function messages(){
 //redirects the user to the log in page
 function logout(){
 	setSessionVar();
-	window.location.href = "login.html";
+	window.location.href = "index.php";
 }
 
 //This function sets the session variables to null
