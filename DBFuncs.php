@@ -735,7 +735,7 @@ function checkUserRegistration()
                             VALUES(:userName, :password, :email, :hash)";
 	        $stmt = $dbh-> prepare($reg_query);
 	        $stmt->bindParam(':userName', $username);
-	        $stmt->bindParam(':password', $password));
+	        $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':hash', $hash);
 	        $stmt->execute();
